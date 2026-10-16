@@ -330,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnScanTos.disabled = false;
     btnScanTos.innerText = 'Analyze Fine Print';
   }
-  }
 
   if (btnScanTos) {
     btnScanTos.addEventListener('click', () => {
@@ -476,7 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnLaunchAgent.disabled = false;
     btnLaunchAgent.innerHTML = '<span>🚀 Deploy Autonomous Cancellation Agent</span>';
-  }
   }
 
   if (btnLaunchAgent) {
