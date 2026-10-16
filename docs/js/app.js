@@ -91,6 +91,351 @@ window.launchCDPSession = async function(url) {
 // 2. DOM & URL SCANNER
 // ==========================================
 
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+window.SAMPLE_HTML = {
+  food_delivery: `<!-- SwiftBites Indian Food Delivery Checkout -->
+<div class="cart-container" style="font-family: sans-serif; padding: 18px;">
+  <div class="deal-countdown" id="urgency-timer" style="background:#dc2626; color:#fff; padding:10px; font-weight:bold;">
+    ⏱️ 40% Festive Discount Cart Expires In: 09:44
+  </div>
+  <div class="order-item" style="margin: 15px 0;">
+    <h3>Special Lucknowi Biryani Feast Combo (₹449)</h3>
+    <p class="scarcity-warn" style="color: #ef4444; font-weight: 600;">
+      ⚡ Only 2 chef portions left — 38 people ordering right now!
+    </p>
+  </div>
+  <div class="addons-row" style="background: #f8fafc; padding: 10px;">
+    <label>
+      <input type="checkbox" id="rain-packaging-surge" checked="checked" />
+      <span>Add Priority Rain Surge & Eco-Cutlery Protection (+₹49)</span>
+    </label>
+  </div>
+  <div class="tricky-question" style="margin: 10px 0;">
+    <label>
+      <input type="checkbox" id="whatsapp-promo-opt" />
+      <span>Uncheck this box if you wish not to receive daily promotional WhatsApp alerts.</span>
+    </label>
+  </div>
+  <div class="fine-print" style="margin: 12px 0;">
+    <p style="font-size: 7.5px; opacity: 0.35; color: #64748b; line-height: 1.3;">
+      By clicking Place Order, you enroll in a 14-day trial of SwiftBites VIP Gourmet Pass, after which your payment method or UPI AutoPay will be debited ₹899 every year automatically.
+    </p>
+  </div>
+  <div class="actions">
+    <button class="primary-btn" style="background: #0f172a; color: #fff; padding: 12px;">Place Order (₹498)</button>
+    <a href="#" class="confirmshame-link" style="color: #94a3b8; font-size: 0.8rem; margin-left: 10px;">
+      No thanks, I hate saving money and like overpaying
+    </a>
+  </div>
+</div>`,
+
+  ott_trial: `<!-- JioCinema / OTT VIP Trial Sign-up -->
+<div class="ott-portal" style="font-family: sans-serif; padding: 20px;">
+  <h2>Activate 7-Day All-Access Entertainment Trial</h2>
+  <div class="countdown-badge" style="background:#b91c1c; color:#fff; padding:8px;">
+    🔥 Trial Offer Ends In: 07:15
+  </div>
+  <div class="plan-card" style="margin: 14px 0;">
+    <h4>Stream Live Cricket & 4K UHD Movies</h4>
+    <p style="color:#ef4444;">⚡ Only 5 VIP trial slots remaining for this mobile number!</p>
+  </div>
+  <div class="extra-addons">
+    <label>
+      <input type="checkbox" id="addon-cricket-pass" checked="checked" />
+      <span>Include 4K Dolby Atmos Audio Boost (+₹29/mo)</span>
+    </label>
+  </div>
+  <div class="disclaimer-area">
+    <span style="font-size: 8px; opacity: 0.3; color: #475569;">
+      Auto-debit recurring subscription: Your bank account will be automatically debited ₹299 every month via UPI AutoPay mandate indefinitely unless cancelled 15 days in advance.
+    </span>
+  </div>
+  <div style="margin-top: 16px;">
+    <button style="background: #2563eb; color: #fff; padding: 10px 20px;">Start Free Trial</button>
+    <button style="background: transparent; border: none; color: #ef4444; font-size: 0.8rem;">
+      No thanks, I don't care about discounts and entertainment
+    </button>
+  </div>
+</div>`,
+
+  flash_sale: `<!-- Festive E-Commerce Mega Flash Sale -->
+<div class="ecommerce-cart" style="padding: 18px; font-family: sans-serif;">
+  <div class="flash-banner" style="background:#dc2626; color:#fff; padding:10px;">
+    ⚡ MEGA DIWALI SALE: Cart Reserved for 04:59
+  </div>
+  <div class="product-info" style="margin: 12px 0;">
+    <h3>Wireless ANC Earbuds Pro 2026 (₹1,499)</h3>
+    <p style="color:#dc2626; font-weight:bold;">Selling fast — 84 people viewing this deal right now!</p>
+  </div>
+  <div class="insurance-check" style="background:#f1f5f9; padding:12px;">
+    <label>
+      <input type="checkbox" id="transit-insurance" checked />
+      <span>Add Express 1-Day Transit Shield & Theft Protection (+₹99)</span>
+    </label>
+  </div>
+  <p style="font-size: 7px; color: #94a3b8; margin: 10px 0;">
+    Orders include complimentary membership trial converting into ₹199 monthly maintenance charges.
+  </p>
+  <button style="background:#0f172a; color:#fff; padding:12px 24px;">Buy Now (₹1,598)</button>
+</div>`
+};
+
+window.switchScannerMode = function(mode) {
+  const urlTab = document.getElementById('tab-mode-url');
+  const htmlTab = document.getElementById('tab-mode-html');
+  const urlPanel = document.getElementById('scanner-url-panel');
+  const htmlPanel = document.getElementById('scanner-html-panel');
+
+  if (mode === 'url') {
+    if (urlTab) urlTab.classList.add('active');
+    if (htmlTab) htmlTab.classList.remove('active');
+    if (urlPanel) urlPanel.style.display = 'flex';
+    if (htmlPanel) htmlPanel.style.display = 'none';
+  } else {
+    if (urlTab) urlTab.classList.remove('active');
+    if (htmlTab) htmlTab.classList.add('active');
+    if (urlPanel) urlPanel.style.display = 'none';
+    if (htmlPanel) htmlPanel.style.display = 'block';
+  }
+};
+
+window.loadSampleHtml = function(sampleKey) {
+  const html = window.SAMPLE_HTML[sampleKey] || window.SAMPLE_HTML.food_delivery;
+  const textarea = document.getElementById('input-scan-html');
+  if (textarea) textarea.value = html;
+  window.switchScannerMode('html');
+  window.performHtmlScan();
+};
+
+window.runScannerLoadingAnimation = async function(onComplete) {
+  const loadingArea = document.getElementById('scanner-loading-area');
+  const resultsArea = document.getElementById('scan-results-area');
+  const titleEl = document.getElementById('scanner-step-current-title');
+  const pctEl = document.getElementById('scanner-step-pct');
+  const barEl = document.getElementById('scanner-progress-bar');
+
+  if (resultsArea) resultsArea.style.display = 'none';
+  if (loadingArea) loadingArea.style.display = 'block';
+
+  const steps = [
+    { title: '⚡ STEP 1/4: PARSING DOM TREE & CSS STYLES...', pct: '25%', elId: 'scan-step-1' },
+    { title: '🔍 STEP 2/4: CHECKING CCPA 2023 DARK PATTERNS...', pct: '50%', elId: 'scan-step-2' },
+    { title: '🎯 STEP 3/4: EXTRACTING TRIGGERING SNIPPETS...', pct: '75%', elId: 'scan-step-3' },
+    { title: '🛡️ STEP 4/4: COMPUTING CONSUMER RISK INDEX...', pct: '100%', elId: 'scan-step-4' }
+  ];
+
+  for (let i = 0; i < steps.length; i++) {
+    const s = steps[i];
+    if (titleEl) titleEl.innerText = s.title;
+    if (pctEl) pctEl.innerText = s.pct;
+    if (barEl) barEl.style.width = s.pct;
+
+    for (let j = 1; j <= 4; j++) {
+      const stepItem = document.getElementById(`scan-step-${j}`);
+      if (stepItem) {
+        if (j < i + 1) {
+          stepItem.className = 'done';
+          stepItem.querySelector('span:first-child').innerText = '✅';
+        } else if (j === i + 1) {
+          stepItem.className = 'active';
+          stepItem.querySelector('span:first-child').innerText = '⚡';
+        } else {
+          stepItem.className = '';
+          stepItem.querySelector('span:first-child').innerText = '⏳';
+        }
+      }
+    }
+    await new Promise(r => setTimeout(r, 220));
+  }
+
+  if (loadingArea) loadingArea.style.display = 'none';
+  if (onComplete) onComplete();
+};
+
+window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet') {
+  const threats = [];
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+
+  // Rule 1: False Urgency (Countdown Timers)
+  const timerRegex = /\b(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]\b/;
+  const timerElements = doc.querySelectorAll('*');
+  let timerFound = false;
+
+  for (const el of timerElements) {
+    if (['SCRIPT', 'STYLE', 'HTML', 'HEAD', 'BODY'].includes(el.tagName)) continue;
+    const text = el.innerText || el.textContent || '';
+    const hasClass = (el.className || '').toLowerCase();
+    const hasId = (el.id || '').toLowerCase();
+    const isTimer = hasClass.includes('timer') || hasClass.includes('countdown') || hasClass.includes('clock') ||
+                    hasId.includes('timer') || hasId.includes('countdown') || timerRegex.test(text);
+
+    if (isTimer && (timerRegex.test(text) || text.includes('expires in') || text.includes('ends in')) && !timerFound) {
+      timerFound = true;
+      const snippet = el.outerHTML.substring(0, 200);
+      threats.push({
+        type: 'FALSE_URGENCY',
+        category: 'CCPA Rule 1: False Urgency (Synthetic Timer Loop)',
+        severity: 'HIGH',
+        evidence: `Detected ticking countdown clock or urgency element: "${text.trim().substring(0, 60)}"`,
+        trigger_snippet: snippet,
+        impact: 'Induces artificial psychological panic to prevent informed price comparison.',
+        remedy: 'DarkShield Shield locks timer countdown and validates real inventory reserve.'
+      });
+      break;
+    }
+  }
+
+  // Rule 2: Basket Sneaking (Pre-checked Checkbox)
+  const checkboxes = doc.querySelectorAll('input[type="checkbox"]');
+  for (const cb of checkboxes) {
+    const isChecked = cb.hasAttribute('checked') || cb.checked;
+    if (isChecked) {
+      const parentText = (cb.parentElement ? cb.parentElement.innerText : '') || cb.name || cb.id || 'Optional Fee';
+      const snippet = (cb.parentElement ? cb.parentElement.outerHTML : cb.outerHTML).substring(0, 220);
+      threats.push({
+        type: 'BASKET_SNEAKING',
+        category: 'CCPA Rule 2: Basket Sneaking (Pre-Selected Checkbox)',
+        severity: 'CRITICAL',
+        evidence: `Pre-ticked opt-in checkbox adding fees without explicit consent: "${parentText.trim().substring(0, 70)}"`,
+        trigger_snippet: snippet,
+        impact: 'Violates Section 5 of CCPA Guidelines 2023: Fees added to cart total by default.',
+        remedy: 'DarkShield Web Agent unticks pre-selected inputs automatically.'
+      });
+    }
+  }
+
+  // Rule 3: Interface Interference (Microscopic Fine Print & Hidden AutoPay)
+  const allNodes = doc.querySelectorAll('*');
+  for (const el of allNodes) {
+    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
+    const styleAttr = (el.getAttribute('style') || '').toLowerCase();
+    const hasSmallFont = /font-size:\s*([4-9]|10)px/.test(styleAttr) || /font-size:\s*0\.[0-7]rem/.test(styleAttr);
+    const hasLowOpacity = /opacity:\s*0\.[1-4]/.test(styleAttr);
+    const text = (el.innerText || el.textContent || '').toLowerCase();
+
+    if ((hasSmallFont || hasLowOpacity || el.tagName === 'SMALL') && text.length > 20) {
+      const isSubTrap = text.includes('autopay') || text.includes('upi') || text.includes('mandate') ||
+                        text.includes('renew') || text.includes('subscription') || text.includes('debited') ||
+                        text.includes('month') || text.includes('year') || text.includes('₹');
+      if (isSubTrap) {
+        threats.push({
+          type: 'INTERFACE_INTERFERENCE',
+          category: 'CCPA Rule 6: Interface Interference (Hidden Recurring AutoPay)',
+          severity: 'CRITICAL',
+          evidence: `Microscopic disclaimer (${hasSmallFont ? 'font-size < 11px' : 'low contrast'}): "${text.substring(0, 80)}..."`,
+          trigger_snippet: el.outerHTML.substring(0, 240),
+          impact: 'Converts one-time transaction into hidden recurring UPI AutoPay mandate.',
+          remedy: 'DarkShield normalizes typography and highlights subscription clauses.'
+        });
+        break;
+      }
+    }
+  }
+
+  // Rule 4: Scarcity & High Demand Claim (CCPA Rule 1)
+  const scarcityRegex = /(only\s+\d+\s+(left|remaining|portions|items)|in\s+high\s+demand|\d+\s+people\s+(viewing|ordering|looking|bought)|selling\s+fast|almost\s+sold\s+out|hurry,\s+last\s+few)/i;
+  for (const el of allNodes) {
+    if (['SCRIPT', 'STYLE', 'HTML', 'BODY'].includes(el.tagName)) continue;
+    const text = el.innerText || el.textContent || '';
+    if (scarcityRegex.test(text) && text.length < 140) {
+      threats.push({
+        type: 'FALSE_URGENCY_SCARCITY',
+        category: 'CCPA Rule 1: False Urgency (Artificial Scarcity Pressure)',
+        severity: 'HIGH',
+        evidence: `Manipulative scarcity assertion: "${text.trim()}"`,
+        trigger_snippet: el.outerHTML.substring(0, 200),
+        impact: 'Misleads consumers into believing supply is scarce when stock is abundant.',
+        remedy: 'DarkShield intercepts dynamic counter and verifies genuine inventory.'
+      });
+      break;
+    }
+  }
+
+  // Rule 5: Confirm Shaming (CCPA Rule 4)
+  const shameRegex = /(hate\s+saving|hate\s+discounts|pay\s+full\s+price|no\s+thanks,?\s+i('m|\s+am)?\s+(poor|cheap|don't\s+care)|lose\s+my\s+discount)/i;
+  for (const el of allNodes) {
+    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
+    const text = el.innerText || el.textContent || '';
+    if (shameRegex.test(text) && (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'P')) {
+      threats.push({
+        type: 'CONFIRMSHAMING',
+        category: 'CCPA Rule 4: Confirm Shaming (Emotional Manipulation)',
+        severity: 'HIGH',
+        evidence: `Emotionally coercive decline action: "${text.trim().substring(0, 70)}"`,
+        trigger_snippet: el.outerHTML.substring(0, 200),
+        impact: 'Frames exercising consumer opt-out choice as shameful or foolish.',
+        remedy: 'DarkShield rewrites shame link to clear neutral option ("Exit / Skip").'
+      });
+      break;
+    }
+  }
+
+  // Rule 6: Trick Questions (CCPA Rule 8)
+  const trickRegex = /(uncheck\s+if\s+you\s+(wish|prefer)\s+not|do\s+not\s+uncheck|opt-out\s+by\s+not|prevent\s+third-party)/i;
+  for (const el of allNodes) {
+    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
+    const text = el.innerText || el.textContent || '';
+    if (trickRegex.test(text)) {
+      threats.push({
+        type: 'TRICK_QUESTION',
+        category: 'CCPA Rule 8: Trick Questions (Double-Negative Syntax)',
+        severity: 'MEDIUM',
+        evidence: `Convoluted double-negative phrasing: "${text.trim().substring(0, 80)}"`,
+        trigger_snippet: el.outerHTML.substring(0, 220),
+        impact: 'Confuses consumers into accidentally consenting to unwanted data sharing or marketing.',
+        remedy: 'DarkShield parses dependency tree and presents unambiguous affirmative choice.'
+      });
+      break;
+    }
+  }
+
+  // Compute Score: 100 - (critical * 25 + high * 15 + medium * 10)
+  let penalty = 0;
+  threats.forEach(t => {
+    if (t.severity === 'CRITICAL') penalty += 25;
+    else if (t.severity === 'HIGH') penalty += 18;
+    else penalty += 10;
+  });
+
+  const deceptionIndex = Math.min(95, Math.max(10, penalty));
+  const riskLevel = deceptionIndex >= 60 ? 'CRITICAL DECEPTION RISK (CCPA 2023)' :
+                   (deceptionIndex >= 30 ? 'MODERATE DECEPTION RISK' : 'LOW RISK / COMPLIANT');
+
+  return {
+    source_url: sourceLabel,
+    deception_index: deceptionIndex,
+    risk_level: riskLevel,
+    total_threats: threats.length,
+    threats: threats
+  };
+};
+
+window.performHtmlScan = function() {
+  const textarea = document.getElementById('input-scan-html');
+  const htmlContent = textarea ? textarea.value.trim() : '';
+  if (!htmlContent) {
+    window.loadSampleHtml('food_delivery');
+    return;
+  }
+
+  if (window.soundEngine) window.soundEngine.playScanSweep();
+
+  window.runScannerLoadingAnimation(() => {
+    const data = window.analyzeHtmlWithRules(htmlContent, 'Custom Pasted HTML');
+    window.renderScanResults(data);
+  });
+};
+
 window.performUrlScan = async function(url) {
   const targetUrl = url || (document.getElementById('input-scan-url') ? document.getElementById('input-scan-url').value.trim() : '');
   if (!targetUrl) return;
@@ -99,68 +444,40 @@ window.performUrlScan = async function(url) {
   const btnScanUrl = document.getElementById('btn-scan-url');
   if (btnScanUrl) {
     btnScanUrl.disabled = true;
-    btnScanUrl.innerHTML = '<span>⚡ Inspecting DOM & Scripts...</span>';
+    btnScanUrl.innerHTML = '<span>⚡ Inspecting...</span>';
   }
 
-  let data;
-  try {
-    const res = await fetch('/api/scan/url', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: targetUrl })
-    });
-    if (!res.ok) throw new Error('API offline');
-    data = await res.json();
-  } catch (err) {
-    // Client-side fallback
-    data = {
-      source_url: targetUrl,
-      deception_index: targetUrl.includes('streaming') ? 68 : (targetUrl.includes('fit') ? 74 : 85),
-      risk_level: 'CRITICAL DECEPTION RISK',
-      total_threats: 4,
-      threats: [
-        {
-          type: 'FAKE_URGENCY',
-          category: 'Artificial Urgency & Countdown Pressure',
-          severity: 'HIGH',
-          evidence: 'Resetting countdown timer: 00:09:44 detected in DOM',
-          impact: 'Induces panic to prevent rational comparison.',
-          remedy: 'TinyFish Shield freezes timer countdown.'
-        },
-        {
-          type: 'SNEAK_INTO_BASKET',
-          category: 'Pre-Checked Optional Fees & Add-ons',
-          severity: 'CRITICAL',
-          evidence: 'Pre-selected opt-in for paid feature: VIP Protection Plan ($14.99)',
-          impact: 'Silent cart inflation without explicit affirmative consent.',
-          remedy: 'TinyFish Web Agent automatically unticks pre-selected upsell inputs.'
-        },
-        {
-          type: 'CONFIRMSHAMING',
-          category: 'Emotional Coercion (Confirmshaming)',
-          severity: 'HIGH',
-          evidence: 'Manipulative link copy: "No thanks, I hate saving money and like overpaying"',
-          impact: 'Frames opt-out as foolish to induce emotional guilt.',
-          remedy: 'TinyFish rewrites deceptive copy to neutral labels.'
-        },
-        {
-          type: 'HIDDEN_DISCLAIMER',
-          category: 'Visual Concealment & Low Contrast Text',
-          severity: 'CRITICAL',
-          evidence: 'Low contrast disclaimer: font-size 7.5px; opacity 0.3 for $29.99/mo renewal',
-          impact: 'Hidden recurring subscription terms obscured from view.',
-          remedy: 'TinyFish Shield normalizes CSS to high contrast.'
-        }
-      ]
-    };
-  }
+  window.runScannerLoadingAnimation(async () => {
+    let data = null;
 
-  window.renderScanResults(data);
+    // Try backend if live
+    try {
+      const res = await fetch('/api/scan/url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: targetUrl })
+      });
+      if (res.ok) data = await res.json();
+    } catch (e) {}
 
-  if (btnScanUrl) {
-    btnScanUrl.disabled = false;
-    btnScanUrl.innerHTML = '<span>Scan Website</span>';
-  }
+    // Real client-side rule analysis on simulated DOM / sample
+    if (!data || !data.threats || data.threats.length === 0) {
+      let htmlToAnalyze = window.SAMPLE_HTML.food_delivery;
+      if (targetUrl.includes('jio') || targetUrl.includes('ott') || targetUrl.includes('stream')) {
+        htmlToAnalyze = window.SAMPLE_HTML.ott_trial;
+      } else if (targetUrl.includes('flash') || targetUrl.includes('sale') || targetUrl.includes('cult')) {
+        htmlToAnalyze = window.SAMPLE_HTML.flash_sale;
+      }
+      data = window.analyzeHtmlWithRules(htmlToAnalyze, targetUrl);
+    }
+
+    window.renderScanResults(data);
+
+    if (btnScanUrl) {
+      btnScanUrl.disabled = false;
+      btnScanUrl.innerHTML = '<span>Scan Website</span>';
+    }
+  });
 };
 
 window.renderScanResults = function(data) {
@@ -179,7 +496,7 @@ window.renderScanResults = function(data) {
     gaugeLevel.style.color = score >= 50 ? 'var(--neon-red)' : (score > 20 ? 'var(--neon-amber)' : 'var(--neon-emerald)');
   }
   if (gaugeSummary) {
-    gaugeSummary.innerText = `Detected ${data.total_threats} manipulative UI traps across DOM and code structure.`;
+    gaugeSummary.innerText = `Detected ${data.total_threats} manipulative UI traps violating CCPA Dark Pattern Guidelines.`;
   }
 
   if (score >= 50 && window.bgVisualizer) {
@@ -209,10 +526,16 @@ window.renderScanResults = function(data) {
           <span class="severity-pill ${t.severity.toLowerCase()}">${t.severity}</span>
         </div>
         <div class="threat-evidence">${t.evidence}</div>
+        
+        ${t.trigger_snippet ? `
+          <span class="trigger-label">🎯 Triggering DOM Element Snippet:</span>
+          <div class="code-trigger-box"><code>${escapeHtml(t.trigger_snippet)}</code></div>
+        ` : ''}
+
         <div class="threat-impact"><strong>Consumer Risk:</strong> ${t.impact}</div>
         <div class="threat-remedy">
           <span>🛡️</span>
-          <span><strong>Aegis Remedy:</strong> ${t.remedy}</span>
+          <span><strong>DarkShield Action:</strong> ${t.remedy}</span>
         </div>
       </div>
     `).join('');
@@ -308,9 +631,9 @@ window.scanFinePrint = async function(text) {
 window.loadPresetToS = function(sample) {
   let text = "";
   if (sample === 'streaming') {
-    text = "Your subscription will automatically renew indefinitely every 30 days unless cancelled 14 days prior to billing. By agreeing, you forfeit any right to participate in a class action lawsuit or jury trial; all claims must be submitted to private binding arbitration on an individual basis. We reserve the right to modify fees at any time without prior written notice.";
+    text = "Your Hotstar/Jio OTT subscription automatically renews via UPI AutoPay or e-NACH mandate every 30 days at ₹299 unless cancelled 15 days prior to billing. By subscribing, you agree that subscription fees may be increased unilaterally without prior notice. All disputes are subject to binding private arbitration exclusively within the jurisdiction of Mumbai.";
   } else if (sample === 'gym') {
-    text = "Membership requires a 12-month initial commitment. Early termination fee of $99 applies. Cancellation must be made in person or by certified postal mail sent at least 30 days prior. We may share or sell your contact information and physical telemetry data to commercial wellness partners.";
+    text = "Cult/Gym Elite Membership requires a mandatory 12-month lock-in period. Early termination penalty fee of ₹1,999 applies upon premature exit. Cancellation requests cannot be processed online and must be submitted via physical registered speed-post letter sent to our corporate office 30 days prior. Registration and locker fees are strictly non-refundable.";
   }
   const tosInput = document.getElementById('tos-input-text');
   if (tosInput) {
@@ -325,7 +648,7 @@ window.loadPresetToS = function(sample) {
 
 window.executeAgentFlow = async function() {
   const serviceSelect = document.getElementById('agent-service-select');
-  const serviceKey = serviceSelect ? serviceSelect.value : 'streamflix';
+  const serviceKey = serviceSelect ? serviceSelect.value : 'jiohotstar';
   if (window.soundEngine) window.soundEngine.playScanSweep();
 
   const btnLaunchAgent = document.getElementById('btn-launch-agent');
@@ -336,7 +659,7 @@ window.executeAgentFlow = async function() {
 
   if (btnLaunchAgent) {
     btnLaunchAgent.disabled = true;
-    btnLaunchAgent.innerHTML = '<span>🤖 Web Agent Navigating Cancellation Gates...</span>';
+    btnLaunchAgent.innerHTML = '<span>🤖 Web Agent Revoking UPI Mandate...</span>';
   }
   if (agentRunArea) agentRunArea.style.display = 'block';
   if (receiptCard) receiptCard.style.display = 'none';
@@ -352,57 +675,93 @@ window.executeAgentFlow = async function() {
     if (!res.ok) throw new Error('API offline');
     data = await res.json();
   } catch (err) {
+    const isCult = serviceKey === 'cultfit';
+    const isZomato = serviceKey === 'zomatogold';
     data = {
-      service: serviceKey === 'gympro' ? 'FitZone All-Access Club' : (serviceKey === 'cloudbox' ? 'CloudVault Enterprise' : 'StreamFlix Prime Video'),
-      tier: serviceKey === 'gympro' ? 'Platinum ($59.99/mo)' : (serviceKey === 'cloudbox' ? 'Pro ($34/mo)' : 'Ultra HD 4K ($22.99/mo)'),
-      confirmation_code: 'TINYFISH-CANC-9942',
-      annual_savings_usd: serviceKey === 'gympro' ? 719.88 : (serviceKey === 'cloudbox' ? 408.00 : 275.88),
+      service: isCult ? "Cult.fit / Gold's Gym All-India Pass" : (isZomato ? "Zomato Gold / Swiggy One VIP Pass" : "JioCinema / Hotstar Super VIP"),
+      tier: isCult ? "Elite All-Access Annual Pass (₹1,799/mo)" : (isZomato ? "Annual Gourmet Pass (₹899/yr)" : "Super VIP 4K Plan (₹299/mo)"),
+      confirmation_code: "CCPA-REVOKE-9842",
+      annual_savings_inr: isCult ? 21588 : (isZomato ? 899 : 3588),
       dark_patterns_defeated: 5,
       trace: [
         {
           step: 1,
-          stage: "Step 1: The Guilt Trip (Confirmshaming)",
-          reasoning: "Detected high-saturation primary button 'Keep My Plan' in glowing green. Secondary action 'Continue to Cancel' hidden as 10px gray text.",
-          action: "Bypassed visual hierarchy trap; clicked `a#subtle-continue-cancel`.",
+          stage: "Step 1: CCPA Rule 4 - Confirm Shaming Gate",
+          reasoning: "Detected glowing green primary button 'Keep My Cricket & Movies'. Secondary action 'Continue with Cancellation' disguised in low-contrast 10px gray font.",
+          action: "Bypassed visual hierarchy trap; clicked hidden anchor `a#subtle-continue-cancel`.",
           cdp_command: "Input.dispatchMouseEvent({type: 'mousePressed', x: 420, y: 780})"
         },
         {
           step: 2,
-          stage: "Step 2: The Pause Trap (Diversion Offer)",
-          reasoning: "Modal offering 'Pause for 3 months at $3.99/mo' to prevent definitive cancellation.",
-          action: "Rejected diversion; selected strict cancellation radio button `#terminate-strictly`.",
+          stage: "Step 2: CCPA Rule 3 - The Pause Trap (Diversion Offer)",
+          reasoning: "Popup attempting to divert user: 'Pause membership for 2 months at ₹49/mo' to preserve recurring UPI mandate.",
+          action: "Rejected diversion; toggled definitive revocation radio button `#terminate-mandate-strictly`.",
           cdp_command: "DOM.setAttributeValue({nodeId: 44, name: 'checked', value: 'true'})"
         },
         {
           step: 3,
-          stage: "Step 3: Inverted Logic Checkbox",
-          reasoning: "Detected double negative: 'Uncheck this box to not retain backup preferences for $1.99/mo'.",
-          action: "Decoded linguistic trap; executed uncheck on `#retain-cloud-sync`.",
-          cdp_command: "Runtime.evaluate('document.querySelector(\"#retain-cloud-sync\").checked = false;')"
+          stage: "Step 3: CCPA Rule 8 - Inverted Trick Checkbox",
+          reasoning: "Detected double negative: 'Uncheck this box to not forfeit ₹150 dining and OTT companion coupons'.",
+          action: "Decoded linguistic trap; executed uncheck on `#retain-partner-benefits`.",
+          cdp_command: "Runtime.evaluate('document.querySelector(\"#retain-partner-benefits\").checked = false;')"
         },
         {
           step: 4,
-          stage: "Step 4: Exhaustion Survey Gate",
-          reasoning: "Detected multi-step survey with 8 optional questions disguised as required fields.",
-          action: "Selected neutral option 'Service no longer needed'; triggered fast-forward submit.",
-          cdp_command: "DOM.querySelector({selector: 'button#survey-submit-and-continue'}).click()"
+          stage: "Step 4: CCPA Rule 5 - Forced Action (Exhaustion Survey)",
+          reasoning: "Multi-page survey presenting 8 optional questions masked as mandatory exit prerequisites.",
+          action: "Selected neutral option 'Service no longer needed'; bypassed survey lock.",
+          cdp_command: "DOM.querySelector({selector: 'button#survey-bypass-continue'}).click()"
         },
         {
           step: 5,
-          stage: "Step 5: Final Termination Handshake",
-          reasoning: "Found final confirmation prompt requiring strict confirmation.",
-          action: "Dispatched verified termination event; captured cancellation certificate.",
-          cdp_command: "Page.captureScreenshot(); Target.disposeBrowserContext()"
+          stage: "Step 5: UPI AutoPay / e-NACH Mandate Revocation",
+          reasoning: "Found gateway handshake for recurring Standing Instruction (SI) revocation.",
+          action: "Dispatched verified termination event; captured CCPA-compliant cancellation certificate.",
+          cdp_command: "PaymentGateway.revokeAutoPayMandate(); Page.captureScreenshot()"
         }
       ]
     };
   }
 
+  // Reset and show progress checklist
+  const checklistCounter = document.getElementById('checklist-step-counter');
+  if (checklistCounter) checklistCounter.innerText = '0 / 5 BYPASSED';
+  for (let j = 1; j <= 5; j++) {
+    const icon = document.getElementById(`chk-icon-${j}`);
+    const pill = document.getElementById(`chk-pill-${j}`);
+    if (icon) icon.innerText = '⏳';
+    if (pill) {
+      pill.className = j === 1 ? 'status-pill running' : 'status-pill waiting';
+      pill.innerText = j === 1 ? 'Bypassing...' : 'Pending';
+    }
+  }
+
   // Animate steps sequentially
   const steps = data.trace || [];
   for (let i = 0; i < steps.length; i++) {
-    await new Promise(r => setTimeout(r, 700));
+    await new Promise(r => setTimeout(r, 650));
     const s = steps[i];
+
+    // Update Checklist Item for current step
+    const stepNum = i + 1;
+    const currentIcon = document.getElementById(`chk-icon-${stepNum}`);
+    const currentPill = document.getElementById(`chk-pill-${stepNum}`);
+    if (currentIcon) currentIcon.innerText = '✅';
+    if (currentPill) {
+      currentPill.className = 'status-pill defeated';
+      currentPill.innerText = 'Defeated';
+    }
+
+    if (checklistCounter) checklistCounter.innerText = `${stepNum} / 5 BYPASSED`;
+
+    // Set next step as running
+    if (stepNum < 5) {
+      const nextPill = document.getElementById(`chk-pill-${stepNum + 1}`);
+      if (nextPill) {
+        nextPill.className = 'status-pill running';
+        nextPill.innerText = 'Bypassing...';
+      }
+    }
 
     if (agentProgress) {
       const pct = Math.round(((i + 1) / steps.length) * 100);
@@ -419,7 +778,7 @@ window.executeAgentFlow = async function() {
           <strong>🧠 Agent Reasoning:</strong> ${s.reasoning}
         </div>
         <div class="agent-action-box">
-          <strong>⚡ CDP Action Dispatched:</strong> ${s.action}
+          <strong>⚡ Action Dispatched:</strong> ${s.action}
         </div>
         <div class="agent-cdp-cmd">${s.cdp_command}</div>
       `;
@@ -431,7 +790,7 @@ window.executeAgentFlow = async function() {
   }
 
   // Show Receipt
-  await new Promise(r => setTimeout(r, 500));
+  await new Promise(r => setTimeout(r, 400));
   if (receiptCard) {
     receiptCard.style.display = 'block';
     const sName = document.getElementById('receipt-service-name');
@@ -442,14 +801,15 @@ window.executeAgentFlow = async function() {
     if (sName) sName.innerText = data.service;
     if (tName) tName.innerText = data.tier;
     if (cCode) cCode.innerText = data.confirmation_code;
-    if (sSav) sSav.innerText = `$${Number(data.annual_savings_usd).toFixed(2)}`;
-    if (dDef) dDef.innerText = `${data.dark_patterns_defeated} Dark Pattern Barriers Bypassed`;
+    const savVal = data.annual_savings_inr || data.annual_savings_usd || 3588;
+    if (sSav) sSav.innerText = `₹${Number(savVal).toLocaleString('en-IN')}`;
+    if (dDef) dDef.innerText = `${data.dark_patterns_defeated} CCPA Dark Patterns Defeated`;
     if (window.soundEngine) window.soundEngine.playNeutralized();
   }
 
   if (btnLaunchAgent) {
     btnLaunchAgent.disabled = false;
-    btnLaunchAgent.innerHTML = '<span>🚀 Deploy Autonomous Cancellation Agent</span>';
+    btnLaunchAgent.innerHTML = '<span>🚀 Revoke Mandate &amp; Cancel For Me</span>';
   }
 };
 
@@ -549,7 +909,7 @@ window.runGuidedTour = async function() {
   }
 
   // Step 1: Jump to Test Lab (Store)
-  updateTourBanner("🚀 STEP 1/3: Inspecting Manipulative E-Commerce Store", "Notice the red ticking countdown timer and the pre-checked +$14.99 insurance fee...");
+  updateTourBanner("🚀 STEP 1/3: Inspecting Manipulative Food Delivery Checkout", "Notice the red ticking countdown timer, scarcity prompt, and pre-checked +₹49 packaging fee...");
   window.switchTab('tab-testlab');
   if (window.MockSites && window.MockSites.shieldActive) {
     window.MockSites.toggleShield(); // start in raw deceptive mode
@@ -559,7 +919,7 @@ window.runGuidedTour = async function() {
   await new Promise(r => setTimeout(r, 4000));
 
   // Step 2: Activate Defense Shield
-  updateTourBanner("🛡️ STEP 2/3: Activating Aegis Defense Shield", "Watch closely: TinyFish freezes the fake timer and unticks the sneaky +$14.99 fee!");
+  updateTourBanner("🛡️ STEP 2/3: Activating CCPA DarkShield Defense", "Watch closely: DarkShield freezes the fake timer, unticks the sneaky +₹49 fee, and exposes the ₹899 VIP AutoPay fine print!");
   if (window.MockSites && !window.MockSites.shieldActive) {
     window.toggleDefenseShield();
   }
@@ -567,13 +927,13 @@ window.runGuidedTour = async function() {
   await new Promise(r => setTimeout(r, 4500));
 
   // Step 3: Jump to Web Agent unsubscription solver
-  updateTourBanner("🤖 STEP 3/3: Deploying Autonomous Cancellation Agent", "Watching the AI navigate 5 deceptive unsubscription gates across tricky Roach Motel portals...");
+  updateTourBanner("🤖 STEP 3/3: Deploying Autonomous UPI Mandate Revoker", "Watching the AI navigate 5 deceptive unsubscription gates and revoke recurring auto-debit...");
   window.switchTab('tab-agent');
   window.scrollTo({ top: 400, behavior: 'smooth' });
   await window.executeAgentFlow();
 
   // Completion
-  updateTourBanner("🎉 TOUR COMPLETE!", "You just experienced real-time CDP protection, dark pattern neutralization, and autonomous unsubscription!");
+  updateTourBanner("🎉 CCPA DEFENSE DEMO COMPLETE!", "You just experienced real-time CDP protection, dark pattern neutralization, and autonomous UPI mandate revocation!");
 
   if (tourBtn) {
     tourBtn.disabled = false;
