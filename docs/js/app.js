@@ -76,13 +76,13 @@ window.launchCDPSession = async function(url) {
   }, 700);
 
   setTimeout(() => {
-    window.appendTerminalLog('TinyFish.AI', 'DECEPTION_IDENTIFIED: Fake Urgency Timer', { selector: '.countdown-timer' }, true);
+    window.appendTerminalLog('TinyFish.AI', '🎯 [THREAT INTERCEPTED] DECEPTION_IDENTIFIED: Fake Urgency Timer', { selector: '.countdown-timer', status: 'FLAGGED' }, true);
     if (window.bgVisualizer) window.bgVisualizer.triggerThreatShockwave();
     if (window.soundEngine) window.soundEngine.playAlert();
   }, 1400);
 
   setTimeout(() => {
-    window.appendTerminalLog('Overlay', 'Overlay.highlightNode', { action: 'SHIELD_OVERLAY_APPLIED', color: '#ff3366' }, false, true);
+    window.appendTerminalLog('Overlay', '🛡️ [SHIELD APPLIED] Overlay.highlightNode: Deceptive Timer Neutralized', { action: 'SHIELD_OVERLAY_APPLIED', color: '#ff3366' }, false, true);
     if (window.soundEngine) window.soundEngine.playNeutralized();
   }, 2100);
 };
