@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DarkShield AI // Real-Time Dark Pattern & Scam Defense</title>
+  <meta name="description" content="DarkShield AI - Educational client-side tool and real-time defense prototype against deceptive UI dark patterns under CCPA 2023 Guidelines.">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./css/style.css?v=2.5">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Abstract Generative Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="app-container">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="brand" onclick="location.reload()" style="cursor:pointer;" tabindex="0" role="link" aria-label="DarkShield AI Home">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">
+            DARKSHIELD <span style="color:var(--neon-cyan);">AI</span>
+            <span class="brand-badge">ANTI-SCAM DEFENSE</span>
+          </div>
+          <div class="brand-sub">Real-Time Dark Pattern &amp; Deception Protection</div>
+        </div>
+      </div>
+
+      <!-- Simplified 3-Mode Navigation -->
+      <nav class="nav-tabs" role="tablist" aria-label="Main Navigation">
+        <button class="nav-tab active" data-tab="tab-testlab" role="tab" aria-selected="true" tabindex="0" onclick="switchTab('tab-testlab')">
+          <span>🛍️ Store Protection (Live Test)</span>
+        </button>
+        <button class="nav-tab" data-tab="tab-scanner" role="tab" aria-selected="false" tabindex="0" onclick="switchTab('tab-scanner')">
+          <span>🔍 Website &amp; Contract Checker</span>
+        </button>
+        <button class="nav-tab" data-tab="tab-agent" role="tab" aria-selected="false" tabindex="0" onclick="switchTab('tab-agent')">
+          <span>🤖 1-Click Auto-Canceller</span>
+        </button>
+      </nav>
+
+      <!-- Top Controls -->
+      <div class="nav-controls">
+        <div class="status-indicator">
+          <div class="pulse-dot"></div>
+          <span>SHIELD ONLINE</span>
+        </div>
+        <button id="btn-sound-toggle" class="btn-icon active" title="Toggle Sound Effects" aria-label="Toggle Sound Effects" onclick="toggleSound()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Friendly Hero Banner -->
+    <section class="hero-banner">
+      <div>
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(0,242,254,0.1); border:1px solid rgba(0,242,254,0.3); padding:4px 14px; border-radius:20px; font-size:0.75rem; font-family:var(--font-mono); color:var(--neon-cyan); margin-bottom:12px;">
+          <span>🛡️ ETHICAL BROWSER GUARDIAN</span>
+        </div>
+        <h1 class="hero-title">
+          Stop deceptive websites from <br><span>tricking you into paying more.</span>
+        </h1>
+        <p class="hero-desc">
+          Websites use fake countdown timers, pre-checked cart fees, and impossible cancellation mazes to trap your money.
+          <strong>DarkShield AI</strong> freezes fake timers, removes hidden fees, and cancels subscriptions for you in 1 click.
+        </p>
+
+        <!-- Single Primary CTA on Hero -->
+        <div class="hero-cta-container">
+          <button id="btn-hero-tour" class="btn-hero-primary" aria-label="Launch 60-Second Interactive Demo" onclick="runGuidedTour()">
+            <span>▶ Launch 60-Second Interactive Demo</span>
+            <span style="font-size:1.1rem; margin-left:4px;">➔</span>
+          </button>
+          <span class="hero-cta-sub" style="color:#94a3b8; font-size:0.8rem; margin-top:8px; display:block;">
+            ⚡ Hands-free walkthrough • Real-time dark pattern defense
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--neon-emerald);">6+</div>
+          <div class="stat-label">Dark Patterns Detected</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="color:var(--neon-cyan);">5 Steps</div>
+          <div class="stat-label">Cancellation Flow Guided</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Client-Side</div>
+          <div class="stat-label">DOM &amp; Style Inspection</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Tour Status Notification -->
+    <div id="tour-status-banner" class="tour-banner" style="display:none;">
+      <div class="tour-info">
+        <div class="tour-icon-box">🛡️</div>
+        <div>
+          <div id="tour-step-title" style="font-weight:800; font-size:1.05rem; color:#fff;">GUIDED DEMO RUNNING</div>
+          <div id="tour-step-desc" style="font-size:0.86rem; color:#e2e8f0; margin-top:2px;">Watching DarkShield AI stop deceptive traps...</div>
+        </div>
+      </div>
+      <button class="btn-secondary" onclick="document.getElementById('tour-status-banner').style.display='none'">Dismiss</button>
+    </div>
+
+    <!-- 3-Step Simple How It Works Diagram -->
+    <section class="pipeline-section">
+      <div class="pipeline-grid">
+        <div class="pipeline-card danger">
+          <div class="pipeline-number">Step 01 // The Trap</div>
+          <div class="pipeline-title">
+            <span>🛑 Deceptive Checkout</span>
+          </div>
+          <p class="pipeline-desc">
+            Food delivery &amp; shopping apps sneak pre-ticked +₹49 packaging/surge fees, fake countdowns, and hidden UPI AutoPay mandates.
+          </p>
+        </div>
+
+        <div class="pipeline-arrow">➔</div>
+
+        <div class="pipeline-card engine">
+          <div class="pipeline-number">Step 02 // DarkShield AI</div>
+          <div class="pipeline-title">
+            <span style="color:var(--neon-cyan)">⚡ CCPA 2023 Shield</span>
+          </div>
+          <p class="pipeline-desc">
+            DarkShield inspects DOM &amp; scripts, freezes fake countdowns, unticks basket sneaking fees, and exposes hidden recurring traps.
+          </p>
+        </div>
+
+        <div class="pipeline-arrow">➔</div>
+
+        <div class="pipeline-card safe">
+          <div class="pipeline-number">Step 03 // You Win</div>
+          <div class="pipeline-title">
+            <span style="color:var(--neon-emerald)">🛡️ Clean &amp; Fair Price</span>
+          </div>
+          <p class="pipeline-desc">
+            You pay only your intended food price in ₹, save money, and get a step-by-step guide to revoke auto-debit mandates in your UPI app.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================================================== -->
+    <!-- TAB 1 (DEFAULT): STORE PROTECTION (LIVE TEST RANGE) -->
+    <!-- ==================================================== -->
+    <main id="tab-testlab" class="tab-content active" role="tabpanel" aria-labelledby="tab-testlab">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <span>🛍️ Live Store Protection Sandbox</span>
+            </h2>
+            <div class="card-subtitle">See how DarkShield defends against food delivery &amp; quick-commerce dark patterns (CCPA 2023)</div>
+          </div>
+          <button id="btn-toggle-shield" class="btn-primary pulse-initial" style="padding:12px 24px; font-size:0.92rem;" aria-label="Toggle Defense Shield" onclick="toggleDefenseShield()">
+            🛡️ TOGGLE DEFENSE SHIELD
+          </button>
+        </div>
+
+        <!-- Before & After Comparison Cards -->
+        <div class="before-after-grid">
+          <div class="comparison-card before">
+            <div class="comparison-header">
+              <strong style="color:#fff; font-size:0.95rem;">🔴 Without DarkShield (You Get Tricked)</strong>
+              <span class="comparison-badge red">Vulnerable</span>
+            </div>
+            <ul class="comparison-list">
+              <li><span>⏱️</span> <span><strong>False Urgency:</strong> Fake 9-minute timer rushes you (loops forever on refresh!)</span></li>
+              <li><span>🛒</span> <span><strong>Basket Sneaking:</strong> +₹49 packaging/rain surge is pre-checked and sneaked into cart</span></li>
+              <li><span>📝</span> <span><strong>Trick Questions:</strong> Double-negative checkbox opts you into daily marketing WhatsApp spam</span></li>
+              <li><span>👁️</span> <span><strong>Interface Interference:</strong> Microscopic 7.5px text hides a ₹899/year UPI AutoPay mandate</span></li>
+              <li><span>💬</span> <span><strong>Confirm Shaming:</strong> Clicking Cancel shows guilt popup: "No thanks, I hate saving money"</span></li>
+            </ul>
+          </div>
+
+          <div class="comparison-card after">
+            <div class="comparison-header">
+              <strong style="color:#fff; font-size:0.95rem;">🟢 With DarkShield AI (CCPA 2023 Protected)</strong>
+              <span class="comparison-badge green">Protected</span>
+            </div>
+            <ul class="comparison-list">
+              <li><span>🛑</span> <span><strong>Timer Frozen:</strong> False urgency clock locked so you can order at your own pace</span></li>
+              <li><span>✅</span> <span><strong>Fee Auto-Unticked:</strong> Sneaky +₹49 packaging fee removed (saves ₹49 immediately)</span></li>
+              <li><span>✨</span> <span><strong>Clear Consent:</strong> Double negatives rewritten into simple, affirmative choices</span></li>
+              <li><span>🔍</span> <span><strong>Fine Print Exposed:</strong> Hidden ₹899/year recurring subscription enlarged into warning box</span></li>
+              <li><span>🛡️</span> <span><strong>Neutral Exit:</strong> Guilt-trip modal neutralized into a clean, honest Exit button</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:var(--font-mono); font-size:0.8rem; flex-wrap:wrap; gap:8px;">
+          <span id="shield-status-label" style="color:var(--neon-red); font-weight:bold;">DARKSHIELD DEFENSE: OFF (VULNERABLE)</span>
+          <span style="color:var(--text-dim);">Click TOGGLE DEFENSE SHIELD above to see CCPA protections applied live</span>
+        </div>
+
+        <!-- Embedded Interactive Store Simulator -->
+        <div class="sandbox-viewport">
+          <div class="sandbox-bar">
+            <div class="terminal-dots">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+            </div>
+            <div class="sandbox-url">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              https://swiftbites-express.in/checkout/cart
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">INDIAN FOOD DELIVERY TESTBED</span>
+          </div>
+          <div id="mock-sandbox-container" class="sandbox-content">
+            <!-- Injected by mock_sites.js -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ==================================================== -->
+    <!-- TAB 2: WEBSITE & CONTRACT CHECKER -->
+    <!-- ==================================================== -->
+    <main id="tab-scanner" class="tab-content">
+      <div class="grid-2">
+        <!-- Live URL Inspector -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">
+                <span>🔍 Website Dark Pattern Checker</span>
+              </h2>
+              <div class="card-subtitle">Scan any shopping or subscription link for deceptive UI</div>
+            </div>
+          </div>
+
+          <div class="explainer-banner">
+            <strong>💡 How it works:</strong> Paste any link or paste raw HTML code below. DarkShield's client-side rule engine parses the DOM, checks inline styles, and isolates the exact code node that violates CCPA 2023 Guidelines.
+          </div>
+
+          <!-- Scanner Mode Subtabs -->
+          <div class="scanner-subtabs">
+            <button id="tab-mode-url" class="btn-subtab active" onclick="switchScannerMode('url')">🌐 Web Link URL</button>
+            <button id="tab-mode-html" class="btn-subtab" onclick="switchScannerMode('html')">📝 Paste Raw HTML Code</button>
+          </div>
+
+          <!-- Mode 1: URL Input -->
+          <div id="scanner-url-panel" style="margin-bottom:20px;">
+            <div class="input-group" style="margin-bottom:8px;">
+              <input type="text" id="input-scan-url" class="input-text" placeholder="Enter Indian e-commerce/delivery link..." value="https://swiftbites-express.in/checkout/cart">
+              <button id="btn-scan-url" class="btn-primary" onclick="performUrlScan()">Scan Website</button>
+            </div>
+            <div id="url-scan-server-note" style="font-size:0.8rem; color:#94a3b8; display:flex; align-items:center; gap:6px;">
+              <span>ℹ️</span> <span>Link scanning needs a server; paste page HTML for a full scan</span>
+            </div>
+          </div>
+
+          <!-- Mode 2: Raw HTML Input (Default Hidden) -->
+          <div id="scanner-html-panel" style="display:none; margin-bottom:16px;">
+            <textarea id="input-scan-html" class="textarea-custom" style="min-height:110px; font-family:var(--font-mono); font-size:0.8rem;" placeholder="Paste raw webpage HTML code here (e.g., <div class='timer'>...</div>)..."></textarea>
+            <button id="btn-scan-html" class="btn-primary" style="margin-top:8px;" onclick="performHtmlScan()">Inspect HTML Code</button>
+          </div>
+
+          <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:8px;">Or click a preloaded Indian dark pattern HTML sample to test:</div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+            <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('food_delivery')">🍛 Food Delivery Cart (+₹49 Sneak &amp; Timer)</button>
+            <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('ott_trial')">📺 OTT AutoPay HTML (Hidden Mandate)</button>
+            <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('flash_sale')">⚡ Flash Sale HTML (04:59 Urgency Loop)</button>
+            <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('clean_sample')">✅ Clean Compliant HTML (0 Traps)</button>
+          </div>
+
+          <!-- Scanner Multi-Step Animated Loading Area -->
+          <div id="scanner-loading-area" class="scanner-loading-box" style="display:none;">
+            <div style="display:flex; justify-content:space-between; font-size:0.82rem; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:8px;">
+              <span id="scanner-step-current-title">⚡ PARSING DOM TREE...</span>
+              <span id="scanner-step-pct" style="color:var(--neon-cyan); font-weight:800;">25%</span>
+            </div>
+            <div style="width:100%; height:6px; background:#161b26; border-radius:10px; overflow:hidden;">
+              <div id="scanner-progress-bar" style="width:25%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); transition:width 0.3s ease;"></div>
+            </div>
+            <ul class="scanner-step-list">
+              <li id="scan-step-1" class="active"><span>⏳</span> <span>Step 1: Parsing DOM elements &amp; CSS computed rules</span></li>
+              <li id="scan-step-2"><span>⏳</span> <span>Step 2: Checking CCPA 2023 Dark Pattern heuristics</span></li>
+              <li id="scan-step-3"><span>⏳</span> <span>Step 3: Extracting triggering code snippets</span></li>
+              <li id="scan-step-4"><span>⏳</span> <span>Step 4: Computing Consumer Protection Deception Index</span></li>
+            </ul>
+          </div>
+
+          <!-- Scan Results -->
+          <div id="scan-results-area" style="display:none;">
+            <div class="score-gauge-container">
+              <div class="gauge-circle">
+                <span id="scan-gauge-val" class="gauge-val">85</span>
+                <span class="gauge-scale">/ 100</span>
+              </div>
+              <div class="gauge-info">
+                <h3 id="scan-gauge-level" style="color:var(--neon-red);">CRITICAL DECEPTION RISK</h3>
+                <p id="scan-gauge-summary">Deceptive tricks detected on this page.</p>
+              </div>
+            </div>
+
+            <div id="threat-cards-container">
+              <!-- Injected by app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Contract & Terms of Service Checker -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">
+                <span>📜 Contract &amp; Fine Print Decoder</span>
+              </h2>
+              <div class="card-subtitle">Translates confusing Indian subscription fine print into plain English</div>
+            </div>
+          </div>
+
+          <div class="explainer-banner">
+            <strong>💡 How it works:</strong> Paste contract text or terms of service to expose sneaky price increases, auto-renewals, and non-refundable fees.
+          </div>
+
+          <textarea id="tos-input-text" class="textarea-custom" placeholder="Paste Terms of Service, UPI AutoPay mandate terms, or fine print text here..."></textarea>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn-secondary btn-preset-tos" onclick="loadPresetToS('streaming')">📺 OTT AutoPay Terms</button>
+              <button class="btn-secondary btn-preset-tos" onclick="loadPresetToS('gym')">🏋️ Cult/Gym Lock-in Terms</button>
+              <button class="btn-secondary btn-preset-tos" onclick="loadPresetToS('clean')">✅ Clean Transparent Terms</button>
+            </div>
+            <button id="btn-scan-tos" class="btn-primary" onclick="scanFinePrint()">Check Fine Print</button>
+          </div>
+
+          <!-- ToS Results -->
+          <div id="tos-results-area" style="display:none; background:#080b12; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">
+              <span style="font-weight:bold; color:#fff;">Contract Hazard Score:</span>
+              <span id="tos-score-val" style="font-family:var(--font-mono); font-size:1.1rem; color:var(--neon-pink); font-weight:800;">--/100</span>
+            </div>
+            <div style="background:rgba(255,51,102,0.1); border-left:3px solid var(--neon-red); padding:10px 14px; border-radius:4px; margin-bottom:16px;">
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-red); font-weight:bold;">What You're Actually Agreeing To (TL;DR):</div>
+              <p id="tos-tldr-text" style="font-size:0.84rem; color:#fff; margin-top:4px; line-height:1.4;"></p>
+            </div>
+            <div id="tos-clauses-list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ==================================================== -->
+    <!-- TAB 3: 1-CLICK AUTO-CANCELLER (WEB AGENT) -->
+    <!-- ==================================================== -->
+    <main id="tab-agent" class="tab-content">
+      <div class="grid-2">
+        <!-- Agent Launcher -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">
+                <span>🤖 1-Click Subscription Canceller</span>
+              </h2>
+              <div class="card-subtitle">AI agent that navigates tricky Indian subscription cancellation mazes</div>
+              <div style="font-size:0.84rem; color:var(--text-muted); margin-top:6px;">Demo simulation: shows how an agent would navigate cancellation. Always confirm in your UPI app.</div>
+            </div>
+            <span class="severity-pill safe">CLICK-TO-CANCEL</span>
+          </div>
+
+          <div class="explainer-banner">
+            <strong>💡 What is a "Subscription Trap"?</strong> Platforms make starting UPI AutoPay 1-click simple, but bury cancellation behind guilt-tripping screens, hidden buttons, and retention traps.
+            DarkShield's agent navigates this maze for you, overrides retention tricks, and guides you to revoke the mandate in your UPI app.
+          </div>
+
+          <div style="margin-bottom:18px;">
+            <label style="display:block; font-size:0.82rem; font-weight:bold; color:#cbd5e1; margin-bottom:6px;">Select Indian Subscription to Cancel:</label>
+            <select id="agent-service-select" class="input-text" style="width:100%; cursor:pointer;">
+              <option value="jiohotstar">JioCinema / Hotstar Super VIP (₹299/mo) — Saves ₹3,588/year</option>
+              <option value="cultfit">Cult.fit / Gold's Gym All-India Pass (₹1,799/mo) — Saves ₹21,588/year</option>
+              <option value="zomatogold">Zomato Gold / Swiggy One VIP Pass (₹899/year) — Saves ₹899/year</option>
+            </select>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button id="btn-launch-agent" class="btn-primary" style="flex:1; justify-content:center; padding:15px; font-size:0.95rem; min-height:44px;" onclick="executeAgentFlow()">
+              🚀 Cancel Subscription &amp; Guide UPI Revocation
+            </button>
+            <button id="btn-reset-agent" class="btn-secondary" style="padding:15px 20px; font-size:0.92rem; min-height:44px;" onclick="resetCancellerDemo()">
+              ↺ Reset Demo
+            </button>
+          </div>
+
+          <!-- Agent Live Progress -->
+          <div id="agent-run-area" style="display:none; margin-top:24px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:6px;">
+              <span>AI AGENT STATUS: NAVIGATING CANCELLATION SCREENS</span>
+              <span id="agent-pct" style="color:var(--neon-cyan);">In Progress</span>
+            </div>
+            <div style="width:100%; height:6px; background:#161b26; border-radius:10px; overflow:hidden; margin-bottom:20px;">
+              <div id="agent-progress-bar" style="width:10%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); transition:width 0.4s ease;"></div>
+            </div>
+
+            <!-- Steps Feed -->
+            <div id="canceller-checklist" class="canceller-checklist">
+              <div class="checklist-title">
+                <span>🛡️ Obstacle Elimination Checklist</span>
+                <span id="checklist-step-counter">0 / 5 BYPASSED</span>
+              </div>
+              <div class="checklist-item" id="chk-item-1">
+                <div class="check-left">
+                  <span class="check-icon" id="chk-icon-1">⏳</span>
+                  <div>
+                    <div class="check-title">Gate 1: Confirm Shaming</div>
+                    <div class="check-subtitle">Neutralize guilt-tripping primary button</div>
+                  </div>
+                </div>
+                <span class="status-pill waiting" id="chk-pill-1">Pending</span>
+              </div>
+              <div class="checklist-item" id="chk-item-2">
+                <div class="check-left">
+                  <span class="check-icon" id="chk-icon-2">⏳</span>
+                  <div>
+                    <div class="check-title">Gate 2: Retention Discount Trap</div>
+                    <div class="check-subtitle">Reject temporary discount retention bribe</div>
+                  </div>
+                </div>
+                <span class="status-pill waiting" id="chk-pill-2">Pending</span>
+              </div>
+              <div class="checklist-item" id="chk-item-3">
+                <div class="check-left">
+                  <span class="check-icon" id="chk-icon-3">⏳</span>
+                  <div>
+                    <div class="check-title">Gate 3: Trick Question</div>
+                    <div class="check-subtitle">Decode inverted syntax opt-out trick</div>
+                  </div>
+                </div>
+                <span class="status-pill waiting" id="chk-pill-3">Pending</span>
+              </div>
+              <div class="checklist-item" id="chk-item-4">
+                <div class="check-left">
+                  <span class="check-icon" id="chk-icon-4">⏳</span>
+                  <div>
+                    <div class="check-title">Gate 4: Forced Action</div>
+                    <div class="check-subtitle">Bypass multi-step exit questionnaire</div>
+                  </div>
+                </div>
+                <span class="status-pill waiting" id="chk-pill-4">Pending</span>
+              </div>
+              <div class="checklist-item" id="chk-item-5">
+                <div class="check-left">
+                  <span class="check-icon" id="chk-icon-5">⏳</span>
+                  <div>
+                    <div class="check-title">Gate 5: Subscription Trap - UPI AutoPay Revocation Guide</div>
+                    <div class="check-subtitle">Guides you to revoke the mandate in your UPI app</div>
+                  </div>
+                </div>
+                <span class="status-pill waiting" id="chk-pill-5">Pending</span>
+              </div>
+            </div>
+
+            <!-- Steps Feed -->
+            <div id="agent-steps-container">
+              <!-- Dynamically injected -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Cancellation Receipt & Proof Certificate -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">
+                <span>📄 Cancellation Summary (Demo)</span>
+              </h2>
+              <div class="card-subtitle">Sample receipt &amp; guide to revoke the mandate in your UPI app</div>
+            </div>
+          </div>
+
+          <div id="cancellation-receipt-card" style="display:none; background:radial-gradient(circle at top, rgba(0,245,160,0.1), transparent), #080c14; border:1px solid rgba(0,245,160,0.3); border-radius:var(--radius-md); padding:24px; box-shadow:0 12px 32px rgba(0,0,0,0.5);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:16px; margin-bottom:18px;">
+              <div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-emerald); font-weight:800; letter-spacing:1px;">DEMO: CANCELLATION SIMULATED</div>
+                <h3 id="receipt-service-name" style="color:#fff; font-size:1.3rem; margin-top:2px;">JioCinema / Hotstar VIP</h3>
+                <div id="receipt-tier-name" style="font-size:0.8rem; color:var(--text-muted);">Annual Super VIP Tier</div>
+              </div>
+              <span class="severity-pill safe">REVOCATION GUIDED</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:18px;">
+              <div style="background:rgba(255,255,255,0.02); padding:10px 14px; border-radius:6px; border:1px solid var(--border-subtle);">
+                <div style="font-size:0.7rem; color:var(--text-dim);">ANNUAL SAVINGS</div>
+                <div id="receipt-savings" style="font-size:1.4rem; font-weight:bold; color:var(--neon-emerald); font-family:var(--font-mono);">₹3,588</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.02); padding:10px 14px; border-radius:6px; border:1px solid var(--border-subtle);">
+                <div style="font-size:0.7rem; color:var(--text-dim);">DEMO REFERENCE</div>
+                <div id="receipt-code" style="font-size:0.95rem; font-weight:bold; color:#fff; font-family:var(--font-mono); margin-top:4px;">CCPA-REVOKE-9842</div>
+              </div>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.5); padding:12px; border-radius:6px; font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8; margin-bottom:18px; line-height:1.5;">
+              <div><strong>REVOCATION GUIDANCE:</strong> Platform cancellation completed. Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm / BHIM) under Mandates &gt; Active &gt; Revoke.</div>
+              <div id="receipt-defeated" style="color:var(--neon-cyan); margin-top:4px;">5 Deceptive Obstacles Bypassed</div>
+            </div>
+
+            <button class="btn-secondary" style="width:100%; justify-content:center; min-height:44px;" onclick="alert('✅ Sample receipt saved: Educational cancellation reference.')">
+              📥 Save Cancellation Summary (Sample)
+            </button>
+          </div>
+
+          <!-- Placeholder when idle -->
+          <div id="receipt-placeholder" style="text-align:center; padding:60px 20px; color:var(--text-dim);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px; opacity:0.4;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <p style="font-size:0.9rem;">Click <strong>"Cancel Subscription &amp; Guide UPI Revocation"</strong> to see the AI agent defeat tricky cancellation screens and guide mandate revocation.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>
+        <span>🛡️ <strong>DarkShield AI</strong></span> • Real-Time Dark Pattern &amp; Scam Defense • Ethical Web Assistant
+      </div>
+      <div>
+        <a href="#tab-testlab" onclick="switchTab('tab-testlab')">Store Protection</a> •
+        <a href="#tab-scanner" onclick="switchTab('tab-scanner')">Website Checker</a> •
+        <a href="#tab-agent" onclick="switchTab('tab-agent')">Auto-Canceller</a>
+      </div>
+      <div style="font-size:0.8rem; color:#94a3b8; margin-top:8px;">
+        DarkShield AI is an educational prototype. It does not store passwords or payment details.
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts with Cache Busting -->
+  <script src="./js/audio.js?v=2.5"></script>
+  <script src="./js/visualizer.js?v=2.5"></script>
+  <script src="./js/mock_sites.js?v=2.5"></script>
+  <script src="./js/app.js?v=2.5"></script>
+</body>
+</html>
