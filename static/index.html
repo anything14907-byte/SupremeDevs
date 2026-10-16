@@ -8,7 +8,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./css/style.css?v=2.3">
+  <link rel="stylesheet" href="./css/style.css?v=2.4">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -92,16 +92,16 @@
 
       <div class="hero-stats">
         <div class="stat-card">
-          <div class="stat-value" style="color:var(--neon-emerald);">₹2,400+</div>
-          <div class="stat-label">Avg. Saved Per Indian Consumer</div>
+          <div class="stat-value" style="color:var(--neon-emerald);">6+</div>
+          <div class="stat-label">Dark Patterns Detected</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">100%</div>
-          <div class="stat-label">Hidden Fees Blocked</div>
+          <div class="stat-value" style="color:var(--neon-cyan);">5 Steps</div>
+          <div class="stat-label">Cancellation Flow Guided</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">1-Click</div>
-          <div class="stat-label">CCPA Mandate Revoke</div>
+          <div class="stat-value">Client-Side</div>
+          <div class="stat-label">DOM &amp; Style Inspection</div>
         </div>
       </div>
     </section>
@@ -258,9 +258,14 @@
           </div>
 
           <!-- Mode 1: URL Input -->
-          <div id="scanner-url-panel" class="input-group">
-            <input type="text" id="input-scan-url" class="input-text" placeholder="Enter Indian e-commerce/delivery link..." value="https://swiftbites-express.in/checkout/cart">
-            <button id="btn-scan-url" class="btn-primary" onclick="performUrlScan()">Scan Website</button>
+          <div id="scanner-url-panel" style="margin-bottom:20px;">
+            <div class="input-group" style="margin-bottom:8px;">
+              <input type="text" id="input-scan-url" class="input-text" placeholder="Enter Indian e-commerce/delivery link..." value="https://swiftbites-express.in/checkout/cart">
+              <button id="btn-scan-url" class="btn-primary" onclick="performUrlScan()">Scan Website</button>
+            </div>
+            <div id="url-scan-server-note" style="font-size:0.8rem; color:#94a3b8; display:flex; align-items:center; gap:6px;">
+              <span>ℹ️</span> <span>Link scanning needs a server; paste page HTML for a full scan</span>
+            </div>
           </div>
 
           <!-- Mode 2: Raw HTML Input (Default Hidden) -->
@@ -274,6 +279,7 @@
             <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('food_delivery')">🍛 Food Delivery Cart (+₹49 Sneak &amp; Timer)</button>
             <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('ott_trial')">📺 OTT AutoPay HTML (Hidden Mandate)</button>
             <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('flash_sale')">⚡ Flash Sale HTML (04:59 Urgency Loop)</button>
+            <button class="btn-secondary btn-preset-scan" onclick="loadSampleHtml('clean_sample')">✅ Clean Compliant HTML (0 Traps)</button>
           </div>
 
           <!-- Scanner Multi-Step Animated Loading Area -->
@@ -372,7 +378,7 @@
 
           <div class="explainer-banner">
             <strong>💡 What is a "Subscription Trap" under CCPA 2023?</strong> Platforms make starting UPI AutoPay 1-click simple, but bury cancellation behind guilt-tripping screens, hidden buttons, and retention traps.
-            DarkShield's agent navigates this maze for you, overrides retention tricks, and revokes the auto-debit mandate.
+            DarkShield's agent navigates this maze for you, overrides retention tricks, and guides you to revoke the mandate in your UPI app.
           </div>
 
           <div style="margin-bottom:18px;">
@@ -385,7 +391,7 @@
           </div>
 
           <button id="btn-launch-agent" class="btn-primary" style="width:100%; justify-content:center; padding:15px; font-size:0.95rem;" onclick="executeAgentFlow()">
-            🚀 Revoke Mandate &amp; Cancel For Me
+            🚀 Cancel Subscription &amp; Guide UPI Revocation
           </button>
 
           <!-- Agent Live Progress -->
@@ -401,14 +407,14 @@
             <!-- Steps Feed -->
             <div id="canceller-checklist" class="canceller-checklist">
               <div class="checklist-title">
-                <span>🛡️ CCPA Obstacle Elimination Checklist</span>
+                <span>🛡️ Obstacle Elimination Checklist</span>
                 <span id="checklist-step-counter">0 / 5 BYPASSED</span>
               </div>
               <div class="checklist-item" id="chk-item-1">
                 <div class="check-left">
                   <span class="check-icon" id="chk-icon-1">⏳</span>
                   <div>
-                    <div class="check-title">Gate 1: Confirm Shaming (CCPA Rule 4)</div>
+                    <div class="check-title">Gate 1: Confirm Shaming</div>
                     <div class="check-subtitle">Neutralize guilt-tripping primary button</div>
                   </div>
                 </div>
@@ -418,7 +424,7 @@
                 <div class="check-left">
                   <span class="check-icon" id="chk-icon-2">⏳</span>
                   <div>
-                    <div class="check-title">Gate 2: Diversion / Pause Trap (CCPA Rule 3)</div>
+                    <div class="check-title">Gate 2: Diversion &amp; Pause Trap</div>
                     <div class="check-subtitle">Reject temporary discount retention bribe</div>
                   </div>
                 </div>
@@ -428,7 +434,7 @@
                 <div class="check-left">
                   <span class="check-icon" id="chk-icon-3">⏳</span>
                   <div>
-                    <div class="check-title">Gate 3: Double-Negative Checkbox (CCPA Rule 8)</div>
+                    <div class="check-title">Gate 3: Double-Negative Checkbox</div>
                     <div class="check-subtitle">Decode inverted syntax opt-out trick</div>
                   </div>
                 </div>
@@ -438,7 +444,7 @@
                 <div class="check-left">
                   <span class="check-icon" id="chk-icon-4">⏳</span>
                   <div>
-                    <div class="check-title">Gate 4: Forced Action Survey Lock (CCPA Rule 5)</div>
+                    <div class="check-title">Gate 4: Forced Action Survey Lock</div>
                     <div class="check-subtitle">Bypass multi-step exit questionnaire</div>
                   </div>
                 </div>
@@ -448,8 +454,8 @@
                 <div class="check-left">
                   <span class="check-icon" id="chk-icon-5">⏳</span>
                   <div>
-                    <div class="check-title">Gate 5: UPI AutoPay / e-NACH Mandate Revocation</div>
-                    <div class="check-subtitle">Invalidate recurring debit Standing Instruction</div>
+                    <div class="check-title">Gate 5: UPI AutoPay Mandate Revocation Guide</div>
+                    <div class="check-subtitle">Guides you to revoke the mandate in your UPI app</div>
                   </div>
                 </div>
                 <span class="status-pill waiting" id="chk-pill-5">Pending</span>
@@ -470,18 +476,18 @@
               <h2 class="card-title">
                 <span>📄 Official Cancellation Proof</span>
               </h2>
-              <div class="card-subtitle">Verified receipt proving your auto-debit mandate is revoked</div>
+              <div class="card-subtitle">Verified receipt &amp; guide to revoke the mandate in your UPI app</div>
             </div>
           </div>
 
           <div id="cancellation-receipt-card" style="display:none; background:radial-gradient(circle at top, rgba(0,245,160,0.1), transparent), #080c14; border:1px solid rgba(0,245,160,0.3); border-radius:var(--radius-md); padding:24px; box-shadow:0 12px 32px rgba(0,0,0,0.5);">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:16px; margin-bottom:18px;">
               <div>
-                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-emerald); font-weight:800; letter-spacing:1px;">CONFIRMED REVOKED &amp; CANCELLED</div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-emerald); font-weight:800; letter-spacing:1px;">CANCELLATION CONFIRMED &amp; GUIDED</div>
                 <h3 id="receipt-service-name" style="color:#fff; font-size:1.3rem; margin-top:2px;">JioCinema / Hotstar VIP</h3>
                 <div id="receipt-tier-name" style="font-size:0.8rem; color:var(--text-muted);">Annual Super VIP Tier</div>
               </div>
-              <span class="severity-pill safe">MANDATE REVOKED</span>
+              <span class="severity-pill safe">REVOCATION GUIDED</span>
             </div>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:18px;">
@@ -490,17 +496,17 @@
                 <div id="receipt-savings" style="font-size:1.4rem; font-weight:bold; color:var(--neon-emerald); font-family:var(--font-mono);">₹3,588</div>
               </div>
               <div style="background:rgba(255,255,255,0.02); padding:10px 14px; border-radius:6px; border:1px solid var(--border-subtle);">
-                <div style="font-size:0.7rem; color:var(--text-dim);">CCPA TOKEN</div>
+                <div style="font-size:0.7rem; color:var(--text-dim);">CONFIRMATION CODE</div>
                 <div id="receipt-code" style="font-size:0.95rem; font-weight:bold; color:#fff; font-family:var(--font-mono); margin-top:4px;">CCPA-REVOKE-9842</div>
               </div>
             </div>
 
             <div style="background:rgba(0,0,0,0.5); padding:12px; border-radius:6px; font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8; margin-bottom:18px; line-height:1.5;">
-              <div><strong>PROOF OF TERMINATION:</strong> UPI AutoPay Standing Instruction invalidated under CCPA Dark Pattern Guidelines 2023. Non-renewal recorded.</div>
+              <div><strong>REVOCATION GUIDANCE:</strong> Platform cancellation completed. Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm / BHIM) under Mandates &gt; Active &gt; Revoke.</div>
               <div id="receipt-defeated" style="color:var(--neon-cyan); margin-top:4px;">5 Deceptive Obstacles Bypassed</div>
             </div>
 
-            <button class="btn-secondary" style="width:100%; justify-content:center;" onclick="alert('✅ Certificate downloaded: Verified cancellation proof with CCPA token.')">
+            <button class="btn-secondary" style="width:100%; justify-content:center;" onclick="alert('✅ Certificate downloaded: Verified cancellation proof with step-by-step UPI mandate revocation guide.')">
               📥 Save Proof of Cancellation Certificate
             </button>
           </div>
@@ -511,7 +517,7 @@
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
-            <p style="font-size:0.9rem;">Click <strong>"Cancel This Subscription For Me"</strong> to see the AI agent defeat tricky cancellation screens live.</p>
+            <p style="font-size:0.9rem;">Click <strong>"Cancel Subscription &amp; Guide UPI Revocation"</strong> to see the AI agent defeat tricky cancellation screens and guide mandate revocation.</p>
           </div>
         </div>
       </div>
@@ -531,9 +537,9 @@
   </div>
 
   <!-- Scripts with Cache Busting -->
-  <script src="./js/audio.js?v=2.3"></script>
-  <script src="./js/visualizer.js?v=2.3"></script>
-  <script src="./js/mock_sites.js?v=2.3"></script>
-  <script src="./js/app.js?v=2.3"></script>
+  <script src="./js/audio.js?v=2.4"></script>
+  <script src="./js/visualizer.js?v=2.4"></script>
+  <script src="./js/mock_sites.js?v=2.4"></script>
+  <script src="./js/app.js?v=2.4"></script>
 </body>
 </html>

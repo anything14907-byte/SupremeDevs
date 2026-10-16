@@ -76,12 +76,12 @@ window.launchCDPSession = async function(url) {
   }, 700);
 
   setTimeout(() => {
-    window.appendTerminalLog('ML', 'PatternClassifier.analyze', { confidence: '97.4%', pattern: 'FAKE_URGENCY_TIMER', ccpa_rule: 'CCPA 2023 § Rule-2 (False Urgency)', heuristic: 'setInterval DOM loop detected without valid server-side reserve token' });
+    window.appendTerminalLog('ML', 'PatternClassifier.analyze', { confidence: '97.4%', pattern: 'FAKE_URGENCY_TIMER', ccpa_pattern: 'CCPA: False Urgency', heuristic: 'setInterval DOM loop detected without valid server-side reserve token' });
   }, 1100);
 
   setTimeout(() => {
     // ✅ This is CORRECT behavior: DarkShield AI successfully detected a dark pattern
-    window.appendTerminalLog('TinyFish.AI', '🎯 [THREAT INTERCEPTED] DECEPTION_IDENTIFIED: Fake Urgency Timer', { selector: '#urgency-timer', evidence: 'Countdown resets on reload — no real stock reserve', ccpa_violation: 'CCPA 2023 Rule-2: False Urgency', status: 'FLAGGED ✔ Detection Working Correctly' }, true);
+    window.appendTerminalLog('TinyFish.AI', '🎯 [THREAT INTERCEPTED] DECEPTION_IDENTIFIED: Fake Urgency Timer', { selector: '#urgency-timer', evidence: 'Countdown resets on reload — no real stock reserve', ccpa_violation: 'CCPA: False Urgency', status: 'FLAGGED ✔ Detection Working Correctly' }, true);
     if (window.bgVisualizer) window.bgVisualizer.triggerThreatShockwave();
     if (window.soundEngine) window.soundEngine.playAlert();
   }, 1600);
@@ -92,7 +92,7 @@ window.launchCDPSession = async function(url) {
   }, 2400);
 
   setTimeout(() => {
-    window.appendTerminalLog('DarkShield', '✅ [SCAN COMPLETE] Page protected — 1 CCPA violation neutralized, consumer now informed', { threats_blocked: 1, ccpa_rules_enforced: ['Rule-2 False Urgency'], session: currentSessionId }, false, true);
+    window.appendTerminalLog('DarkShield', '✅ [SCAN COMPLETE] Page protected — 1 CCPA violation neutralized, consumer now informed', { threats_blocked: 1, ccpa_patterns_enforced: ['False Urgency'], session: currentSessionId }, false, true);
   }, 3100);
 };
 
@@ -195,6 +195,35 @@ window.SAMPLE_HTML = {
     Orders include complimentary membership trial converting into ₹199 monthly maintenance charges.
   </p>
   <button style="background:#0f172a; color:#fff; padding:12px 24px;">Buy Now (₹1,598)</button>
+</div>`,
+
+  clean_sample: `<!-- Clean & Fully Compliant Store Checkout (0 Dark Patterns) -->
+<div class="cart-container" style="font-family: sans-serif; padding: 20px; color: #1e293b;">
+  <h2 style="font-size: 1.25rem; margin-bottom: 12px;">Order Review</h2>
+  <div class="order-item" style="padding: 14px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 14px;">
+    <h3 style="font-size: 1.05rem; margin: 0 0 6px 0;">Handcrafted Artisan Coffee Beans (500g)</h3>
+    <p style="color: #64748b; font-size: 0.9rem; margin: 0;">Quantity: 1 • Standard shipping arrives in 3-4 days</p>
+    <div style="font-size: 1.1rem; font-weight: bold; margin-top: 8px;">₹499.00</div>
+  </div>
+  <div class="cart-totals" style="background: #f8fafc; padding: 14px; border-radius: 8px; font-size: 0.95rem;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+      <span>Subtotal</span>
+      <span>₹499.00</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+      <span>Delivery</span>
+      <span style="color: #16a34a; font-weight: 600;">FREE</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.05rem; border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 8px;">
+      <span>Total (All taxes included)</span>
+      <span>₹499.00</span>
+    </div>
+  </div>
+  <div style="margin-top: 18px;">
+    <button style="background: #0284c7; color: #fff; font-size: 1rem; font-weight: 600; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; width: 100%;">
+      Proceed to Payment
+    </button>
+  </div>
 </div>`
 };
 
@@ -275,7 +304,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlContent, 'text/html');
 
-  // Rule 1: False Urgency (Countdown Timers)
+  // Rule: False Urgency (Countdown Timers)
   const timerRegex = /\b(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]\b/;
   const timerElements = doc.querySelectorAll('*');
   let timerFound = false;
@@ -293,7 +322,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
       const snippet = el.outerHTML.substring(0, 200);
       threats.push({
         type: 'FALSE_URGENCY',
-        category: 'CCPA Rule 1: False Urgency (Synthetic Timer Loop)',
+        category: 'CCPA: False Urgency (Synthetic Timer Loop)',
         severity: 'HIGH',
         evidence: `Detected ticking countdown clock or urgency element: "${text.trim().substring(0, 60)}"`,
         trigger_snippet: snippet,
@@ -304,7 +333,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     }
   }
 
-  // Rule 2: Basket Sneaking (Pre-checked Checkbox)
+  // Rule: Basket Sneaking (Pre-checked Checkbox)
   const checkboxes = doc.querySelectorAll('input[type="checkbox"]');
   for (const cb of checkboxes) {
     const isChecked = cb.hasAttribute('checked') || cb.checked;
@@ -313,17 +342,17 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
       const snippet = (cb.parentElement ? cb.parentElement.outerHTML : cb.outerHTML).substring(0, 220);
       threats.push({
         type: 'BASKET_SNEAKING',
-        category: 'CCPA Rule 2: Basket Sneaking (Pre-Selected Checkbox)',
+        category: 'CCPA: Basket Sneaking (Pre-Selected Checkbox)',
         severity: 'CRITICAL',
         evidence: `Pre-ticked opt-in checkbox adding fees without explicit consent: "${parentText.trim().substring(0, 70)}"`,
         trigger_snippet: snippet,
-        impact: 'Violates Section 5 of CCPA Guidelines 2023: Fees added to cart total by default.',
+        impact: 'Violates CCPA Dark Pattern Guidelines: Optional fees added to cart total by default.',
         remedy: 'DarkShield Web Agent unticks pre-selected inputs automatically.'
       });
     }
   }
 
-  // Rule 3: Interface Interference (Microscopic Fine Print & Hidden AutoPay)
+  // Rule: Interface Interference (Microscopic Fine Print & Hidden AutoPay)
   const allNodes = doc.querySelectorAll('*');
   for (const el of allNodes) {
     if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
@@ -339,7 +368,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
       if (isSubTrap) {
         threats.push({
           type: 'INTERFACE_INTERFERENCE',
-          category: 'CCPA Rule 6: Interface Interference (Hidden Recurring AutoPay)',
+          category: 'CCPA: Interface Interference (Hidden Recurring AutoPay)',
           severity: 'CRITICAL',
           evidence: `Microscopic disclaimer (${hasSmallFont ? 'font-size < 11px' : 'low contrast'}): "${text.substring(0, 80)}..."`,
           trigger_snippet: el.outerHTML.substring(0, 240),
@@ -351,7 +380,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     }
   }
 
-  // Rule 4: Scarcity & High Demand Claim (CCPA Rule 1)
+  // Rule: Scarcity & High Demand Claim
   const scarcityRegex = /(only\s+\d+\s+(left|remaining|portions|items)|in\s+high\s+demand|\d+\s+people\s+(viewing|ordering|looking|bought)|selling\s+fast|almost\s+sold\s+out|hurry,\s+last\s+few)/i;
   for (const el of allNodes) {
     if (['SCRIPT', 'STYLE', 'HTML', 'BODY'].includes(el.tagName)) continue;
@@ -359,7 +388,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     if (scarcityRegex.test(text) && text.length < 140) {
       threats.push({
         type: 'FALSE_URGENCY_SCARCITY',
-        category: 'CCPA Rule 1: False Urgency (Artificial Scarcity Pressure)',
+        category: 'CCPA: False Urgency (Artificial Scarcity Pressure)',
         severity: 'HIGH',
         evidence: `Manipulative scarcity assertion: "${text.trim()}"`,
         trigger_snippet: el.outerHTML.substring(0, 200),
@@ -370,7 +399,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     }
   }
 
-  // Rule 5: Confirm Shaming (CCPA Rule 4)
+  // Rule: Confirm Shaming
   const shameRegex = /(hate\s+saving|hate\s+discounts|pay\s+full\s+price|no\s+thanks,?\s+i('m|\s+am)?\s+(poor|cheap|don't\s+care)|lose\s+my\s+discount)/i;
   for (const el of allNodes) {
     if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
@@ -378,7 +407,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     if (shameRegex.test(text) && (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'P')) {
       threats.push({
         type: 'CONFIRMSHAMING',
-        category: 'CCPA Rule 4: Confirm Shaming (Emotional Manipulation)',
+        category: 'CCPA: Confirm Shaming (Emotional Manipulation)',
         severity: 'HIGH',
         evidence: `Emotionally coercive decline action: "${text.trim().substring(0, 70)}"`,
         trigger_snippet: el.outerHTML.substring(0, 200),
@@ -389,7 +418,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     }
   }
 
-  // Rule 6: Trick Questions (CCPA Rule 8)
+  // Rule: Trick Questions
   const trickRegex = /(uncheck\s+if\s+you\s+(wish|prefer)\s+not|do\s+not\s+uncheck|opt-out\s+by\s+not|prevent\s+third-party)/i;
   for (const el of allNodes) {
     if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
@@ -397,7 +426,7 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     if (trickRegex.test(text)) {
       threats.push({
         type: 'TRICK_QUESTION',
-        category: 'CCPA Rule 8: Trick Questions (Double-Negative Syntax)',
+        category: 'CCPA: Trick Questions (Double-Negative Syntax)',
         severity: 'MEDIUM',
         evidence: `Convoluted double-negative phrasing: "${text.trim().substring(0, 80)}"`,
         trigger_snippet: el.outerHTML.substring(0, 220),
@@ -408,17 +437,16 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     }
   }
 
-  // Compute Score: 100 - (critical * 25 + high * 15 + medium * 10)
-  let penalty = 0;
-  threats.forEach(t => {
-    if (t.severity === 'CRITICAL') penalty += 25;
-    else if (t.severity === 'HIGH') penalty += 18;
-    else penalty += 10;
-  });
+  // Compute Score directly from detected findings (15 points per pattern detected)
+  // A clean HTML sample with 0 threats scores 0 (low risk / compliant)
+  let computedScore = 0;
+  if (threats.length > 0) {
+    computedScore = Math.min(100, threats.length * 15);
+  }
 
-  const deceptionIndex = Math.min(95, Math.max(10, penalty));
-  const riskLevel = deceptionIndex >= 60 ? 'CRITICAL DECEPTION RISK (CCPA 2023)' :
-                   (deceptionIndex >= 30 ? 'MODERATE DECEPTION RISK' : 'LOW RISK / COMPLIANT');
+  const deceptionIndex = computedScore;
+  const riskLevel = deceptionIndex >= 60 ? 'CRITICAL DECEPTION RISK' :
+                   (deceptionIndex >= 25 ? 'MODERATE DECEPTION RISK' : 'LOW RISK / COMPLIANT');
 
   return {
     source_url: sourceLabel,
@@ -668,7 +696,7 @@ window.executeAgentFlow = async function() {
 
   if (btnLaunchAgent) {
     btnLaunchAgent.disabled = true;
-    btnLaunchAgent.innerHTML = '<span>🤖 Web Agent Revoking UPI Mandate...</span>';
+    btnLaunchAgent.innerHTML = '<span>🤖 Cancelling Subscription &amp; Preparing UPI Guide...</span>';
   }
   if (agentRunArea) agentRunArea.style.display = 'block';
   if (receiptCard) receiptCard.style.display = 'none';
@@ -695,38 +723,38 @@ window.executeAgentFlow = async function() {
       trace: [
         {
           step: 1,
-          stage: "Step 1: CCPA Rule 4 - Confirm Shaming Gate",
+          stage: "Step 1: Confirm Shaming Gate",
           reasoning: "Detected glowing green primary button 'Keep My Cricket & Movies'. Secondary action 'Continue with Cancellation' disguised in low-contrast 10px gray font.",
           action: "Bypassed visual hierarchy trap; clicked hidden anchor `a#subtle-continue-cancel`.",
           cdp_command: "Input.dispatchMouseEvent({type: 'mousePressed', x: 420, y: 780})"
         },
         {
           step: 2,
-          stage: "Step 2: CCPA Rule 3 - The Pause Trap (Diversion Offer)",
-          reasoning: "Popup attempting to divert user: 'Pause membership for 2 months at ₹49/mo' to preserve recurring UPI mandate.",
-          action: "Rejected diversion; toggled definitive revocation radio button `#terminate-mandate-strictly`.",
+          stage: "Step 2: Diversion & Pause Trap",
+          reasoning: "Popup attempting to divert user: 'Pause membership for 2 months at ₹49/mo' to preserve recurring subscription.",
+          action: "Rejected diversion; toggled definitive cancellation option `#terminate-membership-strictly`.",
           cdp_command: "DOM.setAttributeValue({nodeId: 44, name: 'checked', value: 'true'})"
         },
         {
           step: 3,
-          stage: "Step 3: CCPA Rule 8 - Inverted Trick Checkbox",
+          stage: "Step 3: Double-Negative Checkbox",
           reasoning: "Detected double negative: 'Uncheck this box to not forfeit ₹150 dining and OTT companion coupons'.",
           action: "Decoded linguistic trap; executed uncheck on `#retain-partner-benefits`.",
           cdp_command: "Runtime.evaluate('document.querySelector(\"#retain-partner-benefits\").checked = false;')"
         },
         {
           step: 4,
-          stage: "Step 4: CCPA Rule 5 - Forced Action (Exhaustion Survey)",
+          stage: "Step 4: Forced Action Survey Lock",
           reasoning: "Multi-page survey presenting 8 optional questions masked as mandatory exit prerequisites.",
           action: "Selected neutral option 'Service no longer needed'; bypassed survey lock.",
           cdp_command: "DOM.querySelector({selector: 'button#survey-bypass-continue'}).click()"
         },
         {
           step: 5,
-          stage: "Step 5: UPI AutoPay / e-NACH Mandate Revocation",
-          reasoning: "Found gateway handshake for recurring Standing Instruction (SI) revocation.",
-          action: "Dispatched verified termination event; captured CCPA-compliant cancellation certificate.",
-          cdp_command: "PaymentGateway.revokeAutoPayMandate(); Page.captureScreenshot()"
+          stage: "Step 5: UPI AutoPay Mandate Revocation Guide",
+          reasoning: "Subscription service cancelled on portal; preparing direct UPI app mandate revocation steps.",
+          action: "Generated cancellation proof and instructions: Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm).",
+          cdp_command: "UPIMandateGuide.generateSteps({app: 'UPI', status: 'CANCELLATION_CONFIRMED'})"
         }
       ]
     };
@@ -812,13 +840,13 @@ window.executeAgentFlow = async function() {
     if (cCode) cCode.innerText = data.confirmation_code;
     const savVal = data.annual_savings_inr || data.annual_savings_usd || 3588;
     if (sSav) sSav.innerText = `₹${Number(savVal).toLocaleString('en-IN')}`;
-    if (dDef) dDef.innerText = `${data.dark_patterns_defeated} CCPA Dark Patterns Defeated`;
+    if (dDef) dDef.innerText = `${data.dark_patterns_defeated} Dark Patterns Defeated`;
     if (window.soundEngine) window.soundEngine.playNeutralized();
   }
 
   if (btnLaunchAgent) {
     btnLaunchAgent.disabled = false;
-    btnLaunchAgent.innerHTML = '<span>🚀 Revoke Mandate &amp; Cancel For Me</span>';
+    btnLaunchAgent.innerHTML = '<span>🚀 Cancel Subscription &amp; Guide UPI Revocation</span>';
   }
 };
 
@@ -936,13 +964,13 @@ window.runGuidedTour = async function() {
   await new Promise(r => setTimeout(r, 4500));
 
   // Step 3: Jump to Web Agent unsubscription solver
-  updateTourBanner("🤖 STEP 3/3: Deploying Autonomous UPI Mandate Revoker", "Watching the AI navigate 5 deceptive unsubscription gates and revoke recurring auto-debit...");
+  updateTourBanner("🤖 STEP 3/3: Deploying Subscription Canceller", "Watching the AI navigate 5 deceptive unsubscription gates and guide you to revoke the mandate in your UPI app...");
   window.switchTab('tab-agent');
   window.scrollTo({ top: 400, behavior: 'smooth' });
   await window.executeAgentFlow();
 
   // Completion
-  updateTourBanner("🎉 CCPA DEFENSE DEMO COMPLETE!", "You just experienced real-time CDP protection, dark pattern neutralization, and autonomous UPI mandate revocation!");
+  updateTourBanner("🎉 CCPA DEFENSE DEMO COMPLETE!", "You just experienced real-time CDP protection, dark pattern neutralization, and UPI mandate revocation guidance!");
 
   if (tourBtn) {
     tourBtn.disabled = false;
