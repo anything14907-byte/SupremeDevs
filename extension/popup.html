@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <div class="brand">
+        <span class="icon">🛡️</span>
+        <div>
+          <div class="title">TINYFISH AEGIS</div>
+          <div class="subtitle">Real-Time Deception Shield</div>
+        </div>
+      </div>
+      <span id="badge-status" class="status-live">LIVE</span>
+    </div>
+
+    <div class="score-box">
+      <div class="score-num" id="popup-risk-score">92</div>
+      <div>
+        <div class="score-label" id="popup-risk-level">HIGH MANIPULATION</div>
+        <div class="score-desc" id="popup-threat-count">3 deceptive elements flagged</div>
+      </div>
+    </div>
+
+    <div class="action-list">
+      <button id="btn-freeze-timers" class="action-btn">⏱️ Freeze Fake Timers</button>
+      <button id="btn-untick-addons" class="action-btn">🛒 Untick Hidden Insurance</button>
+      <button id="btn-open-agent" class="action-btn primary">🤖 Auto-Cancel via Agent</button>
+    </div>
+
+    <div class="popup-footer">
+      <a href="http://localhost:8000" target="_blank">Open Full Aegis Studio Dashboard ↗</a>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

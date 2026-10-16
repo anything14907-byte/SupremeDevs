@@ -1,0 +1,125 @@
+body {
+  width: 320px;
+  margin: 0;
+  padding: 0;
+  background-color: #050508;
+  color: #f0f3fc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.popup-container {
+  padding: 16px;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #fff, #00f2fe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 0.68rem;
+  color: #8b949e;
+}
+
+.status-live {
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: rgba(0, 245, 160, 0.15);
+  color: #00f5a0;
+  border: 1px solid rgba(0, 245, 160, 0.3);
+}
+
+.score-box {
+  background: rgba(14, 18, 28, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.score-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ff3366;
+  font-family: monospace;
+}
+
+.score-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.score-desc {
+  font-size: 0.72rem;
+  color: #8b949e;
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.action-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #00f2fe;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #00f2fe, #7928ca);
+  border: none;
+  color: #050508;
+  font-weight: 800;
+  text-align: center;
+}
+
+.popup-footer {
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.popup-footer a {
+  color: #00f2fe;
+  font-size: 0.72rem;
+  text-decoration: none;
+}
