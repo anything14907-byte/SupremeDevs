@@ -119,7 +119,7 @@ class CDPEngine:
         self.sessions: Dict[str, CDPSession] = {}
         self.lock = threading.Lock()
         # Seed an initial demo session
-        self.create_session("https://store.hyperfastsneakers.com/checkout")
+        self.create_session("https://swiftbites-express.in/checkout/cart")
 
     def create_session(self, url: str) -> CDPSession:
         with self.lock:
