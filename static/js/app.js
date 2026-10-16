@@ -1,5 +1,5 @@
 /**
- * TinyFish Aegis: Real-Time Dark Pattern & Scam Defense Engine
+ * DarkShield AI: Real-Time Dark Pattern & Scam Defense Engine
  * Main Application Controller - Fully Robust Global Implementation
  */
 
