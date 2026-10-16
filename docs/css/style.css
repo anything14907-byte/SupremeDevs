@@ -1,13 +1,13 @@
-/* TinyFish Aegis - Black & Abstract Aesthetic Theme */
+/* DarkShield AI - Black & Abstract Aesthetic Theme */
 :root {
   --bg-dark: #050508;
-  --bg-card: rgba(14, 17, 27, 0.75);
-  --bg-card-hover: rgba(22, 27, 43, 0.85);
-  --border-subtle: rgba(255, 255, 255, 0.08);
+  --bg-card: rgba(14, 17, 27, 0.85);
+  --bg-card-hover: rgba(22, 27, 43, 0.95);
+  --border-subtle: rgba(255, 255, 255, 0.12);
   --border-glow: rgba(0, 242, 254, 0.3);
-  --text-main: #f0f3fc;
-  --text-muted: #94a3b8;
-  --text-dim: #94a3b8;
+  --text-main: #f8fafc;
+  --text-muted: #cbd5e1;
+  --text-dim: #cbd5e1;
 
   --neon-cyan: #00f2fe;
   --neon-purple: #9d4edd;
@@ -17,7 +17,7 @@
   --neon-amber: #ffaa00;
 
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -33,11 +33,33 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-main);
   font-family: var(--font-sans);
+  font-size: 16px;
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Accessibility Focus Outlines */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .nav-tab:focus-visible, div[tabindex]:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+/* Gentle Pulse on Shield Button */
+@keyframes gentlePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.45);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(0, 242, 254, 0);
+    transform: scale(1.02);
+  }
+}
+.pulse-initial {
+  animation: gentlePulse 2.4s infinite ease-in-out;
 }
 
 /* Background Abstract Canvas */
@@ -449,6 +471,7 @@ body {
   font-weight: 700;
   font-size: 0.88rem;
   padding: 12px 24px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
@@ -471,6 +494,7 @@ body {
   font-weight: 600;
   font-size: 0.85rem;
   padding: 10px 18px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   display: inline-flex;
@@ -1508,11 +1532,12 @@ body {
     font-size: 1.35rem;
   }
   .hero-desc {
-    font-size: 0.82rem;
+    font-size: 1rem;
   }
   .nav-tab {
-    padding: 6px 10px;
-    font-size: 0.74rem;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    min-height: 44px;
   }
   .card-title {
     font-size: 1.15rem;
@@ -1520,10 +1545,12 @@ body {
   .btn-primary, .btn-secondary {
     font-size: 0.85rem;
     padding: 10px 14px;
+    min-height: 44px;
   }
   .code-trigger-box {
     font-size: 0.72rem;
     padding: 8px 10px;
+    max-height: 160px;
   }
   .checklist-item {
     flex-direction: column;
@@ -1532,6 +1559,42 @@ body {
   }
   .status-pill {
     align-self: flex-start;
+  }
+}
+
+@media (max-width: 360px) {
+  body {
+    font-size: 16px;
+    overflow-x: hidden;
+  }
+  .app-container {
+    padding: 0 6px 24px 6px;
+    overflow-x: hidden;
+  }
+  .navbar {
+    padding: 10px 0;
+  }
+  .before-after-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .comparison-card {
+    padding: 14px 10px;
+  }
+  .nav-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding: 4px;
+  }
+  .nav-tab {
+    flex-shrink: 0;
+    min-height: 44px;
+  }
+  button, .btn-primary, .btn-secondary, .btn-hero-primary {
+    min-height: 44px !important;
   }
 }
 

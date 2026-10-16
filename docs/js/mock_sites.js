@@ -30,10 +30,10 @@ const MockSites = {
           </span>
         </div>
 
-        <!-- CCPA Pattern 1: False Urgency Bar -->
+        <!-- False Urgency Bar -->
         <div class="deceptive-timer" style="background: ${shield ? '#ecfdf5' : '#dc2626'}; border: 1px solid ${shield ? '#10b981' : '#b91c1c'}; color: ${shield ? '#065f46' : '#ffffff'}; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; flex-wrap: wrap; gap: 8px;">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span>${shield ? '🛑 [FROZEN] CCPA False Urgency:' : '⏱️ 40% FESTIVE DISCOUNT EXPIRES IN:'}</span>
+            <span>${shield ? '🛑 [FROZEN] False Urgency:' : '⏱️ 40% FESTIVE DISCOUNT EXPIRES IN:'}</span>
             <span id="mock-countdown-timer" style="font-family: monospace; font-size: 1.2rem; letter-spacing: 1.5px; background: ${shield ? '#d1fae5' : 'rgba(0,0,0,0.25)'}; padding: 2px 8px; border-radius: 4px;">09:44</span>
           </div>
           <span style="font-size: 0.78rem; opacity: 0.95;">
@@ -61,7 +61,7 @@ const MockSites = {
           </div>
         </div>
 
-        <!-- CCPA Pattern 2: Basket Sneaking (Pre-checked add-on fee) -->
+        <!-- Basket Sneaking (Pre-checked add-on fee) -->
         <div class="sneak-addon" style="background: ${shield ? '#ecfdf5' : '#fef2f2'}; border: 1px solid ${shield ? '#10b981' : '#f87171'}; padding: 14px 18px; border-radius: 8px; margin-bottom: 16px;">
           <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
             <input type="checkbox" id="mock-warranty-checkbox" ${shield ? '' : 'checked'} style="margin-top: 3px; transform: scale(1.2);" />
@@ -74,30 +74,30 @@ const MockSites = {
               </div>
               <p style="font-size: 0.78rem; color: #475569; margin-top: 4px;">
                 ${shield ? 
-                  '<strong style="color:#059669;">🛡️ CCPA Basket Sneaking Neutralized:</strong> Pre-checked +₹49 fee unticked automatically. Explicit consent restored.' : 
+                  '<strong style="color:#059669;">🛡️ Basket Sneaking Neutralized:</strong> Pre-checked +₹49 fee unticked automatically. Explicit consent restored.' : 
                   'Pre-selected for your convenience. Guarantees priority dispatch and eco-thermal insulation.'}
               </p>
             </div>
           </label>
         </div>
 
-        <!-- CCPA Pattern 8: Trick Questions & Double Negative -->
+        <!-- Trick Question & Double Negative -->
         <div style="background: #f8fafc; padding: 12px 18px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #e2e8f0;">
           <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
             <input type="checkbox" id="mock-inverted-checkbox" style="transform: scale(1.15);" />
             <span style="font-size: 0.82rem; color: #334155;">
               ${shield ? 
-                '<strong style="color:#0284c7;">[CCPA Trick Question Decoded] Affirmative Consent:</strong> Send me promotional WhatsApp meal alerts (Default: Unchecked)' : 
+                '<strong style="color:#0284c7;">[Trick Question Decoded] Affirmative Choice:</strong> Send me promotional WhatsApp meal alerts (Default: Unchecked)' : 
                 'Uncheck this box if you wish not to prevent third-party dining partners from sending promotional WhatsApp alerts.'
               }
             </span>
           </label>
         </div>
 
-        <!-- CCPA Pattern 6: Interface Interference / Hidden Subscription Disclaimer -->
+        <!-- Interface Interference / Hidden Subscription Disclaimer -->
         <div style="margin-bottom: 20px; padding: 12px; border-radius: 6px; background: ${shield ? '#fffbeb' : '#f8fafc'}; border: ${shield ? '2px solid #f59e0b' : '1px dashed #cbd5e1'};">
           <p style="font-size: ${shield ? '0.85rem' : '7.5px'}; color: ${shield ? '#92400e' : '#94a3b8'}; line-height: 1.45; font-weight: ${shield ? '600' : 'normal'};">
-            ${shield ? '⚠️ <strong>CCPA FINE PRINT ALERT (Interface Interference Exposed):</strong><br>' : ''}
+            ${shield ? '⚠️ <strong>FINE PRINT ALERT (Interface Interference Exposed):</strong><br>' : ''}
             By clicking Place Order, you enroll in a 14-day trial of SwiftBites VIP Gourmet Pass, after which your payment method or UPI AutoPay will be debited ₹899 every year automatically. Cancellations require 7-day registered notice.
           </p>
         </div>
@@ -112,7 +112,7 @@ const MockSites = {
           </button>
         </div>
 
-        <!-- CCPA Pattern 4: Confirmshaming Modal Placeholder -->
+        <!-- Confirm Shaming Modal Placeholder -->
         <div id="mock-confirmshame-modal" style="display: none; margin-top: 18px; background: #fee2e2; border: 1px solid #fca5a5; padding: 16px; border-radius: 8px;">
           <h4 style="color: #991b1b; font-size: 0.95rem; font-weight: bold; margin-bottom: 6px;">Wait! Don't leave your hungry cart!</h4>
           <p style="font-size: 0.82rem; color: #7f1d1d; margin-bottom: 12px;">

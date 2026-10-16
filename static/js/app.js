@@ -10,10 +10,23 @@
 window.switchTab = function(tabId) {
   const navTabs = document.querySelectorAll('.nav-tab');
   const tabContents = document.querySelectorAll('.tab-content');
-  navTabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+  navTabs.forEach(t => {
+    const isActive = t.dataset.tab === tabId;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
   tabContents.forEach(c => c.classList.toggle('active', c.id === tabId));
   if (window.soundEngine) window.soundEngine.playClick();
 };
+
+function handleHashChange() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash && ['tab-testlab', 'tab-scanner', 'tab-agent'].includes(hash)) {
+    window.switchTab(hash);
+  }
+}
+window.addEventListener('hashchange', handleHashChange);
+window.addEventListener('DOMContentLoaded', handleHashChange);
 
 window.toggleSound = function() {
   const soundBtn = document.getElementById('btn-sound-toggle');
@@ -81,7 +94,7 @@ window.launchCDPSession = async function(url) {
 
   setTimeout(() => {
     // ✅ This is CORRECT behavior: DarkShield AI successfully detected a dark pattern
-    window.appendTerminalLog('TinyFish.AI', '🎯 [THREAT INTERCEPTED] DECEPTION_IDENTIFIED: Fake Urgency Timer', { selector: '#urgency-timer', evidence: 'Countdown resets on reload — no real stock reserve', ccpa_violation: 'CCPA: False Urgency', status: 'FLAGGED ✔ Detection Working Correctly' }, true);
+    window.appendTerminalLog('DarkShield.AI', '🎯 [THREAT INTERCEPTED] DECEPTION_IDENTIFIED: Fake Urgency Timer', { selector: '#urgency-timer', evidence: 'Countdown resets on reload — no real stock reserve', ccpa_violation: 'CCPA: False Urgency', status: 'FLAGGED ✔ Detection Working Correctly' }, true);
     if (window.bgVisualizer) window.bgVisualizer.triggerThreatShockwave();
     if (window.soundEngine) window.soundEngine.playAlert();
   }, 1600);
@@ -300,16 +313,21 @@ window.runScannerLoadingAnimation = async function(onComplete) {
 };
 
 window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet') {
+  if (!htmlContent || typeof htmlContent !== 'string' || !htmlContent.trim()) {
+    return null;
+  }
+
   const threats = [];
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlContent, 'text/html');
 
-  // Rule: False Urgency (Countdown Timers)
+  // Rule 1: False Urgency (Countdown Timers or Artificial Scarcity) - Weight 20
   const timerRegex = /\b(0?[0-9]|1[0-9]|2[0-3]):[0-5][0-9]\b/;
-  const timerElements = doc.querySelectorAll('*');
-  let timerFound = false;
+  const scarcityRegex = /(only\s+\d+\s+(left|remaining|portions|items|slots)|in\s+high\s+demand|\d+\s+people\s+(viewing|ordering|looking|bought)|selling\s+fast|almost\s+sold\s+out|hurry,\s+last\s+few|reserved\s+for)/i;
+  let urgencyFound = false;
 
-  for (const el of timerElements) {
+  const allElements = doc.querySelectorAll('*');
+  for (const el of allElements) {
     if (['SCRIPT', 'STYLE', 'HTML', 'HEAD', 'BODY'].includes(el.tagName)) continue;
     const text = el.innerText || el.textContent || '';
     const hasClass = (el.className || '').toLowerCase();
@@ -317,119 +335,63 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     const isTimer = hasClass.includes('timer') || hasClass.includes('countdown') || hasClass.includes('clock') ||
                     hasId.includes('timer') || hasId.includes('countdown') || timerRegex.test(text);
 
-    if (isTimer && (timerRegex.test(text) || text.includes('expires in') || text.includes('ends in')) && !timerFound) {
-      timerFound = true;
-      const snippet = el.outerHTML.substring(0, 200);
+    if (!urgencyFound && (isTimer || scarcityRegex.test(text))) {
+      urgencyFound = true;
       threats.push({
         type: 'FALSE_URGENCY',
-        category: 'CCPA: False Urgency (Synthetic Timer Loop)',
+        pattern: 'False Urgency',
+        category: 'False Urgency',
+        weight: 20,
         severity: 'HIGH',
-        evidence: `Detected ticking countdown clock or urgency element: "${text.trim().substring(0, 60)}"`,
-        trigger_snippet: snippet,
+        explanation: 'Uses artificial countdown timers or scarcity counters to create psychological pressure.',
+        evidence: `Detected artificial urgency element: "${text.trim().substring(0, 75)}"`,
+        trigger_snippet: el.outerHTML.substring(0, 300),
         impact: 'Induces artificial psychological panic to prevent informed price comparison.',
-        remedy: 'DarkShield Shield locks timer countdown and validates real inventory reserve.'
+        remedy: 'DarkShield locks timer countdown and validates real inventory reserve.'
       });
       break;
     }
   }
 
-  // Rule: Basket Sneaking (Pre-checked Checkbox)
+  // Rule 2: Basket Sneaking (Pre-checked Checkbox with fees/addons) - Weight 20
   const checkboxes = doc.querySelectorAll('input[type="checkbox"]');
   for (const cb of checkboxes) {
     const isChecked = cb.hasAttribute('checked') || cb.checked;
     if (isChecked) {
-      const parentText = (cb.parentElement ? cb.parentElement.innerText : '') || cb.name || cb.id || 'Optional Fee';
-      const snippet = (cb.parentElement ? cb.parentElement.outerHTML : cb.outerHTML).substring(0, 220);
+      const parent = cb.closest('label') || cb.parentElement || cb;
+      const parentText = (parent.innerText || parent.textContent || cb.name || cb.id || 'Optional Fee').trim();
+      const snippet = (parent.outerHTML || cb.outerHTML).substring(0, 300);
       threats.push({
         type: 'BASKET_SNEAKING',
-        category: 'CCPA: Basket Sneaking (Pre-Selected Checkbox)',
+        pattern: 'Basket Sneaking',
+        category: 'Basket Sneaking',
+        weight: 20,
         severity: 'CRITICAL',
-        evidence: `Pre-ticked opt-in checkbox adding fees without explicit consent: "${parentText.trim().substring(0, 70)}"`,
+        explanation: 'Pre-selects optional fees or add-on items into cart without explicit consumer consent.',
+        evidence: `Pre-ticked opt-in checkbox adding fees without explicit consent: "${parentText.substring(0, 80)}"`,
         trigger_snippet: snippet,
         impact: 'Violates CCPA Dark Pattern Guidelines: Optional fees added to cart total by default.',
         remedy: 'DarkShield Web Agent unticks pre-selected inputs automatically.'
       });
+      break; // One basket sneaking pattern counts weight once
     }
   }
 
-  // Rule: Interface Interference (Microscopic Fine Print & Hidden AutoPay)
-  const allNodes = doc.querySelectorAll('*');
-  for (const el of allNodes) {
-    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
-    const styleAttr = (el.getAttribute('style') || '').toLowerCase();
-    const hasSmallFont = /font-size:\s*([4-9]|10)px/.test(styleAttr) || /font-size:\s*0\.[0-7]rem/.test(styleAttr);
-    const hasLowOpacity = /opacity:\s*0\.[1-4]/.test(styleAttr);
-    const text = (el.innerText || el.textContent || '').toLowerCase();
-
-    if ((hasSmallFont || hasLowOpacity || el.tagName === 'SMALL') && text.length > 20) {
-      const isSubTrap = text.includes('autopay') || text.includes('upi') || text.includes('mandate') ||
-                        text.includes('renew') || text.includes('subscription') || text.includes('debited') ||
-                        text.includes('month') || text.includes('year') || text.includes('₹');
-      if (isSubTrap) {
-        threats.push({
-          type: 'INTERFACE_INTERFERENCE',
-          category: 'CCPA: Interface Interference (Hidden Recurring AutoPay)',
-          severity: 'CRITICAL',
-          evidence: `Microscopic disclaimer (${hasSmallFont ? 'font-size < 11px' : 'low contrast'}): "${text.substring(0, 80)}..."`,
-          trigger_snippet: el.outerHTML.substring(0, 240),
-          impact: 'Converts one-time transaction into hidden recurring UPI AutoPay mandate.',
-          remedy: 'DarkShield normalizes typography and highlights subscription clauses.'
-        });
-        break;
-      }
-    }
-  }
-
-  // Rule: Scarcity & High Demand Claim
-  const scarcityRegex = /(only\s+\d+\s+(left|remaining|portions|items)|in\s+high\s+demand|\d+\s+people\s+(viewing|ordering|looking|bought)|selling\s+fast|almost\s+sold\s+out|hurry,\s+last\s+few)/i;
-  for (const el of allNodes) {
-    if (['SCRIPT', 'STYLE', 'HTML', 'BODY'].includes(el.tagName)) continue;
-    const text = el.innerText || el.textContent || '';
-    if (scarcityRegex.test(text) && text.length < 140) {
-      threats.push({
-        type: 'FALSE_URGENCY_SCARCITY',
-        category: 'CCPA: False Urgency (Artificial Scarcity Pressure)',
-        severity: 'HIGH',
-        evidence: `Manipulative scarcity assertion: "${text.trim()}"`,
-        trigger_snippet: el.outerHTML.substring(0, 200),
-        impact: 'Misleads consumers into believing supply is scarce when stock is abundant.',
-        remedy: 'DarkShield intercepts dynamic counter and verifies genuine inventory.'
-      });
-      break;
-    }
-  }
-
-  // Rule: Confirm Shaming
-  const shameRegex = /(hate\s+saving|hate\s+discounts|pay\s+full\s+price|no\s+thanks,?\s+i('m|\s+am)?\s+(poor|cheap|don't\s+care)|lose\s+my\s+discount)/i;
-  for (const el of allNodes) {
-    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
-    const text = el.innerText || el.textContent || '';
-    if (shameRegex.test(text) && (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'P')) {
-      threats.push({
-        type: 'CONFIRMSHAMING',
-        category: 'CCPA: Confirm Shaming (Emotional Manipulation)',
-        severity: 'HIGH',
-        evidence: `Emotionally coercive decline action: "${text.trim().substring(0, 70)}"`,
-        trigger_snippet: el.outerHTML.substring(0, 200),
-        impact: 'Frames exercising consumer opt-out choice as shameful or foolish.',
-        remedy: 'DarkShield rewrites shame link to clear neutral option ("Exit / Skip").'
-      });
-      break;
-    }
-  }
-
-  // Rule: Trick Questions
+  // Rule 3: Trick Question (Double Negatives / Confusing syntax) - Weight 15
   const trickRegex = /(uncheck\s+if\s+you\s+(wish|prefer)\s+not|do\s+not\s+uncheck|opt-out\s+by\s+not|prevent\s+third-party)/i;
-  for (const el of allNodes) {
+  for (const el of allElements) {
     if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
     const text = el.innerText || el.textContent || '';
     if (trickRegex.test(text)) {
       threats.push({
         type: 'TRICK_QUESTION',
-        category: 'CCPA: Trick Questions (Double-Negative Syntax)',
+        pattern: 'Trick Question',
+        category: 'Trick Question',
+        weight: 15,
         severity: 'MEDIUM',
-        evidence: `Convoluted double-negative phrasing: "${text.trim().substring(0, 80)}"`,
-        trigger_snippet: el.outerHTML.substring(0, 220),
+        explanation: 'Uses confusing double-negative syntax to mislead consumers into granting unintended consent.',
+        evidence: `Convoluted double-negative phrasing: "${text.trim().substring(0, 90)}"`,
+        trigger_snippet: el.outerHTML.substring(0, 300),
         impact: 'Confuses consumers into accidentally consenting to unwanted data sharing or marketing.',
         remedy: 'DarkShield parses dependency tree and presents unambiguous affirmative choice.'
       });
@@ -437,16 +399,98 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
     }
   }
 
-  // Compute Score directly from detected findings (15 points per pattern detected)
-  // A clean HTML sample with 0 threats scores 0 (low risk / compliant)
-  let computedScore = 0;
-  if (threats.length > 0) {
-    computedScore = Math.min(100, threats.length * 15);
+  // Rule 4: Interface Interference (Microscopic Fine Print) - Weight 15
+  for (const el of allElements) {
+    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
+    const styleAttr = (el.getAttribute('style') || '').toLowerCase();
+    const hasSmallFont = /font-size:\s*([4-9]|10)px/.test(styleAttr) || /font-size:\s*0\.[0-7]rem/.test(styleAttr);
+    const hasLowOpacity = /opacity:\s*0\.[1-4]/.test(styleAttr);
+    const text = (el.innerText || el.textContent || '').trim();
+
+    if ((hasSmallFont || hasLowOpacity || el.tagName === 'SMALL') && text.length > 20) {
+      threats.push({
+        type: 'INTERFACE_INTERFERENCE',
+        pattern: 'Interface Interference',
+        category: 'Interface Interference',
+        weight: 15,
+        severity: 'HIGH',
+        explanation: 'Uses microscopic or low-contrast styling to visually obscure critical transaction terms.',
+        evidence: `Microscopic or low-contrast disclaimer (${hasSmallFont ? 'font-size < 11px' : 'low contrast'}): "${text.substring(0, 90)}..."`,
+        trigger_snippet: el.outerHTML.substring(0, 300),
+        impact: 'Converts visible terms into unreadable fine print to conceal recurring costs.',
+        remedy: 'DarkShield normalizes typography and brings hidden terms into visible callout boxes.'
+      });
+      break;
+    }
   }
 
-  const deceptionIndex = computedScore;
-  const riskLevel = deceptionIndex >= 60 ? 'CRITICAL DECEPTION RISK' :
-                   (deceptionIndex >= 25 ? 'MODERATE DECEPTION RISK' : 'LOW RISK / COMPLIANT');
+  // Rule 5: Confirm Shaming (Emotional Manipulation on Decline Links) - Weight 15
+  const shameRegex = /(hate\s+saving|hate\s+discounts|pay\s+full\s+price|no\s+thanks,?\s+i('m|\s+am)?\s+(poor|cheap|don't\s+care)|lose\s+my\s+discount)/i;
+  for (const el of allElements) {
+    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
+    const text = el.innerText || el.textContent || '';
+    if (shameRegex.test(text) && (el.tagName === 'A' || el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'P')) {
+      threats.push({
+        type: 'CONFIRMSHAMING',
+        pattern: 'Confirm Shaming',
+        category: 'Confirm Shaming',
+        weight: 15,
+        severity: 'HIGH',
+        explanation: 'Uses manipulative language to shame consumers for exercising their right to decline.',
+        evidence: `Emotionally coercive decline action: "${text.trim().substring(0, 80)}"`,
+        trigger_snippet: el.outerHTML.substring(0, 300),
+        impact: 'Frames exercising consumer opt-out choice as shameful or foolish.',
+        remedy: 'DarkShield rewrites shame link to clear neutral option ("Exit / Skip").'
+      });
+      break;
+    }
+  }
+
+  // Rule 6: Subscription Trap (Hidden AutoPay or Recurring Mandates) - Weight 15
+  for (const el of allElements) {
+    if (['SCRIPT', 'STYLE'].includes(el.tagName)) continue;
+    const text = (el.innerText || el.textContent || '').toLowerCase();
+    const hasSubTerms = (text.includes('autopay') || text.includes('upi mandate') || text.includes('debited') || text.includes('recurring') || text.includes('every year automatically') || text.includes('every month automatically')) && text.length > 25;
+    if (hasSubTerms) {
+      threats.push({
+        type: 'SUBSCRIPTION_TRAP',
+        pattern: 'Subscription Trap',
+        category: 'Subscription Trap',
+        weight: 15,
+        severity: 'CRITICAL',
+        explanation: 'Enrolls consumers into recurring payments without clear, upfront affirmative agreement.',
+        evidence: `Hidden recurring mandate terms: "${text.substring(0, 90)}..."`,
+        trigger_snippet: el.outerHTML.substring(0, 300),
+        impact: 'Buries continuous auto-debit billing obligations without explicit affirmative consent.',
+        remedy: 'DarkShield flags recurring mandates and generates direct UPI app revocation guidance.'
+      });
+      break;
+    }
+  }
+
+  // Exact scoring formula: score = min(100, sum of weights of detected patterns)
+  // Weights: False Urgency 20, Basket Sneaking 20, Trick Question 15, Interface Interference 15, Confirm Shaming 15, Subscription Trap 15.
+  const weightsMap = {
+    'False Urgency': 20,
+    'Basket Sneaking': 20,
+    'Trick Question': 15,
+    'Interface Interference': 15,
+    'Confirm Shaming': 15,
+    'Subscription Trap': 15
+  };
+
+  const detectedPatterns = new Set();
+  let totalScore = 0;
+  threats.forEach(t => {
+    if (!detectedPatterns.has(t.pattern)) {
+      detectedPatterns.add(t.pattern);
+      totalScore += (weightsMap[t.pattern] || 15);
+    }
+  });
+
+  const deceptionIndex = Math.min(100, totalScore);
+  const riskLevel = deceptionIndex >= 50 ? 'CRITICAL DECEPTION RISK' :
+                   (deceptionIndex >= 20 ? 'MODERATE DECEPTION RISK' : 'LOW RISK / COMPLIANT');
 
   return {
     source_url: sourceLabel,
@@ -460,9 +504,31 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
 window.performHtmlScan = function() {
   const textarea = document.getElementById('input-scan-html');
   const htmlContent = textarea ? textarea.value.trim() : '';
+  const scanResultsArea = document.getElementById('scan-results-area');
+  const loadingArea = document.getElementById('scanner-loading-area');
+  const threatCardsContainer = document.getElementById('threat-cards-container');
+  const gaugeContainer = document.querySelector('.score-gauge-container');
+  const btnScanHtml = document.getElementById('btn-scan-html');
+
+  // Empty or invalid input: show a clear message, NEVER a score
   if (!htmlContent) {
-    window.loadSampleHtml('food_delivery');
+    if (loadingArea) loadingArea.style.display = 'none';
+    if (scanResultsArea) scanResultsArea.style.display = 'block';
+    if (gaugeContainer) gaugeContainer.style.display = 'none';
+    if (threatCardsContainer) {
+      threatCardsContainer.innerHTML = `
+        <div style="background:rgba(255,183,3,0.1); border:1px solid rgba(255,183,3,0.35); border-radius:8px; padding:18px; color:#fde047; text-align:center;">
+          <h4 style="color:#fde047; font-size:1rem; margin-bottom:6px;">⚠️ Empty Input: HTML Content Required</h4>
+          <p style="font-size:0.86rem; color:#cbd5e1; margin:0;">Please paste valid HTML code into the box above or select one of the sample presets to run the scanner. No score is calculated for empty inputs.</p>
+        </div>
+      `;
+    }
     return;
+  }
+
+  if (btnScanHtml) {
+    btnScanHtml.disabled = true;
+    btnScanHtml.innerHTML = '<span>⚡ Inspecting DOM &amp; Heuristics...</span>';
   }
 
   if (window.soundEngine) window.soundEngine.playScanSweep();
@@ -470,70 +536,77 @@ window.performHtmlScan = function() {
   window.runScannerLoadingAnimation(() => {
     const data = window.analyzeHtmlWithRules(htmlContent, 'Custom Pasted HTML');
     window.renderScanResults(data);
+    if (btnScanHtml) {
+      btnScanHtml.disabled = false;
+      btnScanHtml.innerHTML = 'Inspect HTML Code';
+    }
   });
 };
 
-window.performUrlScan = async function(url) {
-  const targetUrl = url || (document.getElementById('input-scan-url') ? document.getElementById('input-scan-url').value.trim() : '');
-  if (!targetUrl) return;
-  if (window.soundEngine) window.soundEngine.playScanSweep();
-
-  const btnScanUrl = document.getElementById('btn-scan-url');
-  if (btnScanUrl) {
-    btnScanUrl.disabled = true;
-    btnScanUrl.innerHTML = '<span>⚡ Inspecting...</span>';
+window.performUrlScan = function() {
+  const noteEl = document.getElementById('url-scan-server-note');
+  if (noteEl) {
+    noteEl.style.color = 'var(--neon-amber)';
+    noteEl.style.fontWeight = 'bold';
+    noteEl.innerHTML = '<span>⚠️ Link scanning needs a server; paste page HTML for a full scan.</span>';
   }
 
-  window.runScannerLoadingAnimation(async () => {
-    let data = null;
+  const scanResultsArea = document.getElementById('scan-results-area');
+  const loadingArea = document.getElementById('scanner-loading-area');
+  const threatCardsContainer = document.getElementById('threat-cards-container');
+  const gaugeContainer = document.querySelector('.score-gauge-container');
 
-    // Try backend if live
-    try {
-      const res = await fetch('/api/scan/url', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: targetUrl })
-      });
-      if (res.ok) data = await res.json();
-    } catch (e) {}
+  if (loadingArea) loadingArea.style.display = 'none';
+  if (scanResultsArea) scanResultsArea.style.display = 'block';
+  if (gaugeContainer) gaugeContainer.style.display = 'none';
 
-    // Real client-side rule analysis on simulated DOM / sample
-    if (!data || !data.threats || data.threats.length === 0) {
-      let htmlToAnalyze = window.SAMPLE_HTML.food_delivery;
-      if (targetUrl.includes('jio') || targetUrl.includes('ott') || targetUrl.includes('stream')) {
-        htmlToAnalyze = window.SAMPLE_HTML.ott_trial;
-      } else if (targetUrl.includes('flash') || targetUrl.includes('sale') || targetUrl.includes('cult')) {
-        htmlToAnalyze = window.SAMPLE_HTML.flash_sale;
-      }
-      data = window.analyzeHtmlWithRules(htmlToAnalyze, targetUrl);
-    }
-
-    window.renderScanResults(data);
-
-    if (btnScanUrl) {
-      btnScanUrl.disabled = false;
-      btnScanUrl.innerHTML = '<span>Scan Website</span>';
-    }
-  });
+  if (threatCardsContainer) {
+    threatCardsContainer.innerHTML = `
+      <div style="background:rgba(0,242,254,0.06); border:1px solid rgba(0,242,254,0.3); border-radius:8px; padding:20px; color:#e2e8f0;">
+        <h4 style="color:var(--neon-cyan); margin-bottom:8px; font-size:1.05rem;">🌐 Live Link Scanning Needs a Server</h4>
+        <p style="font-size:0.88rem; line-height:1.5; color:#cbd5e1; margin-bottom:12px;">
+          Direct client-side browsers cannot fetch arbitrary external domains due to browser CORS policies. Link scanning needs a server backend crawler.
+        </p>
+        <p style="font-size:0.88rem; color:#a5f3fc; font-weight:600; margin:0;">
+          💡 <strong>To run a full real-time scan:</strong> Switch to the <strong>"Paste Raw HTML Code"</strong> tab above, or click one of the quick test presets below.
+        </p>
+      </div>
+    `;
+  }
 };
 
 window.renderScanResults = function(data) {
+  if (!data) return;
+
   const scanResultsArea = document.getElementById('scan-results-area');
+  const gaugeContainer = document.querySelector('.score-gauge-container');
   const gaugeVal = document.getElementById('scan-gauge-val');
   const gaugeLevel = document.getElementById('scan-gauge-level');
   const gaugeSummary = document.getElementById('scan-gauge-summary');
   const threatCardsContainer = document.getElementById('threat-cards-container');
 
   if (scanResultsArea) scanResultsArea.style.display = 'block';
+  if (gaugeContainer) gaugeContainer.style.display = 'flex';
 
   const score = data.deception_index || 0;
   if (gaugeVal) gaugeVal.innerText = score;
+
   if (gaugeLevel) {
-    gaugeLevel.innerText = data.risk_level;
-    gaugeLevel.style.color = score >= 50 ? 'var(--neon-red)' : (score > 20 ? 'var(--neon-amber)' : 'var(--neon-emerald)');
+    if (score < 10) {
+      gaugeLevel.innerText = 'NO DARK PATTERNS DETECTED';
+      gaugeLevel.style.color = 'var(--neon-emerald)';
+    } else {
+      gaugeLevel.innerText = data.risk_level;
+      gaugeLevel.style.color = score >= 50 ? 'var(--neon-red)' : 'var(--neon-amber)';
+    }
   }
+
   if (gaugeSummary) {
-    gaugeSummary.innerText = `Detected ${data.total_threats} manipulative UI traps violating CCPA Dark Pattern Guidelines.`;
+    if (score < 10) {
+      gaugeSummary.innerText = '0 manipulative patterns detected. Inspected HTML complies with CCPA Guidelines.';
+    } else {
+      gaugeSummary.innerText = `Detected ${data.total_threats} manipulative UI traps (${score}/100 Consumer Deception Score).`;
+    }
   }
 
   if (score >= 50 && window.bgVisualizer) {
@@ -544,11 +617,12 @@ window.renderScanResults = function(data) {
   }
 
   if (threatCardsContainer) {
-    if (!data.threats || data.threats.length === 0) {
+    // Clean Compliant HTML sample scoring below 10/100: show "No dark patterns detected" in green
+    if (!data.threats || data.threats.length === 0 || score < 10) {
       threatCardsContainer.innerHTML = `
-        <div class="threat-card safe">
-          <div class="threat-cat">✅ Clean DOM Verified</div>
-          <p style="font-size: 0.85rem; color: #8b949e; margin-top: 6px;">No deceptive countdowns, sneaky add-ons, or confirmshaming traps detected.</p>
+        <div class="threat-card safe" style="border: 1px solid var(--neon-emerald); background: rgba(0, 245, 160, 0.05); padding: 18px; border-radius: 8px; text-align: center;">
+          <div style="font-weight: 700; color: var(--neon-emerald); font-size: 1.05rem;">✅ No dark patterns detected</div>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-top: 6px;">Clean Compliant HTML verified. No fake countdown timers, sneaky pre-checked add-ons, or confirm shaming traps found.</p>
         </div>
       `;
       return;
@@ -558,21 +632,22 @@ window.renderScanResults = function(data) {
       <div class="threat-card ${t.severity.toLowerCase()}">
         <div class="threat-top">
           <div class="threat-cat">
-            <span>⚠️ ${t.category}</span>
+            <span style="font-weight: 700; color: #fff;">⚠️ ${escapeHtml(t.category)}</span>
           </div>
-          <span class="severity-pill ${t.severity.toLowerCase()}">${t.severity}</span>
+          <span class="severity-pill ${t.severity.toLowerCase()}">${escapeHtml(t.severity)}</span>
         </div>
-        <div class="threat-evidence">${t.evidence}</div>
+        <div class="threat-evidence" style="margin-top: 6px; font-size: 0.88rem; color: #cbd5e1;">${escapeHtml(t.explanation)}</div>
+        <div style="margin-top: 4px; font-size: 0.8rem; color: #94a3b8;">${escapeHtml(t.evidence)}</div>
         
         ${t.trigger_snippet ? `
-          <span class="trigger-label">🎯 Triggering DOM Element Snippet:</span>
-          <div class="code-trigger-box"><code>${escapeHtml(t.trigger_snippet)}</code></div>
+          <span class="trigger-label" style="display:block; margin-top:10px; font-size:0.75rem; color:#94a3b8; font-family:var(--font-mono); font-weight:600;">🎯 TRIGGERING HTML SNIPPET:</span>
+          <div class="code-trigger-box" style="margin-top:4px; max-height:140px; overflow:auto; background:#07090e; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:10px;"><code style="font-family:var(--font-mono); font-size:0.78rem; color:#a5f3fc; white-space:pre-wrap; word-break:break-all;">${escapeHtml(t.trigger_snippet)}</code></div>
         ` : ''}
 
-        <div class="threat-impact"><strong>Consumer Risk:</strong> ${t.impact}</div>
-        <div class="threat-remedy">
+        <div class="threat-impact" style="margin-top:10px; font-size:0.82rem; color:#fca5a5;"><strong>Consumer Risk:</strong> ${escapeHtml(t.impact)}</div>
+        <div class="threat-remedy" style="margin-top:8px; font-size:0.82rem; color:#6ee7b7; display:flex; align-items:center; gap:6px;">
           <span>🛡️</span>
-          <span><strong>DarkShield Action:</strong> ${t.remedy}</span>
+          <span><strong>DarkShield Action:</strong> ${escapeHtml(t.remedy)}</span>
         </div>
       </div>
     `).join('');
@@ -585,78 +660,128 @@ window.renderScanResults = function(data) {
 
 window.scanFinePrint = async function(text) {
   const content = text || (document.getElementById('tos-input-text') ? document.getElementById('tos-input-text').value : '');
-  if (!content || content.length < 5) return;
+  const tosResultsArea = document.getElementById('tos-results-area');
+  const tosScoreVal = document.getElementById('tos-score-val');
+  const tosTldr = document.getElementById('tos-tldr-text');
+  const tosClausesList = document.getElementById('tos-clauses-list');
+  const btnScanTos = document.getElementById('btn-scan-tos');
+
+  // Empty or invalid input: show a clear message, never a score
+  if (!content || !content.trim()) {
+    if (tosResultsArea) tosResultsArea.style.display = 'block';
+    if (tosScoreVal) tosScoreVal.innerText = '--/100';
+    if (tosTldr) tosTldr.innerText = 'Input Required';
+    if (tosClausesList) {
+      tosClausesList.innerHTML = `
+        <div style="background:rgba(255,183,3,0.1); border:1px solid rgba(255,183,3,0.3); border-radius:8px; padding:14px; color:#fde047; text-align:center;">
+          ⚠️ <strong>No Contract Text Provided:</strong> Please paste contract or terms text into the box above, or click one of the preset buttons. No score is generated for empty input.
+        </div>
+      `;
+    }
+    return;
+  }
+
   if (window.soundEngine) window.soundEngine.playScanSweep();
 
-  const btnScanTos = document.getElementById('btn-scan-tos');
   if (btnScanTos) {
     btnScanTos.disabled = true;
     btnScanTos.innerText = 'Analyzing Legal Clauses...';
   }
 
-  let data;
-  try {
-    const res = await fetch('/api/scan/tos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: content })
+  // Real client-side rule computation from keywords:
+  // Keywords: auto-renewal (25), lock-in (25), non-refundable (20), price increase (15), cancellation fee (15)
+  const findings = [];
+  let scoreSum = 0;
+
+  // 1. Auto-Renewal / Negative Option Billing (25 points)
+  if (/(auto-renew|automatically\s+renew|recurring|autopay|mandate|every\s+\d+\s+days|indefinitely\s+unless)/i.test(content)) {
+    scoreSum += 25;
+    findings.push({
+      name: "Auto-Renewal & Recurring Mandate",
+      severity: "CRITICAL",
+      plain_english: "Your payment method will be charged automatically every billing cycle indefinitely without separate advance authorization.",
+      risk_warning: "High risk of unexpected recurring charges through silent mandate renewal."
     });
-    if (!res.ok) throw new Error('API offline');
-    data = await res.json();
-  } catch (err) {
-    data = {
-      hazard_score: 72,
-      tldr: "Your subscription will automatically renew without reminder emails • You forfeit right to join class actions • Price can increase unilaterally",
-      findings: [
-        {
-          name: "Stealth Auto-Renewal & Negative Option Billing",
-          severity: "CRITICAL",
-          plain_english: "Your card will be charged automatically every billing cycle indefinitely.",
-          risk_warning: "High risk of unexpected recurring charges after trial period."
-        },
-        {
-          name: "Mandatory Binding Arbitration & Class Action Waiver",
-          severity: "HIGH",
-          plain_english: "You forfeit your constitutional right to take this company to court or join a class action lawsuit.",
-          risk_warning: "Severely restricts legal recourse in event of fraud."
-        },
-        {
-          name: "Unilateral Price & Terms Alteration",
-          severity: "HIGH",
-          plain_english: "The company can raise your subscription fees at any time without asking.",
-          risk_warning: "Subscription price may increase without explicit opt-in confirmation."
-        }
-      ]
-    };
   }
 
-  const tosResultsArea = document.getElementById('tos-results-area');
-  const tosScoreVal = document.getElementById('tos-score-val');
-  const tosTldr = document.getElementById('tos-tldr-text');
-  const tosClausesList = document.getElementById('tos-clauses-list');
+  // 2. Lock-in Commitment (25 points)
+  if (/(lock-in|mandatory\s+\d+[\s-]month|commitment\s+period|early\s+termination)/i.test(content)) {
+    scoreSum += 25;
+    findings.push({
+      name: "Mandatory Multi-Month Lock-in",
+      severity: "CRITICAL",
+      plain_english: "You are locked into a multi-month contract and cannot terminate without heavy financial penalties.",
+      risk_warning: "Severely restricts consumer flexibility and exit freedom."
+    });
+  }
+
+  // 3. Non-Refundable Fee Policy (20 points)
+  if (/(non-refundable|non\s+refundable|strictly\s+non-refundable|forfeited|no\s+refunds)/i.test(content)) {
+    scoreSum += 20;
+    findings.push({
+      name: "Non-Refundable Fee Forfeiture",
+      severity: "HIGH",
+      plain_english: "Registration fees, advance deposits, and prepaid balances are completely forfeited upon cancellation.",
+      risk_warning: "Zero refund recourse even if service is discontinued or unsatisfactory."
+    });
+  }
+
+  // 4. Unilateral Price Increase (15 points)
+  if (/(price\s+increase|increased\s+unilaterally|raise\s+(your\s+)?fees|modify\s+pricing|without\s+prior\s+notice)/i.test(content)) {
+    scoreSum += 15;
+    findings.push({
+      name: "Unilateral Price Increase Clause",
+      severity: "HIGH",
+      plain_english: "The company reserves the right to raise your subscription price at any time without asking for your affirmative consent.",
+      risk_warning: "Subscription charges can increase without explicit advance opt-in."
+    });
+  }
+
+  // 5. Cancellation Obstruction & Penalty (15 points)
+  if (/(cancellation\s+(fee|penalty)|termination\s+penalty|exit\s+fee|speed-post|physical\s+registered|cannot\s+be\s+processed\s+online)/i.test(content)) {
+    scoreSum += 15;
+    findings.push({
+      name: "Cancellation Friction & Penalty Fee",
+      severity: "HIGH",
+      plain_english: "Exiting the service requires paying exit fees or mailing cumbersome physical letters.",
+      risk_warning: "Artificial friction intentionally designed to prevent you from cancelling."
+    });
+  }
+
+  const computedScore = Math.min(100, scoreSum);
+  let summaryTldr = "";
+  if (findings.length === 0) {
+    summaryTldr = "Clean contract terms verified. No stealth auto-renewals, lock-ins, unilateral price hikes, or exit penalties detected.";
+  } else {
+    summaryTldr = findings.map(f => f.plain_english).join(" • ");
+  }
 
   if (tosResultsArea) tosResultsArea.style.display = 'block';
-  if (tosScoreVal) tosScoreVal.innerText = `${data.hazard_score}/100`;
-  if (tosTldr) tosTldr.innerText = data.tldr;
+  if (tosScoreVal) tosScoreVal.innerText = `${computedScore}/100`;
+  if (tosTldr) tosTldr.innerText = summaryTldr;
 
   if (tosClausesList) {
-    if (!data.findings || data.findings.length === 0) {
-      tosClausesList.innerHTML = `<div style="color:var(--neon-emerald); padding:10px;">No predatory clauses detected.</div>`;
+    if (findings.length === 0) {
+      tosClausesList.innerHTML = `
+        <div style="background:rgba(0,245,160,0.08); border:1px solid var(--neon-emerald); border-radius:8px; padding:16px; color:var(--neon-emerald); text-align:center;">
+          ✅ <strong>No predatory clauses detected:</strong> Inspected contract text complies with transparent consumer billing standards.
+        </div>
+      `;
     } else {
-      tosClausesList.innerHTML = data.findings.map(f => `
+      tosClausesList.innerHTML = findings.map(f => `
         <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:14px; border-radius:8px; margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
             <strong style="color:#fff; font-size:0.9rem;">${f.name}</strong>
             <span class="severity-pill ${f.severity.toLowerCase()}">${f.severity}</span>
           </div>
           <p style="font-size:0.84rem; color:var(--neon-pink); margin-bottom:6px;"><strong>Plain English:</strong> ${f.plain_english}</p>
-          <p style="font-size:0.8rem; color:#8b949e;">${f.risk_warning}</p>
+          <p style="font-size:0.8rem; color:#8b949e; margin:0;">${f.risk_warning}</p>
         </div>
       `).join('');
     }
   }
 
-  if (data.hazard_score >= 40 && window.soundEngine) window.soundEngine.playAlert();
+  if (computedScore >= 35 && window.soundEngine) window.soundEngine.playAlert();
   else if (window.soundEngine) window.soundEngine.playNeutralized();
 
   if (btnScanTos) {
@@ -671,6 +796,8 @@ window.loadPresetToS = function(sample) {
     text = "Your Hotstar/Jio OTT subscription automatically renews via UPI AutoPay or e-NACH mandate every 30 days at ₹299 unless cancelled 15 days prior to billing. By subscribing, you agree that subscription fees may be increased unilaterally without prior notice. All disputes are subject to binding private arbitration exclusively within the jurisdiction of Mumbai.";
   } else if (sample === 'gym') {
     text = "Cult/Gym Elite Membership requires a mandatory 12-month lock-in period. Early termination penalty fee of ₹1,999 applies upon premature exit. Cancellation requests cannot be processed online and must be submitted via physical registered speed-post letter sent to our corporate office 30 days prior. Registration and locker fees are strictly non-refundable.";
+  } else if (sample === 'clean') {
+    text = "This is a transparent month-to-month subscription. You can cancel online at any time with zero cancellation fees. No automatic renewals without email reminder, and all unused balances are fully refundable.";
   }
   const tosInput = document.getElementById('tos-input-text');
   if (tosInput) {
@@ -693,74 +820,66 @@ window.executeAgentFlow = async function() {
   const agentProgress = document.getElementById('agent-progress-bar');
   const agentStepsContainer = document.getElementById('agent-steps-container');
   const receiptCard = document.getElementById('cancellation-receipt-card');
+  const receiptPlaceholder = document.getElementById('receipt-placeholder');
 
   if (btnLaunchAgent) {
     btnLaunchAgent.disabled = true;
-    btnLaunchAgent.innerHTML = '<span>🤖 Cancelling Subscription &amp; Preparing UPI Guide...</span>';
+    btnLaunchAgent.innerHTML = '<span>🤖 Simulating Cancellation &amp; Guiding UPI Revocation...</span>';
   }
   if (agentRunArea) agentRunArea.style.display = 'block';
   if (receiptCard) receiptCard.style.display = 'none';
+  if (receiptPlaceholder) receiptPlaceholder.style.display = 'none';
   if (agentStepsContainer) agentStepsContainer.innerHTML = '';
 
-  let data;
-  try {
-    const res = await fetch('/api/agent/cancel', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ service: serviceKey })
-    });
-    if (!res.ok) throw new Error('API offline');
-    data = await res.json();
-  } catch (err) {
-    const isCult = serviceKey === 'cultfit';
-    const isZomato = serviceKey === 'zomatogold';
-    data = {
-      service: isCult ? "Cult.fit / Gold's Gym All-India Pass" : (isZomato ? "Zomato Gold / Swiggy One VIP Pass" : "JioCinema / Hotstar Super VIP"),
-      tier: isCult ? "Elite All-Access Annual Pass (₹1,799/mo)" : (isZomato ? "Annual Gourmet Pass (₹899/yr)" : "Super VIP 4K Plan (₹299/mo)"),
-      confirmation_code: "CCPA-REVOKE-9842",
-      annual_savings_inr: isCult ? 21588 : (isZomato ? 899 : 3588),
-      dark_patterns_defeated: 5,
-      trace: [
-        {
-          step: 1,
-          stage: "Step 1: Confirm Shaming Gate",
-          reasoning: "Detected glowing green primary button 'Keep My Cricket & Movies'. Secondary action 'Continue with Cancellation' disguised in low-contrast 10px gray font.",
-          action: "Bypassed visual hierarchy trap; clicked hidden anchor `a#subtle-continue-cancel`.",
-          cdp_command: "Input.dispatchMouseEvent({type: 'mousePressed', x: 420, y: 780})"
-        },
-        {
-          step: 2,
-          stage: "Step 2: Diversion & Pause Trap",
-          reasoning: "Popup attempting to divert user: 'Pause membership for 2 months at ₹49/mo' to preserve recurring subscription.",
-          action: "Rejected diversion; toggled definitive cancellation option `#terminate-membership-strictly`.",
-          cdp_command: "DOM.setAttributeValue({nodeId: 44, name: 'checked', value: 'true'})"
-        },
-        {
-          step: 3,
-          stage: "Step 3: Double-Negative Checkbox",
-          reasoning: "Detected double negative: 'Uncheck this box to not forfeit ₹150 dining and OTT companion coupons'.",
-          action: "Decoded linguistic trap; executed uncheck on `#retain-partner-benefits`.",
-          cdp_command: "Runtime.evaluate('document.querySelector(\"#retain-partner-benefits\").checked = false;')"
-        },
-        {
-          step: 4,
-          stage: "Step 4: Forced Action Survey Lock",
-          reasoning: "Multi-page survey presenting 8 optional questions masked as mandatory exit prerequisites.",
-          action: "Selected neutral option 'Service no longer needed'; bypassed survey lock.",
-          cdp_command: "DOM.querySelector({selector: 'button#survey-bypass-continue'}).click()"
-        },
-        {
-          step: 5,
-          stage: "Step 5: UPI AutoPay Mandate Revocation Guide",
-          reasoning: "Subscription service cancelled on portal; preparing direct UPI app mandate revocation steps.",
-          action: "Generated cancellation proof and instructions: Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm).",
-          cdp_command: "UPIMandateGuide.generateSteps({app: 'UPI', status: 'CANCELLATION_CONFIRMED'})"
-        }
-      ]
-    };
-  }
+  const isCult = serviceKey === 'cultfit';
+  const isZomato = serviceKey === 'zomatogold';
 
-  // Reset and show progress checklist
+  const data = {
+    service: isCult ? "Cult.fit / Gold's Gym All-India Pass" : (isZomato ? "Zomato Gold / Swiggy One VIP Pass" : "JioCinema / Hotstar Super VIP"),
+    tier: isCult ? "Elite All-Access Annual Pass (₹1,799/mo)" : (isZomato ? "Annual Gourmet Pass (₹899/yr)" : "Super VIP 4K Plan (₹299/mo)"),
+    confirmation_code: "CCPA-REVOKE-9842",
+    annual_savings_inr: isCult ? 21588 : (isZomato ? 899 : 3588),
+    dark_patterns_defeated: 5,
+    trace: [
+      {
+        step: 1,
+        stage: "Gate 1: Confirm Shaming",
+        reasoning: "Detected prominent glowing primary button 'Keep My Cricket & Movies'. Secondary action disguised in low-contrast font.",
+        action: "Bypassed visual hierarchy trap; clicked hidden anchor `a#subtle-continue-cancel`.",
+        cdp_command: "Input.dispatchMouseEvent({type: 'mousePressed', x: 420, y: 780})"
+      },
+      {
+        step: 2,
+        stage: "Gate 2: Retention Discount Trap",
+        reasoning: "Popup attempting to divert user: 'Pause membership for 2 months at ₹49/mo' to preserve recurring subscription.",
+        action: "Rejected retention discount; toggled definitive cancellation option `#terminate-membership-strictly`.",
+        cdp_command: "DOM.setAttributeValue({nodeId: 44, name: 'checked', value: 'true'})"
+      },
+      {
+        step: 3,
+        stage: "Gate 3: Trick Question",
+        reasoning: "Detected inverted double-negative syntax: 'Uncheck this box to not forfeit ₹150 dining coupons'.",
+        action: "Decoded linguistic trap; executed uncheck on `#retain-partner-benefits`.",
+        cdp_command: "Runtime.evaluate('document.querySelector(\"#retain-partner-benefits\").checked = false;')"
+      },
+      {
+        step: 4,
+        stage: "Gate 4: Forced Action",
+        reasoning: "Multi-page survey presenting 8 optional questions masked as mandatory exit prerequisites.",
+        action: "Selected neutral option 'Service no longer needed'; bypassed survey lock.",
+        cdp_command: "DOM.querySelector({selector: 'button#survey-bypass-continue'}).click()"
+      },
+      {
+        step: 5,
+        stage: "Gate 5: Subscription Trap - UPI AutoPay Revocation Guide",
+        reasoning: "Subscription cancellation simulated on merchant portal; preparing UPI mandate revocation guide.",
+        action: "Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm / BHIM) under Mandates > Active > Revoke.",
+        cdp_command: "UPIMandateGuide.generateSteps({app: 'UPI', status: 'CANCELLATION_SIMULATED'})"
+      }
+    ]
+  };
+
+  // Reset progress checklist
   const checklistCounter = document.getElementById('checklist-step-counter');
   if (checklistCounter) checklistCounter.innerText = '0 / 5 BYPASSED';
   for (let j = 1; j <= 5; j++) {
@@ -773,14 +892,14 @@ window.executeAgentFlow = async function() {
     }
   }
 
-  // Animate steps sequentially
+  // Gates tick off one at a time with a short delay (about 600ms each)
   const steps = data.trace || [];
   for (let i = 0; i < steps.length; i++) {
-    await new Promise(r => setTimeout(r, 650));
+    await new Promise(r => setTimeout(r, 600));
     const s = steps[i];
+    const stepNum = i + 1;
 
     // Update Checklist Item for current step
-    const stepNum = i + 1;
     const currentIcon = document.getElementById(`chk-icon-${stepNum}`);
     const currentPill = document.getElementById(`chk-pill-${stepNum}`);
     if (currentIcon) currentIcon.innerText = '✅';
@@ -838,7 +957,7 @@ window.executeAgentFlow = async function() {
     if (sName) sName.innerText = data.service;
     if (tName) tName.innerText = data.tier;
     if (cCode) cCode.innerText = data.confirmation_code;
-    const savVal = data.annual_savings_inr || data.annual_savings_usd || 3588;
+    const savVal = data.annual_savings_inr || 3588;
     if (sSav) sSav.innerText = `₹${Number(savVal).toLocaleString('en-IN')}`;
     if (dDef) dDef.innerText = `${data.dark_patterns_defeated} Dark Patterns Defeated`;
     if (window.soundEngine) window.soundEngine.playNeutralized();
@@ -850,6 +969,39 @@ window.executeAgentFlow = async function() {
   }
 };
 
+window.resetCancellerDemo = function() {
+  const agentRunArea = document.getElementById('agent-run-area');
+  const receiptCard = document.getElementById('cancellation-receipt-card');
+  const receiptPlaceholder = document.getElementById('receipt-placeholder');
+  const agentStepsContainer = document.getElementById('agent-steps-container');
+  const checklistCounter = document.getElementById('checklist-step-counter');
+  const agentProgress = document.getElementById('agent-progress-bar');
+  const btnLaunchAgent = document.getElementById('btn-launch-agent');
+
+  if (agentRunArea) agentRunArea.style.display = 'none';
+  if (receiptCard) receiptCard.style.display = 'none';
+  if (receiptPlaceholder) receiptPlaceholder.style.display = 'block';
+  if (agentStepsContainer) agentStepsContainer.innerHTML = '';
+  if (agentProgress) agentProgress.style.width = '0%';
+  if (checklistCounter) checklistCounter.innerText = '0 / 5 BYPASSED';
+
+  for (let j = 1; j <= 5; j++) {
+    const icon = document.getElementById(`chk-icon-${j}`);
+    const pill = document.getElementById(`chk-pill-${j}`);
+    if (icon) icon.innerText = '⏳';
+    if (pill) {
+      pill.className = 'status-pill waiting';
+      pill.innerText = 'Pending';
+    }
+  }
+
+  if (btnLaunchAgent) {
+    btnLaunchAgent.disabled = false;
+    btnLaunchAgent.innerHTML = '<span>🚀 Cancel Subscription &amp; Guide UPI Revocation</span>';
+  }
+  if (window.soundEngine) window.soundEngine.playClick();
+};
+
 // ==========================================
 // 5. DARK PATTERN TEST RANGE
 // ==========================================
@@ -859,9 +1011,12 @@ window.toggleDefenseShield = function() {
     const isActive = window.MockSites.toggleShield();
     const btnToggleShield = document.getElementById('btn-toggle-shield');
     const shieldStatusLabel = document.getElementById('shield-status-label');
-    if (btnToggleShield) btnToggleShield.classList.toggle('active', isActive);
+    if (btnToggleShield) {
+      btnToggleShield.classList.toggle('active', isActive);
+      btnToggleShield.classList.remove('pulse-initial');
+    }
     if (shieldStatusLabel) {
-      shieldStatusLabel.innerText = isActive ? 'TINYFISH SHIELD: ARMED & ACTIVE' : 'TINYFISH SHIELD: OFF (VULNERABLE)';
+      shieldStatusLabel.innerText = isActive ? 'DARKSHIELD DEFENSE: ARMED & ACTIVE' : 'DARKSHIELD DEFENSE: OFF (VULNERABLE)';
       shieldStatusLabel.style.color = isActive ? 'var(--neon-emerald)' : 'var(--neon-red)';
     }
   }
@@ -878,7 +1033,7 @@ window.loadTaxonomy = async function() {
     { title: "Artificial Urgency & Fake Timers", description: "Synthetic countdown clocks and dynamic stock counters that reset on page reload to trigger panic buying.", regulatory_status: "FTC 15 U.S.C. § 45 & EU DSA", detection_heuristic: "CDP detects setInterval/DOM timer loops without backend reserve tokens." },
     { title: "Sneak into Basket (Hidden Add-ons)", description: "Pre-selected checkboxes quietly bundling warranty, travel protection, VIP club, or recurring donations into cart total.", regulatory_status: "EU Consumer Rights Directive 2011/83/EU", detection_heuristic: "DOM analyzer flags <input type='checkbox' checked> carrying monetary keywords." },
     { title: "Confirmshaming & Manipulative Copy", description: "Framing the decline option in insulting language ('No thanks, I hate saving money') to induce cognitive dissonance.", regulatory_status: "UK CMA & OECD 2022 Guidelines", detection_heuristic: "NLP phrase-matching against shame dictionaries on secondary modal links." },
-    { title: "Roach Motel (Cancellation Obstruction)", description: "Easy to subscribe with 1-click; nearly impossible to exit without navigating multi-page attrition labyrinths or phone calls.", regulatory_status: "FTC 'Click-to-Cancel' Rule", detection_heuristic: "TinyFish Web Agent traces DOM action trees to identify asymmetric click costs." },
+    { title: "Roach Motel (Cancellation Obstruction)", description: "Easy to subscribe with 1-click; nearly impossible to exit without navigating multi-page attrition labyrinths or phone calls.", regulatory_status: "FTC 'Click-to-Cancel' Rule", detection_heuristic: "DarkShield Web Agent traces DOM action trees to identify asymmetric click costs." },
     { title: "Forced Continuity (Silent Auto-Renewal)", description: "Free trial converting into undisclosed recurring monthly or annual billing without proactive notice.", regulatory_status: "ROSCA Act Enforcement", detection_heuristic: "Regex extraction of billing frequency and currency figures in low-contrast styling." },
     { title: "Trick Questions & Double Negatives", description: "Convoluted syntax ('Uncheck if you prefer not to prevent partner alerts') designed to confuse consent.", regulatory_status: "GDPR Consent Invalidation", detection_heuristic: "Syntactic dependency tree identifies double negation on form elements." }
   ];

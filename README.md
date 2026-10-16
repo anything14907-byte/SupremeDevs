@@ -1,109 +1,90 @@
-# 🛡️ DarkShield AI // Real-Time Dark Pattern & Scam Defense Engine
+# 🛡️ DarkShield AI // Real-Time Dark Pattern & Scam Defense
 
-> **Autonomous Consumer Guardian powered by TinyFish CDP Browser Infrastructure, Fetch API Structural DOM Analysis, and Ethical AI Web Agents.**
-
----
-
-## 🎯 The Problem
-Modern e-commerce and subscription platforms deploy manipulative UI architectures ("Dark Patterns") to trick consumers:
-- **Hidden Recurring Fees & Stealth Renewals**: Free trials converting into unannounced \$39.99/month charges hidden behind 7px fine print.
-- **Fake Countdown Timers & Artificial Scarcity**: JavaScript countdown clocks resetting on reload to induce panic purchasing.
-- **Pre-Checked Cart Traps ("Sneak into Basket")**: Bundling unwanted \$14.99 warranties and subscriptions without affirmative consent.
-- **Confirmshaming Guilt-Trips**: Framing opt-outs in insulting language (*"No thanks, I hate saving money and prefer overpaying"*).
-- **Roach Motel Cancellation Mazes**: 1-click subscription signup vs. 7-step impossible attrition portals, mandatory phone queues, and inverted logic checkboxes.
+> **Educational prototype and client-side defense tool designed to detect, neutralize, and explain deceptive UI dark patterns under India's Central Consumer Protection Authority (CCPA) 2023 Guidelines.**
 
 ---
 
-## 🚀 How TinyFish Fits
+## 🎯 The Problem: Deceptive Dark Patterns in India
 
-| Core Capability | Implementation in DarkShield AI |
-| :--- | :--- |
-| **CDP / Browser Infrastructure** | Launches controlled cloud browser sessions via Chrome DevTools Protocol (CDP). Streams real-time DOM mutation events, intercepts network beacons, evaluates timer loops, and injects live defense overlays. |
-| **Fetch API & Structural DOM Extraction** | Extracts structural DOM hierarchies, inspects low-contrast CSS evasions (`opacity < 0.2`, `font-size < 8px`), audits Terms of Service (ToS) fine print, and calculates an objective **Deception Index (0–100)**. |
-| **Autonomous Web Agent** | An autonomous Playwright/CDP agent that navigates tricky multi-step cancellation portals on command. Bypasses retention diversions, unticks sneaky renewal fees, and executes unsubscriptions with cryptographic proof. |
+Indian consumers face deceptive design practices across e-commerce, quick-commerce, food delivery, and digital subscription services daily:
+- **False Urgency**: Artificial countdown timers and fake scarcity claims (*"Only 2 portions left — 38 people ordering now!"*) that reset upon page refresh to force impulse purchases.
+- **Basket Sneaking**: Pre-selected checkboxes quietly adding ₹49 packaging surge, weather fees, or transit protection into cart totals without affirmative consent.
+- **Confirm Shaming**: Insulting opt-out language (*"No thanks, I hate saving money and prefer overpaying"*) designed to induce psychological guilt.
+- **Interface Interference**: Microscopic 7.5px disclaimers and low-contrast fine print burying ₹899/year recurring UPI AutoPay mandates.
+- **Subscription Traps & Obstruction**: 1-click subscription sign-ups paired with labyrinthine cancellation flows and hidden exit buttons.
+
+In November 2023, the **Central Consumer Protection Authority (CCPA)** notified the *Guidelines for Prevention and Regulation of Dark Patterns, 2023* under the Consumer Protection Act, 2019, prohibiting deceptive patterns including False Urgency, Basket Sneaking, Confirm Shaming, Forced Action, Subscription Trap, Interface Interference, Bait and Switch, Drip Pricing, Disguised Advertisement, Nagging, Trick Question, SaaS Billing, and Rogue Malwares.
 
 ---
 
-## ✨ Simple, User-Friendly Navigation
+## 🔍 What's Real vs. Simulated
+
+| Feature | Implementation Mode | How It Works |
+| :--- | :--- | :--- |
+| **Website HTML Checker** | **Real Client-Side Rules** | Real DOMParser engine that parses pasted HTML snippets, evaluates attributes and styles (countdown timers, pre-checked checkboxes, microscopic `<11px` font, double-negative syntax), computes a weighted deception score (`min(100, sum)`), and renders the exact triggering code snippet in a scrollable viewer. |
+| **Contract Decoder** | **Real Keyword Heuristics** | Computes a 0–100 hazard score directly from legal text keyword patterns: auto-renewal (25 pts), lock-in commitment (25 pts), non-refundable terms (20 pts), unilateral price increase (15 pts), and cancellation fees/friction (15 pts). |
+| **Store Protection Sandbox** | **Interactive Client Simulator** | A realistic Indian food delivery checkout (*SwiftBites Express*) demonstrating how client-side shields freeze fake timers, untick sneaked cart fees, decode inverted copy, and expose fine print in real time. |
+| **Subscription Canceller** | **Simulated Demo Walkthrough** | Educational walkthrough demonstrating how an autonomous agent navigates a 5-gate cancellation maze (Confirm Shaming, Retention Discount Trap, Trick Question, Forced Action, Subscription Trap) and provides step-by-step guidance for manual UPI mandate revocation in apps like GPay, PhonePe, and Paytm. |
+
+---
+
+## ✨ Features
 
 1. **🛍️ Store Protection (Live Test Sandbox)**:
-   - Interactive e-commerce store with toggleable **DarkShield Defense Shield**.
-   - Watch fake countdown timers freeze, hidden \$14.99 warranty fees get unticked, and guilt-trip popups neutralized into fair choices.
-2. **🔍 Website & Contract Checker**:
-   - One-click scan of shopping carts, free trials, and subscription contracts with a visual **Trust & Scam Score (0–100)** and plain-English breakdown.
-3. **🤖 1-Click Auto-Canceller (Web Agent)**:
-   - Autonomous unsubscription solver that bypasses multi-step retention screens, cancels subscriptions, and issues official proof of cancellation.
-3. **🤖 Autonomous Web Agent Arena**:
-   - Watch the AI agent systematically overcome deceptive cancellation flows across streaming, fitness, and SaaS portals.
-   - Real-time reasoning trace displaying DOM decision trees, dispatched CDP input events, and obstacle resolutions.
-   - Generates official **Proof of Cancellation Certificates** with annual savings calculations.
-4. **🧪 Dark Pattern Interactive Test Range**:
-   - Realistic mock e-commerce shopping experience (*HyperKicks Global Store*).
-   - Toggle **TINYFISH DEFENSE SHIELD** on/off to see fake timers freeze, pre-selected add-ons get unticked, and confirmshaming modals neutralized in real time.
-5. **📚 Threat Taxonomy**:
-   - 8 Dark Pattern categories categorized under FTC 15 U.S.C. § 45, EU Digital Services Act (DSA), and ROSCA guidelines.
-6. **🧩 Chrome Extension Companion (Manifest V3)**:
-   - Fully functional Chromium extension ready to load unpacked into Chrome/Brave/Edge.
+   - Interactive Indian food delivery checkout with toggleable **Defense Shield**.
+   - Watch fake countdown timers freeze, sneaked +₹49 packaging surge fees untick automatically, and hidden ₹899/year recurring VIP passes enlarge into clear warnings.
+2. **🔍 Website Dark Pattern Checker**:
+   - Paste raw HTML code or click preloaded samples (Food Delivery Cart, OTT AutoPay, Flash Sale, or Clean Compliant HTML).
+   - Weighted scoring: False Urgency (20), Basket Sneaking (20), Trick Question (15), Interface Interference (15), Confirm Shaming (15), Subscription Trap (15).
+   - Clean compliant HTML scores below 10/100 and shows a verified green badge.
+   - Every detected threat shows pattern name, one-line explanation, and exact triggering HTML snippet.
+3. **📜 Contract & Fine Print Decoder**:
+   - Translates Indian subscription terms and UPI AutoPay fine print into plain English.
+   - Computes hazard scores from detected clauses and flags unilateral price hikes, lock-ins, and non-refundable terms.
+4. **🤖 1-Click Subscription Canceller**:
+   - Sequential 5-gate cancellation simulation with ~600ms delay per gate and live progress counter.
+   - Generates a sample cancellation summary with demo reference and actionable guidance to revoke mandates inside UPI apps.
+   - Includes a one-click "Reset Demo" button.
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🛠️ Tech Stack
 
-```mermaid
-flowchart TD
-    User["👤 Consumer Browser / Client"] -->|Interacts with| Frontend["🌐 Aegis SPA Interface (Black Aesthetic HUD)"]
-    Frontend -->|REST / SSE / WebSockets| Server["⚙️ Multithreaded Python Engine (server.py)"]
-    
-    subgraph Engine["TinyFish Defense Engine Core"]
-        CDP["⚡ CDP & Cloud Browser Infrastructure (cdp_engine.py)"]
-        DOM["🔍 Fetch & Structural DOM Extractor (dom_analyzer.py)"]
-        ToS["📜 Fine Print & Legal Sniffer (tos_analyzer.py)"]
-        Agent["🤖 Autonomous Unsubscriber Agent (web_agent.py)"]
-    end
-    
-    Server --> CDP
-    Server --> DOM
-    Server --> ToS
-    Server --> Agent
-    
-    CDP -->|Intercepts & Freezes| WebTarget["🛒 E-Commerce & Subscription Portals"]
-    Agent -->|Navigates Multi-Step Gates| WebTarget
-    Server -->|Persists Scans & Receipts| DB[("🗄️ SQLite Database (database.db)")]
-```
-
-- **Backend**: Pure Python 3.12 standard library (`http.server.ThreadingHTTPServer`, `sqlite3`, `urllib`, `html.parser`, `re`, `uuid`). Zero external pip dependency risks — runs anywhere instantly.
-- **Frontend**: Vanilla JavaScript (ES6+), Web Audio API cyber synthesizer, HTML5 Canvas generative neural visualizer, Glassmorphism dark aesthetic CSS.
-- **Browser Extension**: Manifest V3 content scripts, background service worker, and floating guardian HUD.
+- **Frontend**: Pure Vanilla JavaScript (ES6+), HTML5, CSS3. Zero external frameworks, zero build steps, and zero external runtime dependencies.
+- **Audio Synthesizer**: Web Audio API cyber synthesizer for interactive sound effects (mute toggleable).
+- **Visualizer**: HTML5 Canvas procedural neural particle network reacting to threat events.
+- **Accessibility & Contrast**: Built to WCAG AA contrast standards (4.5:1), responsive down to 360px viewport width, keyboard accessible navigation with visible focus states and ARIA roles.
+- **Server (Optional)**: Python 3 standard library (`server.py` or `python3 -m http.server`). Can be hosted purely statically on GitHub Pages.
 
 ---
 
-## 🏁 Quick Start Guide
+## 🏁 How to Run Locally
 
-### 1. Launch the Engine Server
-Run the provided start script:
+### Option 1: Python Standard Server (Recommended)
 ```bash
-./start.sh
+# Clone the repository
+git clone https://github.com/anything14907-byte/SupremeDevs.git
+cd SupremeDevs
+
+# Start local server
+python3 -m http.server 8000
 ```
-Or directly with Python 3:
+Open your browser at:
+```
+http://localhost:8000/static/
+```
+
+### Option 2: Using the Included Engine Runner
 ```bash
 python3 server.py 8000
 ```
-
-### 2. Open the Web Dashboard
-Navigate to:
+Open your browser at:
 ```
-http://localhost:8000
+http://localhost:8000/
 ```
-
-### 3. (Optional) Load the Chrome Extension
-1. Open `chrome://extensions` in Chrome, Brave, or Edge.
-2. Enable **Developer mode**.
-3. Click **Load unpacked** and select the `/extension` directory.
 
 ---
 
-## 🏆 Why It Stands Out for Hackathons
-1. **Strong Ethical AI Positioning**: Directly empowers everyday consumers against predatory deceptive design.
-2. **Deep Playwright / CDP Utilization**: Moves beyond simple passive ad-blocking by executing active browser manipulation via Chrome DevTools Protocol.
-3. **Flawless Zero-Dependency Execution**: Clean, self-contained architecture that launches instantly without build errors or pip dependency conflicts.
-4. **Striking Cyberpunk Aesthetic**: Black, abstract, responsive UI with interactive canvas visualizer and synthesized Web Audio feedback.
+## ⚖️ Disclaimer
+
+DarkShield AI is an educational prototype created for demonstration purposes. It does not store passwords, financial credentials, or payment details. For recurring subscription cancellations, always confirm mandate status directly inside your UPI app (Google Pay, PhonePe, Paytm, BHIM, or your bank's app).
