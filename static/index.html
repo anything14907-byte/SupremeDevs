@@ -34,22 +34,22 @@
 
       <!-- Navigation Tabs -->
       <nav class="nav-tabs">
-        <button class="nav-tab active" data-tab="tab-studio">
+        <button class="nav-tab active" data-tab="tab-studio" onclick="switchTab('tab-studio')">
           <span>⚡ Live Studio (CDP)</span>
         </button>
-        <button class="nav-tab" data-tab="tab-scanner">
+        <button class="nav-tab" data-tab="tab-scanner" onclick="switchTab('tab-scanner')">
           <span>🔍 DOM & ToS Scanner</span>
         </button>
-        <button class="nav-tab" data-tab="tab-agent">
+        <button class="nav-tab" data-tab="tab-agent" onclick="switchTab('tab-agent')">
           <span>🤖 Web Agent Arena</span>
         </button>
-        <button class="nav-tab" data-tab="tab-testlab">
+        <button class="nav-tab" data-tab="tab-testlab" onclick="switchTab('tab-testlab')">
           <span>🧪 Dark Pattern Range</span>
         </button>
-        <button class="nav-tab" data-tab="tab-taxonomy">
+        <button class="nav-tab" data-tab="tab-taxonomy" onclick="switchTab('tab-taxonomy')">
           <span>📚 Threat Taxonomy</span>
         </button>
-        <button class="nav-tab" data-tab="tab-extension">
+        <button class="nav-tab" data-tab="tab-extension" onclick="switchTab('tab-extension')">
           <span>🧩 Extension</span>
         </button>
       </nav>
@@ -60,7 +60,7 @@
           <div class="pulse-dot"></div>
           <span>CDP CLOUD ACTIVE</span>
         </div>
-        <button id="btn-sound-toggle" class="btn-icon active" title="Toggle Futuristic Audio FX">
+        <button id="btn-sound-toggle" class="btn-icon active" title="Toggle Futuristic Audio FX" onclick="toggleSound()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -140,7 +140,7 @@
 
           <div class="input-group">
             <input type="text" id="cdp-url-input" class="input-text" value="https://store.hyperfastsneakers.com/checkout" placeholder="Enter target shopping or subscription portal...">
-            <button id="btn-launch-cdp" class="btn-primary">
+            <button id="btn-launch-cdp" class="btn-primary" onclick="launchCDPSession()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               Launch Session
             </button>
@@ -222,14 +222,14 @@
 
           <div class="input-group">
             <input type="text" id="input-scan-url" class="input-text" placeholder="Enter website URL (e.g., https://example-store.com/cart)..." value="https://store.hyperfastsneakers.com/checkout">
-            <button id="btn-scan-url" class="btn-primary">Scan Website</button>
+            <button id="btn-scan-url" class="btn-primary" onclick="performUrlScan()">Scan Website</button>
           </div>
 
           <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:12px;">Quick Preset Demos:</div>
           <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-            <button class="btn-secondary btn-preset-scan" data-url="https://store.hyperfastsneakers.com/checkout">👟 E-Commerce Cart Trap</button>
-            <button class="btn-secondary btn-preset-scan" data-url="https://streaming-plus-hub.com/signup">📺 Free Trial Auto-Renewal</button>
-            <button class="btn-secondary btn-preset-scan" data-url="https://fitzone-membership.com/plans">🏋️ Roach Motel Gym</button>
+            <button class="btn-secondary btn-preset-scan" data-url="https://store.hyperfastsneakers.com/checkout" onclick="performUrlScan('https://store.hyperfastsneakers.com/checkout')">👟 E-Commerce Cart Trap</button>
+            <button class="btn-secondary btn-preset-scan" data-url="https://streaming-plus-hub.com/signup" onclick="performUrlScan('https://streaming-plus-hub.com/signup')">📺 Free Trial Auto-Renewal</button>
+            <button class="btn-secondary btn-preset-scan" data-url="https://fitzone-membership.com/plans" onclick="performUrlScan('https://fitzone-membership.com/plans')">🏋️ Roach Motel Gym</button>
           </div>
 
           <!-- Scan Results Area -->
@@ -277,10 +277,10 @@
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
             <div style="display:flex; gap:8px;">
-              <button class="btn-secondary btn-preset-tos" data-sample="streaming">📺 Streaming Auto-Renew</button>
-              <button class="btn-secondary btn-preset-tos" data-sample="gym">🏋️ Gym Contract Penalty</button>
+              <button class="btn-secondary btn-preset-tos" data-sample="streaming" onclick="loadPresetToS('streaming')">📺 Streaming Auto-Renew</button>
+              <button class="btn-secondary btn-preset-tos" data-sample="gym" onclick="loadPresetToS('gym')">🏋️ Gym Contract Penalty</button>
             </div>
-            <button id="btn-scan-tos" class="btn-primary">Analyze Fine Print</button>
+            <button id="btn-scan-tos" class="btn-primary" onclick="scanFinePrint()">Analyze Fine Print</button>
           </div>
 
           <!-- ToS Results -->
@@ -337,7 +337,7 @@
             </select>
           </div>
 
-          <button id="btn-launch-agent" class="btn-primary" style="width:100%; justify-content:center; padding:15px; font-size:0.95rem;">
+          <button id="btn-launch-agent" class="btn-primary" style="width:100%; justify-content:center; padding:15px; font-size:0.95rem;" onclick="executeAgentFlow()">
             🚀 Deploy Autonomous Cancellation Agent
           </button>
 
@@ -431,7 +431,7 @@
             </h2>
             <div class="card-subtitle">Real-world live simulation with toggleable TinyFish Defense Shield</div>
           </div>
-          <button id="btn-toggle-shield" class="btn-primary" style="padding:10px 20px;">
+          <button id="btn-toggle-shield" class="btn-primary" style="padding:10px 20px;" onclick="toggleDefenseShield()">
             🛡️ TOGGLE DEFENSE SHIELD
           </button>
         </div>
