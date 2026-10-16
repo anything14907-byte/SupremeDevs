@@ -1,11 +1,11 @@
-# 🛡️ AegisFish // Real-Time Dark Pattern & Scam Defense Engine
+# 🛡️ DarkShield AI // Real-Time Dark Pattern & Scam Defense Engine
 
 > **Autonomous Consumer Guardian powered by TinyFish CDP Browser Infrastructure, Fetch API Structural DOM Analysis, and Ethical AI Web Agents.**
 
 ---
 
 ## 🎯 The Problem
-Modern e-commerce and subscription platforms increasingly deploy manipulative UI architectures ("Dark Patterns") to trick consumers:
+Modern e-commerce and subscription platforms deploy manipulative UI architectures ("Dark Patterns") to trick consumers:
 - **Hidden Recurring Fees & Stealth Renewals**: Free trials converting into unannounced \$39.99/month charges hidden behind 7px fine print.
 - **Fake Countdown Timers & Artificial Scarcity**: JavaScript countdown clocks resetting on reload to induce panic purchasing.
 - **Pre-Checked Cart Traps ("Sneak into Basket")**: Bundling unwanted \$14.99 warranties and subscriptions without affirmative consent.
@@ -16,7 +16,7 @@ Modern e-commerce and subscription platforms increasingly deploy manipulative UI
 
 ## 🚀 How TinyFish Fits
 
-| Core Capability | Implementation in AegisFish |
+| Core Capability | Implementation in DarkShield AI |
 | :--- | :--- |
 | **CDP / Browser Infrastructure** | Launches controlled cloud browser sessions via Chrome DevTools Protocol (CDP). Streams real-time DOM mutation events, intercepts network beacons, evaluates timer loops, and injects live defense overlays. |
 | **Fetch API & Structural DOM Extraction** | Extracts structural DOM hierarchies, inspects low-contrast CSS evasions (`opacity < 0.2`, `font-size < 8px`), audits Terms of Service (ToS) fine print, and calculates an objective **Deception Index (0–100)**. |
@@ -24,15 +24,15 @@ Modern e-commerce and subscription platforms increasingly deploy manipulative UI
 
 ---
 
-## ✨ Key Features & Navigation
+## ✨ Simple, User-Friendly Navigation
 
-1. **⚡ Live Defense Studio (CDP Terminal)**:
-   - Real-time Chrome DevTools Protocol inspector displaying live events (`DOM.childNodeInserted`, `Overlay.highlightNode`, `Runtime.evaluate`).
-   - Active CDP protocol domain telemetry and remote sandbox session launcher.
-2. **🔍 DOM & ToS Scanner**:
-   - Inspect any live website URL or paste raw HTML.
-   - Fine Print & Terms of Service decoder translating complex predatory legalese into plain-English consumer advisories.
-   - Deception Gauge with categorized severity breakdown (Critical, High, Medium, Safe).
+1. **🛍️ Store Protection (Live Test Sandbox)**:
+   - Interactive e-commerce store with toggleable **DarkShield Defense Shield**.
+   - Watch fake countdown timers freeze, hidden \$14.99 warranty fees get unticked, and guilt-trip popups neutralized into fair choices.
+2. **🔍 Website & Contract Checker**:
+   - One-click scan of shopping carts, free trials, and subscription contracts with a visual **Trust & Scam Score (0–100)** and plain-English breakdown.
+3. **🤖 1-Click Auto-Canceller (Web Agent)**:
+   - Autonomous unsubscription solver that bypasses multi-step retention screens, cancels subscriptions, and issues official proof of cancellation.
 3. **🤖 Autonomous Web Agent Arena**:
    - Watch the AI agent systematically overcome deceptive cancellation flows across streaming, fitness, and SaaS portals.
    - Real-time reasoning trace displaying DOM decision trees, dispatched CDP input events, and obstacle resolutions.

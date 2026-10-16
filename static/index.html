@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AegisFish // Real-Time Dark Pattern & Scam Defense Engine</title>
+  <title>DarkShield AI // Real-Time Dark Pattern & Scam Defense</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Abstract Generative Background Canvas -->
@@ -18,39 +18,30 @@
     <header class="navbar">
       <div class="brand" onclick="location.reload()">
         <div class="brand-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="M9 12l2 2 4-4"/>
           </svg>
         </div>
         <div>
           <div class="brand-title">
-            AEGIS // TINYFISH
-            <span class="brand-badge">CDP ENGINE v2.4</span>
+            DARKSHIELD <span style="color:var(--neon-cyan);">AI</span>
+            <span class="brand-badge">ANTI-SCAM DEFENSE</span>
           </div>
-          <div class="brand-sub">Real-Time Dark Pattern & Scam Defense Assistant</div>
+          <div class="brand-sub">Real-Time Dark Pattern &amp; Deception Protection</div>
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
+      <!-- Simplified 3-Mode Navigation -->
       <nav class="nav-tabs">
-        <button class="nav-tab active" data-tab="tab-studio" onclick="switchTab('tab-studio')">
-          <span>⚡ Live Studio (CDP)</span>
+        <button class="nav-tab active" data-tab="tab-testlab" onclick="switchTab('tab-testlab')">
+          <span>🛍️ Store Protection (Live Test)</span>
         </button>
         <button class="nav-tab" data-tab="tab-scanner" onclick="switchTab('tab-scanner')">
-          <span>🔍 DOM & ToS Scanner</span>
+          <span>🔍 Website &amp; Contract Checker</span>
         </button>
         <button class="nav-tab" data-tab="tab-agent" onclick="switchTab('tab-agent')">
-          <span>🤖 Web Agent Arena</span>
-        </button>
-        <button class="nav-tab" data-tab="tab-testlab" onclick="switchTab('tab-testlab')">
-          <span>🧪 Dark Pattern Range</span>
-        </button>
-        <button class="nav-tab" data-tab="tab-taxonomy" onclick="switchTab('tab-taxonomy')">
-          <span>📚 Threat Taxonomy</span>
-        </button>
-        <button class="nav-tab" data-tab="tab-extension" onclick="switchTab('tab-extension')">
-          <span>🧩 Extension</span>
+          <span>🤖 1-Click Auto-Canceller</span>
         </button>
       </nav>
 
@@ -58,9 +49,9 @@
       <div class="nav-controls">
         <div class="status-indicator">
           <div class="pulse-dot"></div>
-          <span>CDP CLOUD ACTIVE</span>
+          <span>SHIELD ONLINE</span>
         </div>
-        <button id="btn-sound-toggle" class="btn-icon active" title="Toggle Futuristic Audio FX" onclick="toggleSound()">
+        <button id="btn-sound-toggle" class="btn-icon active" title="Toggle Sound Effects" onclick="toggleSound()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -69,52 +60,43 @@
       </div>
     </header>
 
-    <!-- Hero Banner -->
+    <!-- Friendly Hero Banner -->
     <section class="hero-banner">
       <div>
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(0,242,254,0.1); border:1px solid rgba(0,242,254,0.3); padding:4px 14px; border-radius:20px; font-size:0.75rem; font-family:var(--font-mono); color:var(--neon-cyan); margin-bottom:12px;">
+          <span>🛡️ ETHICAL BROWSER GUARDIAN</span> • POWERED BY TINYFISH AGENTS
+        </div>
         <h1 class="hero-title">
-          Autonomous Dark Pattern &amp; <span>Scam Defense Engine</span>
+          Stop deceptive websites from <br><span>tricking you into paying more.</span>
         </h1>
         <p class="hero-desc">
-          Defending consumers against manipulative UI deception: fake countdown clocks, stealth subscriptions,
-          confirmshaming guilt-trips, and impossible "Roach Motel" cancellation flows.
-          Powered by <strong>TinyFish Chrome DevTools Protocol (CDP)</strong> sessions and autonomous web agents.
+          Websites use fake countdown timers, pre-checked cart fees, and impossible cancellation mazes to trap your money.
+          <strong>DarkShield AI</strong> freezes fake timers, removes hidden fees, and cancels subscriptions for you in 1 click.
         </p>
-        <div class="hero-tags">
-          <div class="hero-tag">
-            <span style="color:var(--neon-cyan)">◈</span> Cloud Browser CDP Sessions
-          </div>
-          <div class="hero-tag">
-            <span style="color:var(--neon-emerald)">◈</span> DOM Fetch & Structural Extraction
-          </div>
-          <div class="hero-tag">
-            <span style="color:var(--neon-purple)">◈</span> Autonomous Auto-Unsubscriber Agent
-          </div>
-          <div class="hero-tag">
-            <span style="color:var(--neon-pink)">◈</span> Legal Fine Print & ToS Sniffer
-          </div>
-        </div>
-        <div style="margin-top: 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+
+        <!-- 1-Click Auto Demo Button -->
+        <div style="margin-top: 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
           <button id="btn-start-tour" class="btn-demo-tour" onclick="runGuidedTour()">
-            <span>▶ Launch 60-Second Guided Demo</span>
+            <span>▶ Try 60-Second Interactive Demo</span>
           </button>
           <span style="font-size: 0.82rem; color: #a5b4fc; font-family: var(--font-mono);">
-            ⚡ Interactive Live Walkthrough
+            ⚡ Watch how it works automatically
           </span>
         </div>
       </div>
+
       <div class="hero-stats">
         <div class="stat-card">
+          <div class="stat-value" style="color:var(--neon-emerald);">$275+</div>
+          <div class="stat-label">Avg. Saved Per User</div>
+        </div>
+        <div class="stat-card">
           <div class="stat-value">100%</div>
-          <div class="stat-label">CDP DOM Fidelity</div>
+          <div class="stat-label">Hidden Fees Blocked</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">8/8</div>
-          <div class="stat-label">FTC Categories Flagged</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">&lt; 140ms</div>
-          <div class="stat-label">Interception Latency</div>
+          <div class="stat-value">1-Click</div>
+          <div class="stat-label">Easy Cancellation</div>
         </div>
       </div>
     </section>
@@ -124,176 +106,159 @@
       <div class="tour-info">
         <div class="tour-icon-box">🛡️</div>
         <div>
-          <div id="tour-step-title" style="font-weight:800; font-size:1.05rem; color:#fff;">GUIDED TOUR ACTIVE</div>
-          <div id="tour-step-desc" style="font-size:0.86rem; color:#e2e8f0; margin-top:2px;">Watching TinyFish CDP intercept predatory traps...</div>
+          <div id="tour-step-title" style="font-weight:800; font-size:1.05rem; color:#fff;">GUIDED DEMO RUNNING</div>
+          <div id="tour-step-desc" style="font-size:0.86rem; color:#e2e8f0; margin-top:2px;">Watching DarkShield AI stop deceptive traps...</div>
         </div>
       </div>
       <button class="btn-secondary" onclick="document.getElementById('tour-status-banner').style.display='none'">Dismiss</button>
     </div>
 
-    <!-- 3-Step Visual Protection Pipeline -->
+    <!-- 3-Step Simple How It Works Diagram -->
     <section class="pipeline-section">
       <div class="pipeline-grid">
         <div class="pipeline-card danger">
-          <div class="pipeline-number">Stage 01 // Problem</div>
+          <div class="pipeline-number">Step 01 // The Trap</div>
           <div class="pipeline-title">
             <span>🛑 Deceptive Website</span>
           </div>
           <p class="pipeline-desc">
-            Tricks buyers using fake countdown timers that reset on refresh, pre-selected \$14.99 warranty add-ons, and microscopic auto-renewal traps.
+            Sites add hidden \$14.99 warranties to your cart, run fake countdown timers, and make cancelling almost impossible.
           </p>
         </div>
 
         <div class="pipeline-arrow">➔</div>
 
         <div class="pipeline-card engine">
-          <div class="pipeline-number">Stage 02 // TinyFish CDP</div>
+          <div class="pipeline-number">Step 02 // DarkShield AI</div>
           <div class="pipeline-title">
-            <span style="color:var(--neon-cyan)">⚡ Cloud Session Engine</span>
+            <span style="color:var(--neon-cyan)">⚡ Automatic Defense</span>
           </div>
           <p class="pipeline-desc">
-            Attaches via Chrome DevTools Protocol to inspect structural DOM elements, freeze deceptive timers, and deploy ethical Web Agents.
+            DarkShield inspects the webpage code in real-time, freezes fake urgency timers, and unchecks sneaky charges.
           </p>
         </div>
 
         <div class="pipeline-arrow">➔</div>
 
         <div class="pipeline-card safe">
-          <div class="pipeline-number">Stage 03 // Solution</div>
+          <div class="pipeline-number">Step 03 // You Win</div>
           <div class="pipeline-title">
-            <span style="color:var(--neon-emerald)">🛡️ Clean &amp; Fair Web</span>
+            <span style="color:var(--neon-emerald)">🛡️ Clean &amp; Fair Price</span>
           </div>
           <p class="pipeline-desc">
-            Hidden fees are stripped from checkout, fake scarcity is exposed, and tricky subscriptions are cancelled with cryptographic proof.
+            You pay only what you intended, save money, and get official proof of cancelled recurring charges.
           </p>
         </div>
       </div>
     </section>
 
     <!-- ==================================================== -->
-    <!-- TAB 1: LIVE STUDIO & CDP TELEMETRY -->
+    <!-- TAB 1 (DEFAULT): STORE PROTECTION (LIVE TEST RANGE) -->
     <!-- ==================================================== -->
-    <main id="tab-studio" class="tab-content active">
-      <div class="grid-2">
-        <!-- Cloud Session Controller -->
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-cyan)" stroke-width="2">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                  <line x1="8" y1="21" x2="16" y2="21"/>
-                  <line x1="12" y1="17" x2="12" y2="21"/>
-                </svg>
-                Cloud Browser Session Controller
-              </h2>
-              <div class="card-subtitle">TinyFish CDP Orchestrator & Remote Target Attacher</div>
+    <main id="tab-testlab" class="tab-content active">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">
+              <span>🛍️ Live Store Protection Sandbox</span>
+            </h2>
+            <div class="card-subtitle">See how DarkShield protects you against real checkout tricks</div>
+          </div>
+          <button id="btn-toggle-shield" class="btn-primary" style="padding:12px 24px; font-size:0.92rem;" onclick="toggleDefenseShield()">
+            🛡️ TOGGLE DEFENSE SHIELD
+          </button>
+        </div>
+
+        <!-- Before & After Comparison Cards -->
+        <div class="before-after-grid">
+          <div class="comparison-card before">
+            <div class="comparison-header">
+              <strong style="color:#fff; font-size:0.95rem;">🔴 Without DarkShield (You Get Tricked)</strong>
+              <span class="comparison-badge red">Vulnerable</span>
             </div>
-            <span class="severity-pill medium">CDP v1.3</span>
+            <ul class="comparison-list">
+              <li><span>⏱️</span> <span>Fake 9-minute timer rushes you (it resets forever if you refresh!)</span></li>
+              <li><span>🛒</span> <span>+$14.99 shoe warranty is pre-checked and quietly added to your cart</span></li>
+              <li><span>📝</span> <span>Tricky double-negative checkbox opts you into marketing spam</span></li>
+              <li><span>👁️</span> <span>Microscopic 7px fine print hides a $29.99/month recurring charge</span></li>
+              <li><span>💬</span> <span>Clicking Cancel shows guilt popup: "No thanks, I hate saving money"</span></li>
+            </ul>
           </div>
 
-          <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:16px;">
-            Spawns an isolated sandbox browser container via Chrome DevTools Protocol. Injects real-time DOM mutation observers,
-            monitors JavaScript timers, intercepts tracking telemetry, and renders high-contrast defense overlays.
-          </p>
-
-          <div class="input-group">
-            <input type="text" id="cdp-url-input" class="input-text" value="https://store.hyperfastsneakers.com/checkout" placeholder="Enter target shopping or subscription portal...">
-            <button id="btn-launch-cdp" class="btn-primary" onclick="launchCDPSession()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-              Launch Session
-            </button>
-          </div>
-
-          <!-- Active Domains Grid -->
-          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:20px;">
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:10px; border-radius:8px;">
-              <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Protocol Domain</div>
-              <div style="font-family:var(--font-mono); font-size:0.85rem; color:var(--neon-cyan); font-weight:bold;">DOM &amp; Storage</div>
-              <div style="font-size:0.72rem; color:var(--neon-emerald); margin-top:2px;">● Intercepting mutations</div>
+          <div class="comparison-card after">
+            <div class="comparison-header">
+              <strong style="color:#fff; font-size:0.95rem;">🟢 With DarkShield AI (Protected)</strong>
+              <span class="comparison-badge green">Protected</span>
             </div>
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:10px; border-radius:8px;">
-              <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Protocol Domain</div>
-              <div style="font-family:var(--font-mono); font-size:0.85rem; color:var(--neon-cyan); font-weight:bold;">Runtime &amp; Timers</div>
-              <div style="font-size:0.72rem; color:var(--neon-emerald); margin-top:2px;">● Freezing countdowns</div>
-            </div>
-            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); padding:10px; border-radius:8px;">
-              <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase;">Protocol Domain</div>
-              <div style="font-family:var(--font-mono); font-size:0.85rem; color:var(--neon-cyan); font-weight:bold;">Overlay &amp; CSS</div>
-              <div style="font-size:0.72rem; color:var(--neon-emerald); margin-top:2px;">● Injecting shield styles</div>
-            </div>
-          </div>
-
-          <!-- Quick Actions -->
-          <div style="background:#07090e; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:14px;">
-            <div style="font-size:0.8rem; font-weight:bold; color:#fff; margin-bottom:8px;">Simulate CDP Interventions:</div>
-            <div style="display:flex; flex-wrap:wrap; gap:8px;">
-              <button class="btn-secondary" onclick="window.soundEngine.playNeutralized(); alert('CDP Command Dispatched: Overlay.highlightNode({selector: \'.countdown-timer\'})');">
-                🔍 Highlight Timers
-              </button>
-              <button class="btn-secondary" onclick="window.soundEngine.playNeutralized(); alert('CDP Command Dispatched: Runtime.evaluate(\'uncheckAllDeceptiveInputs()\')');">
-                🛑 Untick Stealth Fees
-              </button>
-              <button class="btn-secondary" onclick="window.soundEngine.playNeutralized(); alert('CDP Command Dispatched: CSS.setOverrideRule(\'font-size: 16px; opacity: 1;\')');">
-                👁️ Normalize Micro-Text
-              </button>
-            </div>
+            <ul class="comparison-list">
+              <li><span>🛑</span> <span>Fake countdown is frozen so you can take your time</span></li>
+              <li><span>✅</span> <span>Sneaky warranty is auto-unticked (saves you $14.99 immediately)</span></li>
+              <li><span>✨</span> <span>Tricky questions are rewritten into clear, honest choices</span></li>
+              <li><span>🔍</span> <span>Hidden fine print is enlarged into a high-contrast warning box</span></li>
+              <li><span>🛡️</span> <span>Guilt-trip popups are neutralized into clean, fair buttons</span></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Live CDP Terminal Window -->
-        <div class="terminal-window">
-          <div class="terminal-header">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:var(--font-mono); font-size:0.8rem;">
+          <span id="shield-status-label" style="color:var(--neon-red); font-weight:bold;">SHIELD STATUS: OFF (VULNERABLE)</span>
+          <span style="color:var(--text-dim);">Click TOGGLE DEFENSE SHIELD above to see the changes live</span>
+        </div>
+
+        <!-- Embedded Interactive Store Simulator -->
+        <div class="sandbox-viewport">
+          <div class="sandbox-bar">
             <div class="terminal-dots">
               <div class="dot red"></div>
               <div class="dot yellow"></div>
               <div class="dot green"></div>
             </div>
-            <div class="terminal-title">cdp-stream://tinyfish.cloud:9222/devtools/page</div>
-            <span style="font-family:var(--font-mono); font-size:0.7rem; color:var(--neon-emerald);">LIVE WIRE</span>
+            <div class="sandbox-url">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              https://store.hyperfastsneakers.com/checkout
+            </div>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">INTERACTIVE TEST STORE</span>
           </div>
-          <div id="cdp-terminal-body" class="terminal-body">
-            <!-- Terminal entries injected via JavaScript -->
+          <div id="mock-sandbox-container" class="sandbox-content">
+            <!-- Injected by mock_sites.js -->
           </div>
         </div>
       </div>
     </main>
 
     <!-- ==================================================== -->
-    <!-- TAB 2: DOM & ToS SCANNER -->
+    <!-- TAB 2: WEBSITE & CONTRACT CHECKER -->
     <!-- ==================================================== -->
     <main id="tab-scanner" class="tab-content">
       <div class="grid-2">
-        <!-- Live URL & DOM Extractor -->
+        <!-- Live URL Inspector -->
         <div class="card">
           <div class="card-header">
             <div>
               <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-cyan)" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"/>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-                DOM &amp; Structural Page Inspector
+                <span>🔍 Website Dark Pattern Checker</span>
               </h2>
-              <div class="card-subtitle">Fetch API DOM element extraction &amp; deceptive CSS heuristics</div>
+              <div class="card-subtitle">Scan any shopping or subscription link for deceptive UI</div>
             </div>
+          </div>
+
           <div class="explainer-banner">
-            <strong>💡 How this works:</strong> Enter any shopping or subscription link (or click a preset below). TinyFish extracts the webpage structure to expose fake countdown clocks, pre-checked fees, and legal fine print traps.
+            <strong>💡 How it works:</strong> Paste any link or click a sample below. DarkShield will scan the page for fake countdown clocks, sneaky fees, and manipulative buttons.
           </div>
 
           <div class="input-group">
-            <input type="text" id="input-scan-url" class="input-text" placeholder="Enter website URL (e.g., https://example-store.com/cart)..." value="https://store.hyperfastsneakers.com/checkout">
+            <input type="text" id="input-scan-url" class="input-text" placeholder="Enter website link (e.g., store.com/cart)..." value="https://store.hyperfastsneakers.com/checkout">
             <button id="btn-scan-url" class="btn-primary" onclick="performUrlScan()">Scan Website</button>
           </div>
 
-          <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:12px;">Quick Preset Demos:</div>
-          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
-            <button class="btn-secondary btn-preset-scan" data-url="https://store.hyperfastsneakers.com/checkout" onclick="performUrlScan('https://store.hyperfastsneakers.com/checkout')">👟 E-Commerce Cart Trap</button>
-            <button class="btn-secondary btn-preset-scan" data-url="https://streaming-plus-hub.com/signup" onclick="performUrlScan('https://streaming-plus-hub.com/signup')">📺 Free Trial Auto-Renewal</button>
-            <button class="btn-secondary btn-preset-scan" data-url="https://fitzone-membership.com/plans" onclick="performUrlScan('https://fitzone-membership.com/plans')">🏋️ Roach Motel Gym</button>
+          <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:8px;">Or click a sample store to test:</div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+            <button class="btn-secondary btn-preset-scan" onclick="performUrlScan('https://store.hyperfastsneakers.com/checkout')">👟 Sneaker Cart Trap</button>
+            <button class="btn-secondary btn-preset-scan" onclick="performUrlScan('https://streaming-plus-hub.com/signup')">📺 Free Trial Auto-Renewal</button>
+            <button class="btn-secondary btn-preset-scan" onclick="performUrlScan('https://fitzone-membership.com/plans')">🏋️ Difficult Gym Cancellation</button>
           </div>
 
-          <!-- Scan Results Area -->
+          <!-- Scan Results -->
           <div id="scan-results-area" style="display:none;">
             <div class="score-gauge-container">
               <div class="gauge-circle">
@@ -302,56 +267,49 @@
               </div>
               <div class="gauge-info">
                 <h3 id="scan-gauge-level" style="color:var(--neon-red);">CRITICAL DECEPTION RISK</h3>
-                <p id="scan-gauge-summary">Aggressive dark patterns identified across DOM hierarchy.</p>
+                <p id="scan-gauge-summary">Deceptive tricks detected on this page.</p>
               </div>
             </div>
 
             <div id="threat-cards-container">
-              <!-- Rendered via app.js -->
+              <!-- Injected by app.js -->
             </div>
           </div>
         </div>
 
-        <!-- Terms of Service (ToS) & Fine Print Decoder -->
+        <!-- Contract & Terms of Service Checker -->
         <div class="card">
           <div class="card-header">
             <div>
               <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-pink)" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="16" y1="13" x2="8" y2="13"/>
-                  <line x1="16" y1="17" x2="8" y2="17"/>
-                  <polyline points="10 9 9 9 8 9"/>
-                </svg>
-                Fine Print &amp; ToS Sniffer
+                <span>📜 Contract &amp; Fine Print Decoder</span>
               </h2>
-              <div class="card-subtitle">Natural Language legal clause auditing for consumer traps</div>
+              <div class="card-subtitle">Translates confusing legal fine print into plain English</div>
             </div>
           </div>
 
-          <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:12px;">
-            Paste contract text or fine print to detect stealth auto-renewals, forced arbitration, data sales, and early termination penalties.
-          </p>
+          <div class="explainer-banner">
+            <strong>💡 How it works:</strong> Paste contract text or terms of service to expose sneaky price increases, auto-renewals, and non-refundable fees.
+          </div>
 
-          <textarea id="tos-input-text" class="textarea-custom" placeholder="Paste Terms of Service or checkout fine print text here..."></textarea>
+          <textarea id="tos-input-text" class="textarea-custom" placeholder="Paste Terms of Service or fine print text here..."></textarea>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
             <div style="display:flex; gap:8px;">
-              <button class="btn-secondary btn-preset-tos" data-sample="streaming" onclick="loadPresetToS('streaming')">📺 Streaming Auto-Renew</button>
-              <button class="btn-secondary btn-preset-tos" data-sample="gym" onclick="loadPresetToS('gym')">🏋️ Gym Contract Penalty</button>
+              <button class="btn-secondary btn-preset-tos" onclick="loadPresetToS('streaming')">📺 Streaming Contract</button>
+              <button class="btn-secondary btn-preset-tos" onclick="loadPresetToS('gym')">🏋️ Gym Contract</button>
             </div>
-            <button id="btn-scan-tos" class="btn-primary" onclick="scanFinePrint()">Analyze Fine Print</button>
+            <button id="btn-scan-tos" class="btn-primary" onclick="scanFinePrint()">Check Fine Print</button>
           </div>
 
           <!-- ToS Results -->
           <div id="tos-results-area" style="display:none; background:#080b12; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:18px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">
-              <span style="font-weight:bold; color:#fff;">Legal Hazard Score:</span>
+              <span style="font-weight:bold; color:#fff;">Hidden Trap Score:</span>
               <span id="tos-score-val" style="font-family:var(--font-mono); font-size:1.1rem; color:var(--neon-pink); font-weight:800;">72/100</span>
             </div>
             <div style="background:rgba(255,51,102,0.1); border-left:3px solid var(--neon-red); padding:10px 14px; border-radius:4px; margin-bottom:16px;">
-              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-red); font-weight:bold;">TL;DR Plain English Consumer Advisory:</div>
+              <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-red); font-weight:bold;">What You're Actually Agreeing To (TL;DR):</div>
               <p id="tos-tldr-text" style="font-size:0.84rem; color:#fff; margin-top:4px; line-height:1.4;"></p>
             </div>
             <div id="tos-clauses-list"></div>
@@ -361,57 +319,51 @@
     </main>
 
     <!-- ==================================================== -->
-    <!-- TAB 3: AUTONOMOUS WEB AGENT (CANCELLATION ARENA) -->
+    <!-- TAB 3: 1-CLICK AUTO-CANCELLER (WEB AGENT) -->
     <!-- ==================================================== -->
     <main id="tab-agent" class="tab-content">
       <div class="grid-2">
-        <!-- Agent Launcher & Parameters -->
+        <!-- Agent Launcher -->
         <div class="card">
           <div class="card-header">
             <div>
               <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-purple)" stroke-width="2">
-                  <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/>
-                  <rect x="3" y="10" width="18" height="12" rx="2"/>
-                  <circle cx="9" cy="16" r="1"/>
-                  <circle cx="15" cy="16" r="1"/>
-                </svg>
-                Autonomous Cancellation Agent
+                <span>🤖 1-Click Subscription Canceller</span>
               </h2>
-              <div class="card-subtitle">Playwright / CDP powered solver for tricky unsubscription labyrinths</div>
+              <div class="card-subtitle">AI agent that navigates tricky cancellation mazes for you</div>
             </div>
-            <span class="severity-pill critical">ROACH MOTEL SOLVER</span>
+            <span class="severity-pill safe">CLICK-TO-CANCEL</span>
           </div>
 
           <div class="explainer-banner">
-            <strong>💡 What is a "Roach Motel"?</strong> Subscription services often make signing up 1-click easy, but bury cancellation behind 5 confusing screens, guilt-trips, and fake surveys.
-            TinyFish's autonomous Web Agent navigates this maze for you, overrides retention tricks, and guarantees cancellation.
+            <strong>💡 What is a "Roach Motel"?</strong> Many subscriptions make signing up 1-click easy, but bury cancellation behind 5 confusing screens, guilt-trips, and surveys.
+            DarkShield's autonomous agent navigates this maze for you, overrides retention tricks, and guarantees cancellation.
           </div>
 
           <div style="margin-bottom:18px;">
-            <label style="display:block; font-size:0.8rem; font-weight:bold; color:#cbd5e1; margin-bottom:6px;">Select Target Subscription Portal:</label>
+            <label style="display:block; font-size:0.82rem; font-weight:bold; color:#cbd5e1; margin-bottom:6px;">Select Subscription to Cancel:</label>
             <select id="agent-service-select" class="input-text" style="width:100%; cursor:pointer;">
-              <option value="streamflix">StreamFlix Prime 4K ($22.99/mo) - 5 Deception Gates</option>
-              <option value="gympro">FitZone All-Access Gym ($59.99/mo) - Phone Obstruction &amp; Fees</option>
-              <option value="cloudbox">CloudVault Enterprise Pro ($34.00/mo) - Retention Traps</option>
+              <option value="streamflix">StreamFlix Prime 4K ($22.99/mo) — Saves $275.88/year</option>
+              <option value="gympro">FitZone All-Access Gym ($59.99/mo) — Saves $719.88/year</option>
+              <option value="cloudbox">CloudVault Enterprise Pro ($34.00/mo) — Saves $408.00/year</option>
             </select>
           </div>
 
           <button id="btn-launch-agent" class="btn-primary" style="width:100%; justify-content:center; padding:15px; font-size:0.95rem;" onclick="executeAgentFlow()">
-            🚀 Deploy Autonomous Cancellation Agent
+            🚀 Cancel This Subscription For Me
           </button>
 
           <!-- Agent Live Progress -->
           <div id="agent-run-area" style="display:none; margin-top:24px;">
             <div style="display:flex; justify-content:space-between; font-size:0.78rem; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:6px;">
-              <span>AGENT STATUS: RUNNING CDP PLAYBOOK</span>
-              <span id="agent-pct">Active</span>
+              <span>AI AGENT STATUS: NAVIGATING CANCELLATION SCREENS</span>
+              <span id="agent-pct" style="color:var(--neon-cyan);">In Progress</span>
             </div>
             <div style="width:100%; height:6px; background:#161b26; border-radius:10px; overflow:hidden; margin-bottom:20px;">
               <div id="agent-progress-bar" style="width:10%; height:100%; background:linear-gradient(90deg, var(--neon-cyan), var(--neon-purple)); transition:width 0.4s ease;"></div>
             </div>
 
-            <!-- Steps feed -->
+            <!-- Steps Feed -->
             <div id="agent-steps-container">
               <!-- Dynamically injected -->
             </div>
@@ -423,20 +375,16 @@
           <div class="card-header">
             <div>
               <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-emerald)" stroke-width="2">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                  <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                Cryptographic Cancellation Receipt
+                <span>📄 Official Cancellation Proof</span>
               </h2>
-              <div class="card-subtitle">Verified unsubscription proof &amp; annual money saved</div>
+              <div class="card-subtitle">Verified receipt proving you won't be charged again</div>
             </div>
           </div>
 
           <div id="cancellation-receipt-card" style="display:none; background:radial-gradient(circle at top, rgba(0,245,160,0.1), transparent), #080c14; border:1px solid rgba(0,245,160,0.3); border-radius:var(--radius-md); padding:24px; box-shadow:0 12px 32px rgba(0,0,0,0.5);">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:16px; margin-bottom:18px;">
               <div>
-                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-emerald); font-weight:800; letter-spacing:1px;">CONTRACT TERMINATION SEAL</div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--neon-emerald); font-weight:800; letter-spacing:1px;">CONFIRMED UNLINKED &amp; CANCELLED</div>
                 <h3 id="receipt-service-name" style="color:#fff; font-size:1.3rem; margin-top:2px;">StreamFlix Prime Video</h3>
                 <div id="receipt-tier-name" style="font-size:0.8rem; color:var(--text-muted);">Ultra HD 4K Tier</div>
               </div>
@@ -455,197 +403,22 @@
             </div>
 
             <div style="background:rgba(0,0,0,0.5); padding:12px; border-radius:6px; font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8; margin-bottom:18px; line-height:1.5;">
-              <div><strong>AUDIT PROOF:</strong> All 5 confirmation dialogue trees bypassed via Playwright headless CDP runner. Non-renewal guarantee recorded.</div>
-              <div id="receipt-defeated" style="color:var(--neon-cyan); margin-top:4px;">5 Dark Pattern Barriers Bypassed</div>
+              <div><strong>PROOF OF TERMINATION:</strong> All retention diversions and surveys bypassed. Non-renewal guarantee recorded.</div>
+              <div id="receipt-defeated" style="color:var(--neon-cyan); margin-top:4px;">5 Deceptive Obstacles Bypassed</div>
             </div>
 
-            <button class="btn-secondary" style="width:100%; justify-content:center;" onclick="alert('Receipt downloaded as cryptographic PDF certificate with SHA-256 seal.')">
-              📥 Download Proof of Cancellation Certificate
+            <button class="btn-secondary" style="width:100%; justify-content:center;" onclick="alert('✅ Certificate downloaded: Verified cancellation proof with confirmation token.')">
+              📥 Save Proof of Cancellation Certificate
             </button>
           </div>
 
           <!-- Placeholder when idle -->
-          <div id="receipt-placeholder" style="text-align:center; padding:50px 20px; color:var(--text-dim);">
+          <div id="receipt-placeholder" style="text-align:center; padding:60px 20px; color:var(--text-dim);">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px; opacity:0.4;">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
-            <p style="font-size:0.9rem;">Launch the Autonomous Web Agent to watch live unsubscription in action.</p>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- ==================================================== -->
-    <!-- TAB 4: DARK PATTERN TEST RANGE -->
-    <!-- ==================================================== -->
-    <main id="tab-testlab" class="tab-content">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h2 class="card-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-amber)" stroke-width="2">
-                <path d="M10 2v7.31L4.62 18.2A2 2 0 0 0 6.31 21h11.38a2 2 0 0 0 1.69-2.8L14 9.31V2"/>
-              </svg>
-              Dark Pattern Interactive Test Range
-            </h2>
-            <div class="card-subtitle">Real-world live simulation with toggleable TinyFish Defense Shield</div>
-          </div>
-          <button id="btn-toggle-shield" class="btn-primary" style="padding:10px 20px;" onclick="toggleDefenseShield()">
-            🛡️ TOGGLE DEFENSE SHIELD
-          </button>
-        </div>
-
-        <!-- Before & After Comparison Grid -->
-        <div class="before-after-grid">
-          <div class="comparison-card before">
-            <div class="comparison-header">
-              <strong style="color:#fff; font-size:0.95rem;">🔴 Without Aegis (Predatory Trap)</strong>
-              <span class="comparison-badge red">Vulnerable</span>
-            </div>
-            <ul class="comparison-list">
-              <li><span>⏱️</span> <span>Fake 9-minute countdown clock creates false urgency (loops forever)</span></li>
-              <li><span>🛒</span> <span>Pre-checked +$14.99 sneaker warranty silently inflates cart total</span></li>
-              <li><span>📝</span> <span>Convoluted double-negative checkboxes trick user consent</span></li>
-              <li><span>👁️</span> <span>Microscopic 7.5px font hides $29.99/month recurring auto-renewal</span></li>
-              <li><span>💬</span> <span>Guilt-tripping confirmshaming: "No thanks, I hate saving money"</span></li>
-            </ul>
-          </div>
-
-          <div class="comparison-card after">
-            <div class="comparison-header">
-              <strong style="color:#fff; font-size:0.95rem;">🟢 With Aegis Defense Shield</strong>
-              <span class="comparison-badge green">Neutralized</span>
-            </div>
-            <ul class="comparison-list">
-              <li><span>🛑</span> <span>Synthetic timer is frozen with high-contrast alert badge</span></li>
-              <li><span>✅</span> <span>Sneaky warranty auto-unticked (instant $14.99 consumer saving)</span></li>
-              <li><span>✨</span> <span>Consent rewritten into clear affirmative opt-in choice</span></li>
-              <li><span>🔍</span> <span>Micro-text magnified to 16px high-contrast warning box</span></li>
-              <li><span>🛡️</span> <span>Manipulative guilt-trips converted into neutral buttons</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:var(--font-mono); font-size:0.8rem;">
-          <span id="shield-status-label" style="color:var(--neon-red); font-weight:bold;">TINYFISH SHIELD: OFF (VULNERABLE)</span>
-          <span style="color:var(--text-dim);">Click TOGGLE DEFENSE SHIELD above to see dark patterns neutralized live</span>
-        </div>
-
-        <!-- Embedded Interactive Sandbox -->
-        <div class="sandbox-viewport">
-          <div class="sandbox-bar">
-            <div class="terminal-dots">
-              <div class="dot red"></div>
-              <div class="dot yellow"></div>
-              <div class="dot green"></div>
-            </div>
-            <div class="sandbox-url">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              https://store.hyperfastsneakers.com/checkout
-            </div>
-            <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">SANDBOX TAB #1</span>
-          </div>
-          <div id="mock-sandbox-container" class="sandbox-content">
-            <!-- Injected by mock_sites.js -->
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- ==================================================== -->
-    <!-- TAB 5: THREAT TAXONOMY -->
-    <!-- ==================================================== -->
-    <main id="tab-taxonomy" class="tab-content">
-      <div style="margin-bottom:20px;">
-        <h2 style="font-size:1.4rem; font-weight:800; color:#fff;">FTC &amp; EU DSA Dark Pattern Taxonomy</h2>
-        <p style="font-size:0.86rem; color:var(--text-muted); margin-top:4px;">
-          The regulatory framework behind deceptive interface detection and autonomous browser defense.
-        </p>
-      </div>
-      <div id="taxonomy-cards-container" class="grid-3">
-        <!-- Rendered via app.js -->
-      </div>
-    </main>
-
-    <!-- ==================================================== -->
-    <!-- TAB 6: CHROME EXTENSION HUB -->
-    <!-- ==================================================== -->
-    <main id="tab-extension" class="tab-content">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h2 class="card-title">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-cyan)" stroke-width="2">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                </svg>
-                Chrome Extension Companion
-              </h2>
-              <div class="card-subtitle">Real-time Manifest V3 assistant for Chrome, Brave, and Edge</div>
-            </div>
-            <span class="severity-pill safe">MANIFEST V3</span>
-          </div>
-
-          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px; line-height:1.6;">
-            A complete companion browser extension is included in the project under the <code>/extension</code> folder.
-            It injects live MutationObservers onto visited sites, highlights dark pattern elements with neon bounding boxes,
-            and provides a one-click "Cancel with TinyFish Agent" HUD badge.
-          </p>
-
-          <div style="background:#07090e; border:1px solid var(--border-subtle); border-radius:8px; padding:16px; margin-bottom:20px;">
-            <div style="font-size:0.82rem; font-weight:bold; color:#fff; margin-bottom:8px;">How to Install in 30 Seconds:</div>
-            <ol style="font-size:0.82rem; color:#8b949e; padding-left:18px; line-height:1.7;">
-              <li>Open your Chromium browser and navigate to <code>chrome://extensions</code></li>
-              <li>Toggle <strong>"Developer mode"</strong> in the top right corner.</li>
-              <li>Click <strong>"Load unpacked"</strong> and select the <code>hackathon/extension</code> directory.</li>
-              <li>Visit any shopping or subscription site to enjoy live AI defense!</li>
-            </ol>
-          </div>
-
-          <button class="btn-primary" onclick="alert('Extension source is ready in /extension directory. Ready to load into Chrome!')">
-            📦 Inspect Extension Source Files
-          </button>
-        </div>
-
-        <!-- Extension Floating HUD Preview -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Extension In-Page HUD Preview</h3>
-            <span class="severity-pill medium">FLOATING OVERLAY</span>
-          </div>
-
-          <div style="background:linear-gradient(180deg, #161b26, #0b0f19); border:1px solid var(--border-subtle); border-radius:12px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:10px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <div style="width:12px; height:12px; border-radius:50%; background:var(--neon-cyan); box-shadow:0 0 10px var(--neon-cyan);"></div>
-                <strong style="font-size:0.9rem; color:#fff;">TINYFISH AEGIS HUD</strong>
-              </div>
-              <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--neon-red); background:rgba(255,51,102,0.15); padding:2px 8px; border-radius:10px;">3 Traps Blocked</span>
-            </div>
-
-            <div style="font-size:0.82rem; color:#cbd5e1; margin-bottom:12px;">
-              <strong>Active Domain:</strong> store.hyperfastsneakers.com
-            </div>
-
-            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
-              <div style="display:flex; justify-content:space-between; font-size:0.78rem; background:rgba(255,255,255,0.04); padding:8px 12px; border-radius:6px;">
-                <span>⏱️ Synthetic Countdown Timer</span>
-                <span style="color:var(--neon-emerald); font-weight:bold;">FROZEN</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:0.78rem; background:rgba(255,255,255,0.04); padding:8px 12px; border-radius:6px;">
-                <span>🛒 Pre-checked Warranty (+$14.99)</span>
-                <span style="color:var(--neon-emerald); font-weight:bold;">UNTICKED</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; font-size:0.78rem; background:rgba(255,255,255,0.04); padding:8px 12px; border-radius:6px;">
-                <span>📝 7-Day Auto-Renewal Fine Print</span>
-                <span style="color:var(--neon-pink); font-weight:bold;">EXPOSED</span>
-              </div>
-            </div>
-
-            <button class="btn-danger" style="width:100%; justify-content:center; font-size:0.82rem;">
-              🤖 Auto-Cancel Subscription with Agent
-            </button>
+            <p style="font-size:0.9rem;">Click <strong>"Cancel This Subscription For Me"</strong> to see the AI agent defeat tricky cancellation screens live.</p>
           </div>
         </div>
       </div>
@@ -654,13 +427,12 @@
     <!-- Footer -->
     <footer class="footer">
       <div>
-        <span>🛡️ TinyFish Aegis Engine</span> • Built for Hackathon Excellence • Ethical AI Browser Defense
+        <span>🛡️ <strong>DarkShield AI</strong></span> • Real-Time Dark Pattern &amp; Scam Defense • Ethical Web Assistant
       </div>
       <div>
-        <a href="#tab-studio" onclick="document.querySelector('[data-tab=tab-studio]').click()">Live Studio</a> •
-        <a href="#tab-scanner" onclick="document.querySelector('[data-tab=tab-scanner]').click()">DOM Inspector</a> •
-        <a href="#tab-agent" onclick="document.querySelector('[data-tab=tab-agent]').click()">Web Agent</a> •
-        <a href="#tab-testlab" onclick="document.querySelector('[data-tab=tab-testlab]').click()">Test Range</a>
+        <a href="#tab-testlab" onclick="switchTab('tab-testlab')">Store Protection</a> •
+        <a href="#tab-scanner" onclick="switchTab('tab-scanner')">Website Checker</a> •
+        <a href="#tab-agent" onclick="switchTab('tab-agent')">Auto-Canceller</a>
       </div>
     </footer>
   </div>
