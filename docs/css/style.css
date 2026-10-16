@@ -1,24 +1,27 @@
 /* DarkShield AI - Adaptive Day & Night Aesthetic Theme */
 :root {
-  /* Default: Day / Light Mode (Crisp, energetic, modern, uplifting) */
+  /* Default: Day / Light Mode (Crisp, energetic, modern, high contrast) */
   --bg-dark: #f8fafc;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
-  --border-subtle: rgba(15, 23, 42, 0.08);
-  --border-glow: rgba(2, 132, 199, 0.25);
+  --bg-box: #f8fafc;
+  --bg-box-subtle: #f1f5f9;
+  --border-box: #cbd5e1;
+  --border-subtle: rgba(15, 23, 42, 0.1);
+  --border-glow: rgba(2, 132, 199, 0.35);
   --text-main: #0f172a;
   --text-muted: #334155;
   --text-dim: #64748b;
-  --navbar-bg: rgba(255, 255, 255, 0.88);
+  --navbar-bg: rgba(255, 255, 255, 0.94);
   --nav-tab-bg: #f1f5f9;
-  --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
+  --card-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
   --stat-card-bg: #ffffff;
   --input-bg: #ffffff;
   --input-border: #cbd5e1;
   --input-text: #0f172a;
-  --code-box-bg: #1e293b;
-  --code-box-text: #fecdd3;
-  --badge-bg: rgba(2, 132, 199, 0.08);
+  --code-box-bg: #0f172a;
+  --code-box-text: #38bdf8;
+  --badge-bg: rgba(2, 132, 199, 0.1);
 
   --neon-cyan: #0284c7;
   --neon-purple: #7c3aed;
@@ -39,15 +42,18 @@ body[data-theme="dark"] {
   --bg-dark: #07090e;
   --bg-card: rgba(14, 18, 28, 0.9);
   --bg-card-hover: rgba(22, 28, 44, 0.96);
+  --bg-box: rgba(14, 18, 28, 0.85);
+  --bg-box-subtle: rgba(22, 28, 44, 0.8);
+  --border-box: rgba(255, 255, 255, 0.15);
   --border-subtle: rgba(255, 255, 255, 0.12);
   --border-glow: rgba(0, 242, 254, 0.3);
   --text-main: #f8fafc;
   --text-muted: #cbd5e1;
   --text-dim: #94a3b8;
-  --navbar-bg: rgba(7, 9, 14, 0.85);
+  --navbar-bg: rgba(7, 9, 14, 0.88);
   --nav-tab-bg: rgba(14, 18, 28, 0.8);
   --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
-  --stat-card-bg: rgba(10, 13, 20, 0.9);
+  --stat-card-bg: rgba(14, 18, 28, 0.9);
   --input-bg: rgba(10, 13, 22, 0.9);
   --input-border: rgba(255, 255, 255, 0.15);
   --input-text: #ffffff;
@@ -393,13 +399,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .stat-card {
-  background: rgba(10, 13, 20, 0.9);
-  border: 1px solid var(--border-subtle);
+  background: var(--stat-card-bg);
+  border: 1.5px solid var(--border-box);
   border-radius: var(--radius-md);
   padding: 16px 22px;
   text-align: center;
   min-width: 140px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow);
 }
 
 .stat-value {
@@ -692,11 +698,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   align-items: center;
   gap: 24px;
-  background: rgba(10, 13, 22, 0.8);
-  border: 1px solid var(--border-subtle);
+  background: var(--bg-box);
+  border: 1.5px solid var(--border-box);
   border-radius: var(--radius-md);
   padding: 20px 28px;
   margin-bottom: 24px;
+  box-shadow: var(--card-shadow);
 }
 
 .gauge-circle {
@@ -707,7 +714,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: conic-gradient(var(--neon-red) 0% 85%, rgba(255, 255, 255, 0.05) 85% 100%);
+  background: conic-gradient(var(--neon-red) 0% 85%, rgba(15, 23, 42, 0.1) 85% 100%);
   position: relative;
   box-shadow: 0 0 25px rgba(255, 51, 102, 0.25);
 }
@@ -718,7 +725,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: #090c14;
+  background: var(--bg-box);
 }
 
 .gauge-val {
@@ -726,7 +733,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   font-size: 1.8rem;
   font-weight: 800;
   font-family: var(--font-mono);
-  color: #fff;
+  color: var(--text-main);
 }
 
 .gauge-scale {
@@ -748,20 +755,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Threat Cards */
 .threat-card {
-  background: rgba(14, 18, 30, 0.7);
-  border-left: 4px solid var(--neon-red);
-  border-top: 1px solid var(--border-subtle);
-  border-right: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-box);
+  border-left: 5px solid var(--neon-red);
+  border-top: 1px solid var(--border-box);
+  border-right: 1px solid var(--border-box);
+  border-bottom: 1px solid var(--border-box);
   border-radius: var(--radius-sm);
   padding: 16px 20px;
   margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
   transition: transform 0.2s ease, border-color 0.2s ease;
+  color: var(--text-main);
 }
 
 .threat-card:hover {
   transform: translateX(4px);
-  border-right-color: rgba(255, 51, 102, 0.3);
+  border-right-color: var(--neon-red);
 }
 
 .threat-card.critical { border-left-color: var(--neon-red); }
@@ -777,9 +786,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .threat-cat {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.95rem;
-  color: #fff;
+  color: var(--text-main);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1875,4 +1884,154 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   margin-bottom: 8px;
 }
 
+/* ==================================================== */
+/* PENDING TWEAKS: DISABLED STATES, LIGHT MODE BOXES,   */
+/* MOBILE FOOTER, CONTRAST FIXES                        */
+/* ==================================================== */
+
+/* Disabled button state — clear visual feedback */
+button:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+/* Light-mode: pipeline cards need solid readable backgrounds */
+body[data-theme="light"] .pipeline-card {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+body[data-theme="light"] .pipeline-card .pipeline-desc {
+  color: #334155;
+}
+body[data-theme="light"] .pipeline-card .pipeline-number {
+  color: #64748b;
+}
+body[data-theme="light"] .pipeline-title {
+  color: #0f172a;
+}
+
+/* Light-mode: comparison cards */
+body[data-theme="light"] .comparison-card {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+body[data-theme="light"] .comparison-list {
+  color: #334155;
+}
+
+/* Light-mode: agent reasoning / action boxes */
+body[data-theme="light"] .agent-reasoning-box {
+  background: rgba(124, 58, 237, 0.07);
+  color: #3b0764;
+  border-color: rgba(124, 58, 237, 0.25);
+}
+body[data-theme="light"] .agent-action-box {
+  background: rgba(5, 150, 105, 0.07);
+  color: #064e3b;
+  border-color: rgba(5, 150, 105, 0.25);
+}
+body[data-theme="light"] .agent-cdp-cmd {
+  background: #f1f5f9;
+  color: #0284c7;
+}
+body[data-theme="light"] .agent-step-title {
+  color: #0f172a;
+}
+
+/* Light-mode: canceller checklist */
+body[data-theme="light"] .canceller-checklist {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+body[data-theme="light"] .check-title {
+  color: #0f172a;
+}
+body[data-theme="light"] .check-subtitle {
+  color: #64748b;
+}
+
+/* Light-mode: ext-feature cards in modal */
+body[data-theme="light"] .ext-feature-card {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+body[data-theme="light"] .ext-install-guide {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Light-mode: scanner loading box */
+body[data-theme="light"] .scanner-loading-box {
+  background: rgba(241, 245, 249, 0.95);
+  border-color: rgba(2, 132, 199, 0.3);
+}
+body[data-theme="light"] .scanner-step-list li {
+  color: #64748b;
+}
+body[data-theme="light"] .scanner-step-list li.active {
+  color: var(--neon-cyan);
+}
+body[data-theme="light"] .scanner-step-list li.done {
+  color: var(--neon-emerald);
+}
+
+/* Light-mode: code trigger box */
+body[data-theme="light"] .code-trigger-box {
+  background: #1e293b;
+  border-color: rgba(220, 38, 38, 0.4);
+  color: #fecdd3;
+}
+body[data-theme="light"] .code-trigger-box code {
+  color: #fda4af;
+}
+
+/* Light-mode: threat card evidence */
+body[data-theme="light"] .threat-evidence {
+  background: rgba(15, 23, 42, 0.06);
+  color: #3730a3;
+  border-color: rgba(99, 102, 241, 0.2);
+}
+body[data-theme="light"] .threat-card {
+  background: #ffffff;
+  border-top-color: #e2e8f0;
+  border-right-color: #e2e8f0;
+  border-bottom-color: #e2e8f0;
+}
+
+/* Light-mode: explainer banners */
+body[data-theme="light"] .explainer-banner {
+  background: rgba(2, 132, 199, 0.05);
+  color: #334155;
+  border-left-color: var(--neon-cyan);
+}
+
+/* Light-mode: ToS results area */
+body[data-theme="light"] #tos-results-area {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a;
+}
+
+/* Mobile footer: stack vertically on small screens */
+@media (max-width: 640px) {
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+  }
+}
+
+/* URL scan button: subtle disabled hint (URL scan is server-only) */
+#btn-scan-url {
+  opacity: 0.75;
+}
+#btn-scan-url:hover {
+  opacity: 1;
+}
 

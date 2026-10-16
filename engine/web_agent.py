@@ -51,7 +51,7 @@ class WebCancellationAgent:
                     "cdp": "Input.dispatchMouseEvent({type: 'mousePressed', x: 420, y: 780, button: 'left'})"
                 },
                 {
-                    "stage": "Step 2: Diversion & Pause Trap",
+                    "stage": "Step 2: Retention Discount Trap",
                     "obstacle": "OBSTRUCTION_DIVERSION",
                     "reasoning": "Modal offering 'Pause for 2 months at ₹49/mo' to preserve recurring subscription.",
                     "action": "Rejected diversion offer; selected strict cancellation radio button `#terminate-mandate-strictly`.",
