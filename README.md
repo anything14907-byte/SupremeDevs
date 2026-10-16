@@ -45,6 +45,13 @@ In November 2023, the **Central Consumer Protection Authority (CCPA)** notified 
    - Sequential 5-gate cancellation simulation with ~600ms delay per gate and live progress counter.
    - Generates a sample cancellation summary with demo reference and actionable guidance to revoke mandates inside UPI apps.
    - Includes a one-click "Reset Demo" button.
+5. **🧩 Browser Extension Companion (Manifest V3)**:
+   - Chromium extension (Chrome, Brave, Edge, Opera) bringing DarkShield AI directly to your active browser tabs.
+   - Outlines deceptive timers, pre-selected surge fees, and confirm shaming links on live shopping sites.
+   - 1-click download available right from the dashboard with quick 3-step setup guide.
+6. **☀️/🌙 Adaptive Day & Night Theme**:
+   - Instant toggle between a clean, crisp, energetic Day Mode (light slate) and a sleek Cyberpunk Night Mode.
+   - Persistent preference remembered in localStorage.
 
 ---
 

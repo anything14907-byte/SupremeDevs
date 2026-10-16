@@ -1,13 +1,59 @@
-/* DarkShield AI - Black & Abstract Aesthetic Theme */
+/* DarkShield AI - Adaptive Day & Night Aesthetic Theme */
 :root {
-  --bg-dark: #050508;
-  --bg-card: rgba(14, 17, 27, 0.85);
-  --bg-card-hover: rgba(22, 27, 43, 0.95);
+  /* Default: Day / Light Mode (Crisp, energetic, modern, uplifting) */
+  --bg-dark: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-glow: rgba(2, 132, 199, 0.25);
+  --text-main: #0f172a;
+  --text-muted: #334155;
+  --text-dim: #64748b;
+  --navbar-bg: rgba(255, 255, 255, 0.88);
+  --nav-tab-bg: #f1f5f9;
+  --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02);
+  --stat-card-bg: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --input-text: #0f172a;
+  --code-box-bg: #1e293b;
+  --code-box-text: #fecdd3;
+  --badge-bg: rgba(2, 132, 199, 0.08);
+
+  --neon-cyan: #0284c7;
+  --neon-purple: #7c3aed;
+  --neon-pink: #e11d48;
+  --neon-red: #dc2626;
+  --neon-emerald: #059669;
+  --neon-amber: #d97706;
+
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+/* Night Mode (Vibrant Cyber Slate - Not Dull or Muddy) */
+body[data-theme="dark"] {
+  --bg-dark: #07090e;
+  --bg-card: rgba(14, 18, 28, 0.9);
+  --bg-card-hover: rgba(22, 28, 44, 0.96);
   --border-subtle: rgba(255, 255, 255, 0.12);
   --border-glow: rgba(0, 242, 254, 0.3);
   --text-main: #f8fafc;
   --text-muted: #cbd5e1;
-  --text-dim: #cbd5e1;
+  --text-dim: #94a3b8;
+  --navbar-bg: rgba(7, 9, 14, 0.85);
+  --nav-tab-bg: rgba(14, 18, 28, 0.8);
+  --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --stat-card-bg: rgba(10, 13, 20, 0.9);
+  --input-bg: rgba(10, 13, 22, 0.9);
+  --input-border: rgba(255, 255, 255, 0.15);
+  --input-text: #ffffff;
+  --code-box-bg: #07090e;
+  --code-box-text: #fecdd3;
+  --badge-bg: rgba(0, 242, 254, 0.15);
 
   --neon-cyan: #00f2fe;
   --neon-purple: #9d4edd;
@@ -15,12 +61,6 @@
   --neon-red: #ff3366;
   --neon-emerald: #00f5a0;
   --neon-amber: #ffaa00;
-
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
 }
 
 * {
@@ -39,6 +79,7 @@ body {
   position: relative;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Accessibility Focus Outlines */
@@ -91,14 +132,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: 18px 0;
   margin-bottom: 24px;
   border-bottom: 1px solid var(--border-subtle);
   backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(5, 5, 8, 0.7);
+  background: var(--navbar-bg);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .brand {
@@ -114,24 +156,24 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   height: 42px;
   border-radius: 12px;
   background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(157, 78, 221, 0.2));
-  border: 1px solid rgba(0, 242, 254, 0.4);
+  border: 1px solid var(--border-glow);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+  box-shadow: 0 0 20px var(--border-glow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .brand:hover .brand-icon {
   transform: scale(1.05) rotate(4deg);
-  box-shadow: 0 0 28px rgba(0, 242, 254, 0.4);
+  box-shadow: 0 0 28px var(--border-glow);
 }
 
 .brand-title {
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(90deg, #fff, #b8c7ff, var(--neon-cyan));
+  background: linear-gradient(90deg, var(--text-main), var(--neon-purple), var(--neon-cyan));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: flex;
@@ -143,9 +185,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   font-size: 0.65rem;
   font-family: var(--font-mono);
   font-weight: 700;
-  background: rgba(0, 242, 254, 0.15);
+  background: var(--badge-bg);
   color: var(--neon-cyan);
-  border: 1px solid rgba(0, 242, 254, 0.3);
+  border: 1px solid var(--border-glow);
   padding: 2px 7px;
   border-radius: 20px;
   letter-spacing: 0.5px;
@@ -161,10 +203,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .nav-tabs {
   display: flex;
   gap: 6px;
-  background: rgba(14, 18, 28, 0.8);
+  background: var(--nav-tab-bg);
   padding: 5px;
   border-radius: 30px;
   border: 1px solid var(--border-subtle);
+  transition: background-color 0.3s ease;
 }
 
 .nav-tab {
@@ -184,21 +227,42 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .nav-tab:hover {
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(150, 150, 150, 0.08);
 }
 
 .nav-tab.active {
-  color: #fff;
-  background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(157, 78, 221, 0.3));
-  border: 1px solid rgba(0, 242, 254, 0.4);
-  box-shadow: 0 0 16px rgba(0, 242, 254, 0.2);
+  color: var(--neon-cyan);
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Nav Controls */
 .nav-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+}
+
+.btn-extension-badge {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(124, 58, 237, 0.12));
+  border: 1px solid var(--border-glow);
+  color: var(--neon-cyan);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-height: 36px;
+}
+
+.btn-extension-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px var(--border-glow);
 }
 
 .status-indicator {
@@ -208,8 +272,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   font-family: var(--font-mono);
   font-size: 0.75rem;
   padding: 6px 12px;
-  background: rgba(0, 245, 160, 0.08);
-  border: 1px solid rgba(0, 245, 160, 0.25);
+  background: rgba(0, 245, 160, 0.1);
+  border: 1px solid rgba(0, 245, 160, 0.3);
   border-radius: 20px;
   color: var(--neon-emerald);
 }
@@ -396,7 +460,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #fff;
+  color: var(--text-main);
 }
 
 .card-subtitle {
@@ -427,12 +491,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .input-text {
   flex: 1;
-  background: rgba(10, 13, 22, 0.9);
-  border: 1px solid var(--border-subtle);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: var(--radius-sm);
   padding: 12px 18px;
   font-size: 0.92rem;
-  color: #fff;
+  color: var(--input-text);
   font-family: var(--font-sans);
   outline: none;
   transition: all 0.2s ease;
@@ -440,34 +504,35 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 .input-text:focus {
   border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
 }
 
 .textarea-custom {
   width: 100%;
   height: 140px;
-  background: rgba(10, 13, 22, 0.9);
-  border: 1px solid var(--border-subtle);
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
   border-radius: var(--radius-sm);
   padding: 14px 18px;
   font-size: 0.88rem;
-  color: #fff;
+  color: var(--input-text);
   font-family: var(--font-mono);
   outline: none;
   resize: vertical;
   margin-bottom: 16px;
   line-height: 1.5;
+  transition: all 0.2s ease;
 }
 
 .textarea-custom:focus {
   border-color: var(--neon-cyan);
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
 }
 
 /* Buttons */
 .btn-primary {
   background: linear-gradient(135deg, var(--neon-cyan), #00a8ff);
-  color: #050508;
+  color: #ffffff;
   font-weight: 700;
   font-size: 0.88rem;
   padding: 12px 24px;
@@ -479,18 +544,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   align-items: center;
   gap: 8px;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 16px rgba(0, 242, 254, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 168, 255, 0.25);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(0, 242, 254, 0.5);
+  box-shadow: 0 6px 22px rgba(0, 168, 255, 0.45);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border-subtle);
-  color: #fff;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--input-border);
+  color: var(--text-main);
   font-weight: 600;
   font-size: 0.85rem;
   padding: 10px 18px;
@@ -504,9 +569,23 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(150, 150, 150, 0.12);
+  border-color: var(--neon-cyan);
 }
+
+.btn-hero-secondary {
+  border-radius: 36px !important;
+  padding: 14px 24px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.btn-hero-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+
 
 .btn-danger {
   background: linear-gradient(135deg, var(--neon-red), #d6004c);
@@ -1596,6 +1675,204 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   button, .btn-primary, .btn-secondary, .btn-hero-primary {
     min-height: 44px !important;
   }
+}
+
+/* ==================================================== */
+/* EXTENSION MODAL & PROMO CARD STYLING                */
+/* ==================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 26px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ext-modal-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.modal-body {
+  padding: 24px 26px;
+}
+
+.ext-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 600px) {
+  .ext-feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ext-feature-card {
+  background: var(--badge-bg);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  transition: transform 0.2s ease;
+}
+
+.ext-feature-card:hover {
+  transform: translateY(-2px);
+}
+
+.ext-feature-card strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.ext-feature-card p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.ext-f-icon {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+
+.ext-install-guide {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+}
+
+.ext-steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.ext-steps-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.86rem;
+}
+
+.step-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.76rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ext-steps-list strong {
+  display: block;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.ext-steps-list p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.ext-code {
+  background: rgba(0, 0, 0, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--neon-cyan);
+}
+
+/* Extension In-Page Promo Banner */
+.ext-promo-card {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(124, 58, 237, 0.08)), var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: var(--card-shadow);
+}
+
+.ext-promo-info {
+  flex: 1;
+  min-width: 280px;
+}
+
+.ext-promo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  background: var(--badge-bg);
+  color: var(--neon-cyan);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border-glow);
+  margin-bottom: 8px;
 }
 
 

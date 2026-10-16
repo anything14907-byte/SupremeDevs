@@ -3,36 +3,37 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="popup.css">
+  <title>DarkShield AI</title>
 </head>
 <body>
-  <div class="popup-container">
-    <div class="popup-header">
-      <div class="brand">
-        <span class="icon">🛡️</span>
-        <div>
-          <div class="title">TINYFISH AEGIS</div>
-          <div class="subtitle">Real-Time Deception Shield</div>
-        </div>
+  <div class="hud-container">
+    <div class="hud-header">
+      <div class="hud-brand">
+        <span>🛡️</span>
+        <strong>DarkShield AI</strong>
       </div>
-      <span id="badge-status" class="status-live">LIVE</span>
+      <span class="badge active">PROTECTING</span>
     </div>
 
-    <div class="score-box">
-      <div class="score-num" id="popup-risk-score">92</div>
-      <div>
-        <div class="score-label" id="popup-risk-level">HIGH MANIPULATION</div>
-        <div class="score-desc" id="popup-threat-count">3 deceptive elements flagged</div>
-      </div>
+    <div class="hud-stat-box">
+      <div class="stat-number" id="threat-count">0</div>
+      <div class="stat-label">DECEPTIVE PATTERNS BLOCKED</div>
     </div>
 
-    <div class="action-list">
-      <button id="btn-freeze-timers" class="action-btn">⏱️ Freeze Fake Timers</button>
-      <button id="btn-untick-addons" class="action-btn">🛒 Untick Hidden Insurance</button>
-      <button id="btn-open-agent" class="action-btn primary">🤖 Auto-Cancel via Agent</button>
+    <div class="actions-list">
+      <button id="btn-freeze-timers" class="hud-btn">
+        <span>⏱️</span> Freeze Fake Urgency Timers
+      </button>
+      <button id="btn-untick-addons" class="hud-btn">
+        <span>🛒</span> Untick Sneaked Fees (+₹49)
+      </button>
+      <button id="btn-open-dashboard" class="hud-btn primary">
+        <span>⚡</span> Open DarkShield Full Dashboard
+      </button>
     </div>
 
-    <div class="popup-footer">
-      <a href="http://localhost:8000" target="_blank">Open Full Aegis Studio Dashboard ↗</a>
+    <div class="hud-footer">
+      <span>CCPA 2023 Dark Pattern Enforcement</span>
     </div>
   </div>
   <script src="popup.js"></script>

@@ -1,29 +1,28 @@
-# 🛡️ TinyFish Aegis — Chrome Extension Companion
+# 🛡️ DarkShield AI — Browser Extension Companion
 
-A Manifest V3 browser extension pairing with the **TinyFish Aegis Real-Time Dark Pattern & Scam Defense Engine**.
+A Manifest V3 browser extension for Chrome, Brave, Edge, and Chromium-based browsers that brings real-time CCPA 2023 Dark Pattern defense directly to your active browser tabs.
 
 ---
 
-## 🚀 How to Install in Chromium Browsers (Chrome, Brave, Edge, Opera)
+## 🚀 How to Install in Your Browser (Chrome, Brave, Edge, Opera)
 
 1. Open your browser and navigate to:
+   - Chrome / Brave: `chrome://extensions`
+   - Microsoft Edge: `edge://extensions`
+2. Toggle on **"Developer mode"** (usually top-right switch).
+3. Click **"Load unpacked"** (top-left button).
+4. Select the `extension/` folder from this repository:
    ```
-   chrome://extensions
+   path/to/SupremeDevs/extension
    ```
-2. Enable **Developer mode** toggle in the top-right corner.
-3. Click **"Load unpacked"** in the top left.
-4. Select this directory:
-   ```
-   /Users/yogeshkumar/Downloads/hackathon/extension
-   ```
-5. Done! The **TinyFish Aegis** shield badge will now appear in your browser toolbar and monitor active tabs.
+5. Done! The **DarkShield AI** badge will appear in your extensions bar. Pin it for quick 1-click access!
 
 ---
 
-## ⚡ Features
-- **Real-Time DOM Threat Highlighting**: Automatically outlines deceptive countdown timers, pre-checked upsells, and confirmshaming elements in neon warning colors.
-- **Floating In-Page Guardian HUD**: Floating badge in the bottom-right corner displaying active threats blocked.
+## ⚡ Live In-Page Capabilities
+- **Real-Time DOM Threat Highlighting**: Automatically outlines deceptive countdown clocks, pre-ticked add-on checkboxes, and guilt-tripping confirm shaming copy in red warning borders.
+- **Floating In-Page Guardian HUD**: Floating badge at bottom-right showing the number of CCPA traps identified on the page.
 - **One-Click Mitigations**:
-  - ⏱️ Freeze Fake Urgency Countdown Timers.
-  - 🛒 Untick Sneak-Into-Basket Insurance Add-ons.
-  - 🤖 Launch the Autonomous Web Agent unsubscription solver.
+  - ⏱️ **Freeze Fake Urgency Timers**: Stops JavaScript countdown intervals.
+  - 🛒 **Untick Sneaked Fees**: Unchecks pre-selected insurance, surge, and packaging add-ons.
+  - ⚡ **Direct Link to Full Dashboard**: Open the full DarkShield AI suite for deep HTML analysis, fine print decoding, and unsubscription solver.

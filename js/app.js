@@ -39,6 +39,34 @@ window.toggleSound = function() {
   }
 };
 
+window.toggleTheme = function() {
+  const currentTheme = document.body.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', newTheme);
+  localStorage.setItem('darkshield_theme', newTheme);
+  updateThemeIcon(newTheme);
+  if (window.soundEngine) window.soundEngine.playClick();
+};
+
+function updateThemeIcon(theme) {
+  const icon = document.getElementById('theme-icon');
+  const btn = document.getElementById('btn-theme-toggle');
+  if (icon) icon.innerText = theme === 'light' ? '🌙' : '☀️';
+  if (btn) btn.title = theme === 'light' ? 'Switch to Night Mode' : 'Switch to Day Mode';
+}
+
+window.openExtensionModal = function() {
+  const modal = document.getElementById('extension-modal');
+  if (modal) modal.style.display = 'flex';
+  if (window.soundEngine) window.soundEngine.playClick();
+};
+
+window.closeExtensionModal = function() {
+  const modal = document.getElementById('extension-modal');
+  if (modal) modal.style.display = 'none';
+  if (window.soundEngine) window.soundEngine.playClick();
+};
+
 let currentSessionId = null;
 
 window.appendTerminalLog = function(domain, method, data, isThreat = false, isNeutralized = false) {
@@ -1137,6 +1165,11 @@ window.runGuidedTour = async function() {
 // INIT ON SCRIPT LOAD & DOM READY
 // ==========================================
 function initApp() {
+  // Initialize Day & Night Theme (Default to crisp, modern 'light' Day Mode)
+  const savedTheme = localStorage.getItem('darkshield_theme') || 'light';
+  document.body.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+
   const sandboxContainer = document.getElementById('mock-sandbox-container');
   if (sandboxContainer && window.MockSites) {
     sandboxContainer.innerHTML = window.MockSites.renderFoodDeliveryStore ? window.MockSites.renderFoodDeliveryStore() : window.MockSites.renderSneakersStore();

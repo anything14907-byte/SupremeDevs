@@ -1,40 +1,51 @@
 /**
- * TinyFish Aegis Extension - Content Script
+ * DarkShield AI Extension - Real-Time In-Browser Content Script
  * Injected on web pages to highlight deceptive patterns and inject floating guardian HUD.
  */
 
 (function () {
-  const SNEAK_KEYWORDS = ["insurance", "warranty", "care plan", "protection", "donation", "vip membership"];
-  const CONFIRMSHAME_REGEX = /no thanks,?\s+i\s+(hate|prefer|don'?t\s+want|dislike)\s+/i;
+  const SNEAK_KEYWORDS = ["packaging", "surge", "rain", "insurance", "warranty", "care plan", "protection", "donation", "vip membership", "cutlery"];
+  const CONFIRMSHAME_REGEX = /no thanks,?\s+i\s+(hate|prefer|don'?t\s+want|dislike|don't\s+care)\s+/i;
+  const TRICK_REGEX = /(uncheck\s+if\s+you\s+(wish|prefer)\s+not|do\s+not\s+uncheck|opt-out\s+by\s+not)/i;
 
   function scanPage() {
     let threats = 0;
 
-    // 1. Inspect Pre-checked Checkboxes
+    // 1. Inspect Pre-checked Checkboxes (Basket Sneaking)
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     checkboxes.forEach(cb => {
-      const parentText = (cb.parentElement ? cb.parentElement.innerText : "").toLowerCase();
+      const parent = cb.closest('label') || cb.parentElement || cb;
+      const parentText = (parent.innerText || "").toLowerCase();
       if (SNEAK_KEYWORDS.some(kw => parentText.includes(kw))) {
         threats++;
-        highlightElement(cb.parentElement || cb, "⚠️ SNEAK INTO BASKET: Pre-checked paid add-on detected!");
+        highlightElement(parent, "⚠️ BASKET SNEAKING: Pre-checked add-on fee detected!");
       }
     });
 
-    // 2. Inspect Countdown Timers
+    // 2. Inspect Countdown Timers (False Urgency)
     const timerElements = document.querySelectorAll('[class*="countdown"], [class*="timer"], [id*="countdown"], [id*="timer"]');
     timerElements.forEach(el => {
-      if (/\d{1,2}:\d{2}/.test(el.innerText)) {
+      if (/\d{1,2}:\d{2}/.test(el.innerText || "")) {
         threats++;
-        highlightElement(el, "⏱️ FAKE URGENCY: Synthetic timer detected. TinyFish can freeze countdown.");
+        highlightElement(el, "⏱️ FALSE URGENCY: Artificial countdown timer detected. DarkShield can freeze this.");
       }
     });
 
-    // 3. Inspect Confirmshaming Links / Buttons
-    const buttons = document.querySelectorAll('button, a');
+    // 3. Inspect Confirm Shaming Links / Buttons
+    const buttons = document.querySelectorAll('button, a, span');
     buttons.forEach(btn => {
-      if (CONFIRMSHAME_REGEX.test(btn.innerText)) {
+      if (CONFIRMSHAME_REGEX.test(btn.innerText || "")) {
         threats++;
-        highlightElement(btn, "💬 CONFIRMSHAMING: Emotional guilt-trip detected.");
+        highlightElement(btn, "💬 CONFIRM SHAMING: Guilt-tripping copy detected.");
+      }
+    });
+
+    // 4. Inspect Trick Questions (Double Negatives)
+    const formLabels = document.querySelectorAll('label, p, span');
+    formLabels.forEach(lbl => {
+      if (TRICK_REGEX.test(lbl.innerText || "")) {
+        threats++;
+        highlightElement(lbl, "❓ TRICK QUESTION: Inverted double-negative consent syntax detected.");
       }
     });
 
@@ -45,48 +56,53 @@
   function highlightElement(el, tooltipText) {
     el.style.outline = "2px dashed #ff3366";
     el.style.backgroundColor = "rgba(255, 51, 102, 0.08)";
-    el.setAttribute("title", "🛡️ TinyFish Aegis: " + tooltipText);
+    el.setAttribute("title", "🛡️ DarkShield AI: " + tooltipText);
   }
 
   function injectFloatingBadge(threatCount) {
-    if (document.getElementById('tinyfish-floating-badge')) return;
+    if (document.getElementById('darkshield-floating-badge')) return;
 
     const badge = document.createElement('div');
-    badge.id = 'tinyfish-floating-badge';
+    badge.id = 'darkshield-floating-badge';
     badge.style.cssText = `
       position: fixed;
       bottom: 24px;
       right: 24px;
       z-index: 9999999;
-      background: #090c15;
-      border: 1px solid rgba(0, 242, 254, 0.4);
-      color: #fff;
-      padding: 10px 16px;
+      background: #090c14;
+      border: 1px solid ${threatCount > 0 ? '#ff3366' : '#00f5a0'};
       border-radius: 30px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 242, 254, 0.25);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 13px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
       gap: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      color: #fff;
       cursor: pointer;
-      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
     `;
 
-    const statusColor = threatCount > 0 ? '#ff3366' : '#00f5a0';
     badge.innerHTML = `
-      <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${statusColor}; box-shadow:0 0 8px ${statusColor};"></span>
-      <strong>TinyFish Aegis:</strong> ${threatCount > 0 ? `<span style="color:#ff3366;">${threatCount} Threats Blocked</span>` : '<span style="color:#00f5a0;">Page Clean</span>'}
+      <span style="font-size: 16px;">🛡️</span>
+      <span style="font-weight: 700;">DarkShield AI:</span>
+      <span style="color: ${threatCount > 0 ? '#ff3366' : '#00f5a0'}; font-weight: 800;">
+        ${threatCount > 0 ? threatCount + ' Traps Flagged' : 'Page Clean'}
+      </span>
     `;
 
     badge.onclick = () => {
-      alert(`🛡️ TinyFish Aegis Defense Active\nThreats Intercepted: ${threatCount}\nVisit local engine dashboard at http://localhost:8000 for full CDP analysis.`);
+      alert("🛡️ DarkShield AI Browser Companion\n\nDetected " + threatCount + " deceptive pattern(s) under CCPA 2023 Guidelines.\nCheck outlined elements on this page.");
     };
 
     document.body.appendChild(badge);
   }
 
-  window.addEventListener('load', () => {
-    setTimeout(scanPage, 1000);
-  });
+  // Initial scan & dynamic observer
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scanPage);
+  } else {
+    scanPage();
+  }
 })();

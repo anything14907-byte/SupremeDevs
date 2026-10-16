@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "TinyFish Aegis // Dark Pattern & Scam Defense",
-  "version": "1.0.0",
-  "description": "Real-time AI defense engine detecting fake timers, stealth subscriptions, pre-checked fees, and predatory unsubscription flows.",
+  "name": "DarkShield AI // CCPA Dark Pattern & Scam Defense",
+  "version": "2.0.0",
+  "description": "Real-time browser defense engine detecting fake urgency timers, stealth subscriptions, pre-checked fees, and predatory unsubscription flows.",
   "permissions": [
     "activeTab",
     "scripting",
@@ -10,7 +10,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "TinyFish Aegis Defense HUD"
+    "default_title": "DarkShield AI Defense HUD"
   },
   "content_scripts": [
     {
