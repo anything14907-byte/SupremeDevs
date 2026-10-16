@@ -527,6 +527,61 @@ window.loadTaxonomy = async function() {
 };
 
 // ==========================================
+// 7. GUIDED INTERACTIVE TOUR (1-CLICK DEMO)
+// ==========================================
+
+window.runGuidedTour = async function() {
+  const tourBtn = document.getElementById('btn-start-tour');
+  if (tourBtn) {
+    tourBtn.disabled = true;
+    tourBtn.innerHTML = '<span>⏳ Running Guided Interactive Tour...</span>';
+  }
+
+  function updateTourBanner(stepText, detailText) {
+    const banner = document.getElementById('tour-status-banner');
+    if (banner) {
+      banner.style.display = 'flex';
+      const titleEl = document.getElementById('tour-step-title');
+      const descEl = document.getElementById('tour-step-desc');
+      if (titleEl) titleEl.innerText = stepText;
+      if (descEl) descEl.innerText = detailText;
+    }
+  }
+
+  // Step 1: Jump to Test Lab (Store)
+  updateTourBanner("🚀 STEP 1/3: Inspecting Manipulative E-Commerce Store", "Notice the red ticking countdown timer and the pre-checked +$14.99 insurance fee...");
+  window.switchTab('tab-testlab');
+  if (window.MockSites && window.MockSites.shieldActive) {
+    window.MockSites.toggleShield(); // start in raw deceptive mode
+  }
+  window.scrollTo({ top: 380, behavior: 'smooth' });
+
+  await new Promise(r => setTimeout(r, 4000));
+
+  // Step 2: Activate Defense Shield
+  updateTourBanner("🛡️ STEP 2/3: Activating Aegis Defense Shield", "Watch closely: TinyFish freezes the fake timer and unticks the sneaky +$14.99 fee!");
+  if (window.MockSites && !window.MockSites.shieldActive) {
+    window.toggleDefenseShield();
+  }
+
+  await new Promise(r => setTimeout(r, 4500));
+
+  // Step 3: Jump to Web Agent unsubscription solver
+  updateTourBanner("🤖 STEP 3/3: Deploying Autonomous Cancellation Agent", "Watching the AI navigate 5 deceptive unsubscription gates across tricky Roach Motel portals...");
+  window.switchTab('tab-agent');
+  window.scrollTo({ top: 400, behavior: 'smooth' });
+  await window.executeAgentFlow();
+
+  // Completion
+  updateTourBanner("🎉 TOUR COMPLETE!", "You just experienced real-time CDP protection, dark pattern neutralization, and autonomous unsubscription!");
+
+  if (tourBtn) {
+    tourBtn.disabled = false;
+    tourBtn.innerHTML = '<span>▶ Replay 60s Guided Demo</span>';
+  }
+};
+
+// ==========================================
 // INIT ON SCRIPT LOAD & DOM READY
 // ==========================================
 function initApp() {

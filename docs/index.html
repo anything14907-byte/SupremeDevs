@@ -94,6 +94,14 @@
             <span style="color:var(--neon-pink)">◈</span> Legal Fine Print & ToS Sniffer
           </div>
         </div>
+        <div style="margin-top: 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+          <button id="btn-start-tour" class="btn-demo-tour" onclick="runGuidedTour()">
+            <span>▶ Launch 60-Second Guided Demo</span>
+          </button>
+          <span style="font-size: 0.82rem; color: #a5b4fc; font-family: var(--font-mono);">
+            ⚡ Interactive Live Walkthrough
+          </span>
+        </div>
       </div>
       <div class="hero-stats">
         <div class="stat-card">
@@ -107,6 +115,57 @@
         <div class="stat-card">
           <div class="stat-value">&lt; 140ms</div>
           <div class="stat-label">Interception Latency</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Tour Status Notification -->
+    <div id="tour-status-banner" class="tour-banner" style="display:none;">
+      <div class="tour-info">
+        <div class="tour-icon-box">🛡️</div>
+        <div>
+          <div id="tour-step-title" style="font-weight:800; font-size:1.05rem; color:#fff;">GUIDED TOUR ACTIVE</div>
+          <div id="tour-step-desc" style="font-size:0.86rem; color:#e2e8f0; margin-top:2px;">Watching TinyFish CDP intercept predatory traps...</div>
+        </div>
+      </div>
+      <button class="btn-secondary" onclick="document.getElementById('tour-status-banner').style.display='none'">Dismiss</button>
+    </div>
+
+    <!-- 3-Step Visual Protection Pipeline -->
+    <section class="pipeline-section">
+      <div class="pipeline-grid">
+        <div class="pipeline-card danger">
+          <div class="pipeline-number">Stage 01 // Problem</div>
+          <div class="pipeline-title">
+            <span>🛑 Deceptive Website</span>
+          </div>
+          <p class="pipeline-desc">
+            Tricks buyers using fake countdown timers that reset on refresh, pre-selected \$14.99 warranty add-ons, and microscopic auto-renewal traps.
+          </p>
+        </div>
+
+        <div class="pipeline-arrow">➔</div>
+
+        <div class="pipeline-card engine">
+          <div class="pipeline-number">Stage 02 // TinyFish CDP</div>
+          <div class="pipeline-title">
+            <span style="color:var(--neon-cyan)">⚡ Cloud Session Engine</span>
+          </div>
+          <p class="pipeline-desc">
+            Attaches via Chrome DevTools Protocol to inspect structural DOM elements, freeze deceptive timers, and deploy ethical Web Agents.
+          </p>
+        </div>
+
+        <div class="pipeline-arrow">➔</div>
+
+        <div class="pipeline-card safe">
+          <div class="pipeline-number">Stage 03 // Solution</div>
+          <div class="pipeline-title">
+            <span style="color:var(--neon-emerald)">🛡️ Clean &amp; Fair Web</span>
+          </div>
+          <p class="pipeline-desc">
+            Hidden fees are stripped from checkout, fake scarcity is exposed, and tricky subscriptions are cancelled with cryptographic proof.
+          </p>
         </div>
       </div>
     </section>
@@ -218,6 +277,8 @@
               </h2>
               <div class="card-subtitle">Fetch API DOM element extraction &amp; deceptive CSS heuristics</div>
             </div>
+          <div class="explainer-banner">
+            <strong>💡 How this works:</strong> Enter any shopping or subscription link (or click a preset below). TinyFish extracts the webpage structure to expose fake countdown clocks, pre-checked fees, and legal fine print traps.
           </div>
 
           <div class="input-group">
@@ -322,11 +383,10 @@
             <span class="severity-pill critical">ROACH MOTEL SOLVER</span>
           </div>
 
-          <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:18px;">
-            The FTC Click-to-Cancel rule exposes companies that make cancellation 10x harder than signup.
-            TinyFish's autonomous Web Agent navigates deceptive confirmation dialogues, bypasses confirmshaming guilt trips,
-            unchecks sneaky retention fees, and submits termination handshakes on your behalf.
-          </p>
+          <div class="explainer-banner">
+            <strong>💡 What is a "Roach Motel"?</strong> Subscription services often make signing up 1-click easy, but bury cancellation behind 5 confusing screens, guilt-trips, and fake surveys.
+            TinyFish's autonomous Web Agent navigates this maze for you, overrides retention tricks, and guarantees cancellation.
+          </div>
 
           <div style="margin-bottom:18px;">
             <label style="display:block; font-size:0.8rem; font-weight:bold; color:#cbd5e1; margin-bottom:6px;">Select Target Subscription Portal:</label>
@@ -436,9 +496,40 @@
           </button>
         </div>
 
+        <!-- Before & After Comparison Grid -->
+        <div class="before-after-grid">
+          <div class="comparison-card before">
+            <div class="comparison-header">
+              <strong style="color:#fff; font-size:0.95rem;">🔴 Without Aegis (Predatory Trap)</strong>
+              <span class="comparison-badge red">Vulnerable</span>
+            </div>
+            <ul class="comparison-list">
+              <li><span>⏱️</span> <span>Fake 9-minute countdown clock creates false urgency (loops forever)</span></li>
+              <li><span>🛒</span> <span>Pre-checked +$14.99 sneaker warranty silently inflates cart total</span></li>
+              <li><span>📝</span> <span>Convoluted double-negative checkboxes trick user consent</span></li>
+              <li><span>👁️</span> <span>Microscopic 7.5px font hides $29.99/month recurring auto-renewal</span></li>
+              <li><span>💬</span> <span>Guilt-tripping confirmshaming: "No thanks, I hate saving money"</span></li>
+            </ul>
+          </div>
+
+          <div class="comparison-card after">
+            <div class="comparison-header">
+              <strong style="color:#fff; font-size:0.95rem;">🟢 With Aegis Defense Shield</strong>
+              <span class="comparison-badge green">Neutralized</span>
+            </div>
+            <ul class="comparison-list">
+              <li><span>🛑</span> <span>Synthetic timer is frozen with high-contrast alert badge</span></li>
+              <li><span>✅</span> <span>Sneaky warranty auto-unticked (instant $14.99 consumer saving)</span></li>
+              <li><span>✨</span> <span>Consent rewritten into clear affirmative opt-in choice</span></li>
+              <li><span>🔍</span> <span>Micro-text magnified to 16px high-contrast warning box</span></li>
+              <li><span>🛡️</span> <span>Manipulative guilt-trips converted into neutral buttons</span></li>
+            </ul>
+          </div>
+        </div>
+
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-family:var(--font-mono); font-size:0.8rem;">
           <span id="shield-status-label" style="color:var(--neon-red); font-weight:bold;">TINYFISH SHIELD: OFF (VULNERABLE)</span>
-          <span style="color:var(--text-dim);">Try clicking Cancel or buying to see dark patterns trigger</span>
+          <span style="color:var(--text-dim);">Click TOGGLE DEFENSE SHIELD above to see dark patterns neutralized live</span>
         </div>
 
         <!-- Embedded Interactive Sandbox -->
