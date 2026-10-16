@@ -82,7 +82,7 @@
         </h1>
         <p class="hero-desc">
           Websites use fake countdown timers, pre-checked cart fees, and impossible cancellation mazes to trap your money.
-          <strong>DarkShield AI</strong> freezes fake timers, removes hidden fees, and cancels subscriptions for you in 1 click.
+          <strong>DarkShield AI</strong> freezes fake timers, removes hidden fees, and guides you through cancelling in one click.
         </p>
 
         <!-- Primary CTA and Extension Button on Hero -->
@@ -97,7 +97,7 @@
             </button>
           </div>
           <span class="hero-cta-sub" style="color:var(--text-dim); font-size:0.8rem; margin-top:8px; display:block;">
-            ⚡ Hands-free walkthrough • Real-time dark pattern defense • Works in Chrome, Brave &amp; Edge
+            ⚡ Hands-free walkthrough • Real-time dark pattern defense • Chromium browsers (Chrome, Edge, Brave)
           </span>
         </div>
       </div>
@@ -245,14 +245,17 @@
         <div class="ext-promo-card">
           <div class="ext-promo-info">
             <div class="ext-promo-badge">
-              <span>🧩</span> <span>OFFICIAL BROWSER COMPANION</span>
+              <span>🧩</span> <span>EXPERIMENTAL BROWSER PROTOTYPE</span>
             </div>
             <h3 style="font-size:1.15rem; font-weight:800; color:var(--text-main); margin-bottom:4px;">
-              Take DarkShield AI with you to Swiggy, Zomato, Hotstar &amp; Amazon
+              DarkShield AI Experimental Browser Prototype
             </h3>
-            <p style="font-size:0.86rem; color:var(--text-muted); margin:0; line-height:1.5;">
-              Install our Chromium extension (Manifest V3) in Chrome, Brave, or Edge. Automatically freezes fake countdowns and unchecks sneaked surge fees on real Indian merchant checkouts.
+            <p style="font-size:0.86rem; color:var(--text-muted); margin:0 0 6px 0; line-height:1.5;">
+              Prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.
             </p>
+            <div style="font-size:0.78rem; color:var(--neon-emerald); font-weight:600;">
+              🔒 Runs entirely on your device. No data is collected or sent.
+            </div>
           </div>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <a href="./darkshield-extension.zip" download="darkshield-extension.zip" class="btn-primary" style="text-decoration:none; padding:12px 22px; font-weight:700;">
@@ -336,9 +339,9 @@
 
           <!-- Scan Results -->
           <div id="scan-results-area" style="display:none;">
-            <div class="score-gauge-container">
+            <div class="score-gauge-container" style="display:none;">
               <div class="gauge-circle">
-                <span id="scan-gauge-val" class="gauge-val">85</span>
+                <span id="scan-gauge-val" class="gauge-val">--</span>
                 <span class="gauge-scale">/ 100</span>
               </div>
               <div class="gauge-info">
@@ -544,7 +547,7 @@
             </div>
 
             <div style="background:rgba(0,0,0,0.5); padding:12px; border-radius:6px; font-family:var(--font-mono); font-size:0.75rem; color:#94a3b8; margin-bottom:18px; line-height:1.5;">
-              <div><strong>REVOCATION GUIDANCE:</strong> Platform cancellation completed. Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm / BHIM) under Mandates &gt; Active &gt; Revoke.</div>
+              <div><strong>REVOCATION GUIDANCE:</strong> Platform cancellation simulated. Guides you to revoke the mandate in your UPI app (GPay / PhonePe / Paytm / BHIM) under Mandates &gt; Active &gt; Revoke.</div>
               <div id="receipt-defeated" style="color:var(--neon-cyan); margin-top:4px;">5 Deceptive Obstacles Bypassed</div>
             </div>
 
@@ -590,13 +593,17 @@
           <div class="ext-modal-icon">🧩</div>
           <div>
             <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:var(--text-main);">DarkShield AI Browser Extension</h3>
-            <p style="margin:2px 0 0; font-size:0.82rem; color:var(--text-dim);">Real-time CCPA Dark Pattern Protection in your active browser tabs</p>
+            <p style="margin:2px 0 0; font-size:0.82rem; color:var(--text-dim);">Prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.</p>
           </div>
         </div>
         <button class="btn-icon" onclick="closeExtensionModal()" aria-label="Close Modal" style="font-size:1.1rem;">✕</button>
       </div>
 
       <div class="modal-body">
+        <div style="background:rgba(0,245,160,0.08); border:1px solid rgba(0,245,160,0.25); border-radius:8px; padding:10px 14px; margin-bottom:16px; font-size:0.82rem; color:var(--neon-emerald); font-weight:600; display:flex; align-items:center; gap:8px;">
+          <span>🔒</span> <span>Runs entirely on your device. No data is collected or sent.</span>
+        </div>
+
         <!-- Live Value Grid -->
         <div class="ext-feature-grid">
           <div class="ext-feature-card">
@@ -624,7 +631,7 @@
         <!-- 3-Step Setup Guide -->
         <div class="ext-install-guide">
           <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:12px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
-            <span>🚀</span> Quick 3-Step Browser Setup (Chrome, Brave, Edge, Opera)
+            <span>🚀</span> Quick 3-Step Setup for Chromium browsers (Chrome, Edge, Brave)
           </h4>
           <ol class="ext-steps-list">
             <li>

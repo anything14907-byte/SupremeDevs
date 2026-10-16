@@ -25,6 +25,7 @@ In November 2023, the **Central Consumer Protection Authority (CCPA)** notified 
 | **Contract Decoder** | **Real Keyword Heuristics** | Computes a 0–100 hazard score directly from legal text keyword patterns: auto-renewal (25 pts), lock-in commitment (25 pts), non-refundable terms (20 pts), unilateral price increase (15 pts), and cancellation fees/friction (15 pts). |
 | **Store Protection Sandbox** | **Interactive Client Simulator** | A realistic Indian food delivery checkout (*SwiftBites Express*) demonstrating how client-side shields freeze fake timers, untick sneaked cart fees, decode inverted copy, and expose fine print in real time. |
 | **Subscription Canceller** | **Simulated Demo Walkthrough** | Educational walkthrough demonstrating how an autonomous agent navigates a 5-gate cancellation maze (Confirm Shaming, Retention Discount Trap, Trick Question, Forced Action, Subscription Trap) and provides step-by-step guidance for manual UPI mandate revocation in apps like GPay, PhonePe, and Paytm. |
+| **Browser Extension** | **Experimental Prototype** | An experimental prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary. Default mode: highlight and warn only, with an optional popup toggle for "Auto-fix". Runs entirely on-device with zero tracking or external requests. |
 
 ---
 
@@ -45,9 +46,11 @@ In November 2023, the **Central Consumer Protection Authority (CCPA)** notified 
    - Sequential 5-gate cancellation simulation with ~600ms delay per gate and live progress counter.
    - Generates a sample cancellation summary with demo reference and actionable guidance to revoke mandates inside UPI apps.
    - Includes a one-click "Reset Demo" button.
-5. **🧩 Browser Extension Companion (Manifest V3)**:
-   - Chromium extension (Chrome, Brave, Edge, Opera) bringing DarkShield AI directly to your active browser tabs.
-   - Outlines deceptive timers, pre-selected surge fees, and confirm shaming links on live shopping sites.
+5. **🧩 Browser Extension (Experimental Prototype)**:
+   - Prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.
+   - Compatible with Chromium browsers (Chrome, Edge, Brave).
+   - Default mode: highlight and warn only, with a popup toggle for "Auto-fix (untick fees, freeze timers)", default OFF.
+   - Runs entirely on your device. No data is collected or sent.
    - 1-click download available right from the dashboard with quick 3-step setup guide.
 6. **☀️/🌙 Adaptive Day & Night Theme**:
    - Instant toggle between a clean, crisp, energetic Day Mode (light slate) and a sleek Cyberpunk Night Mode.

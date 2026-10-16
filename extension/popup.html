@@ -1,39 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="popup.css">
-  <title>DarkShield AI</title>
+  <title>DarkShield AI Prototype</title>
 </head>
 <body>
   <div class="hud-container">
     <div class="hud-header">
       <div class="hud-brand">
-        <span>🛡️</span>
-        <strong>DarkShield AI</strong>
+        <span class="hud-logo">🛡️</span>
+        <div>
+          <strong class="hud-title">DarkShield AI</strong>
+          <div class="hud-badge">PROTOTYPE</div>
+        </div>
       </div>
-      <span class="badge active">PROTECTING</span>
+      <span id="hud-mode-pill" class="badge-mode">HIGHLIGHT ONLY</span>
     </div>
 
+    <!-- Auto-fix Toggle Card -->
+    <div class="toggle-card">
+      <div class="toggle-row">
+        <label for="toggle-autofix" class="toggle-label-text">
+          <span class="toggle-title">Auto-fix (untick fees, freeze timers)</span>
+          <span class="toggle-sub">Default OFF. When enabled, auto-remedies threats.</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-autofix">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Threat Stat -->
     <div class="hud-stat-box">
       <div class="stat-number" id="threat-count">0</div>
-      <div class="stat-label">DECEPTIVE PATTERNS BLOCKED</div>
+      <div class="stat-label">DECEPTIVE PATTERNS FLAGGED</div>
     </div>
 
+    <!-- Manual Quick Actions -->
     <div class="actions-list">
-      <button id="btn-freeze-timers" class="hud-btn">
+      <button id="btn-freeze-timers" class="hud-btn" type="button">
         <span>⏱️</span> Freeze Fake Urgency Timers
       </button>
-      <button id="btn-untick-addons" class="hud-btn">
+      <button id="btn-untick-addons" class="hud-btn" type="button">
         <span>🛒</span> Untick Sneaked Fees (+₹49)
       </button>
-      <button id="btn-open-dashboard" class="hud-btn primary">
-        <span>⚡</span> Open DarkShield Full Dashboard
+      <button id="btn-open-dashboard" class="hud-btn primary" type="button">
+        <span>⚡</span> Open Full DarkShield Suite
       </button>
     </div>
 
     <div class="hud-footer">
-      <span>CCPA 2023 Dark Pattern Enforcement</span>
+      <div class="privacy-note">🔒 Runs entirely on your device. No data is collected or sent.</div>
     </div>
   </div>
   <script src="popup.js"></script>
