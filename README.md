@@ -61,6 +61,7 @@ In November 2023, the **Central Consumer Protection Authority (CCPA)** notified 
 ## 🛠️ Tech Stack
 
 - **Frontend**: Pure Vanilla JavaScript (ES6+), HTML5, CSS3. Zero external frameworks, zero build steps, and zero external runtime dependencies.
+- **TinyFish Integration**: DarkShield AI uses TinyFish browser infrastructure and web agents to safely automate complex cancellation flows, navigate retention traps, and guide users through safe subscription exits with full visibility and control.
 - **Audio Synthesizer**: Web Audio API cyber synthesizer for interactive sound effects (mute toggleable).
 - **Visualizer**: HTML5 Canvas procedural neural particle network reacting to threat events.
 - **Accessibility & Contrast**: Built to WCAG AA contrast standards (4.5:1), responsive down to 360px viewport width, keyboard accessible navigation with visible focus states and ARIA roles.
