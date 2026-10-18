@@ -1,15 +1,24 @@
 {
   "manifest_version": 3,
   "name": "DarkShield AI // Experimental Browser Prototype",
-  "version": "2.1.0",
-  "description": "Prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.",
+  "version": "2.2.0",
+  "description": "Prototype Chromium extension (Manifest V3). Freezes simple countdown timers and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.",
   "permissions": [
     "activeTab",
     "storage"
   ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "DarkShield AI Prototype"
+    "default_title": "DarkShield AI Prototype",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
   },
   "content_scripts": [
     {

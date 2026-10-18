@@ -57,15 +57,72 @@ function updateThemeIcon(theme) {
 
 window.openExtensionModal = function() {
   const modal = document.getElementById('extension-modal');
-  if (modal) modal.style.display = 'flex';
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    const focusable = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (focusable.length) focusable[0].focus();
+  }
   if (window.soundEngine) window.soundEngine.playClick();
 };
 
 window.closeExtensionModal = function() {
   const modal = document.getElementById('extension-modal');
-  if (modal) modal.style.display = 'none';
+  if (modal) {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    const trigger = document.getElementById('btn-nav-extension') || document.querySelector('.footer-ext-btn');
+    if (trigger) trigger.focus();
+  }
   if (window.soundEngine) window.soundEngine.playClick();
 };
+
+// Modal keyboard accessibility (Esc closes modal, Tab traps focus)
+document.addEventListener('keydown', function(e) {
+  const modal = document.getElementById('extension-modal');
+  if (!modal || modal.style.display === 'none') return;
+
+  if (e.key === 'Escape') {
+    closeExtensionModal();
+    return;
+  }
+
+  if (e.key === 'Tab') {
+    const focusables = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (!focusables || !focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      last.focus();
+      e.preventDefault();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      first.focus();
+      e.preventDefault();
+    }
+  }
+});
+
+// Accessible tab navigation via Arrow keys
+document.addEventListener('keydown', function(e) {
+  const target = e.target;
+  if (!target || !target.classList.contains('nav-tab')) return;
+  const tabs = Array.from(document.querySelectorAll('.nav-tab'));
+  const idx = tabs.indexOf(target);
+  if (idx === -1) return;
+
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    const next = tabs[(idx + 1) % tabs.length];
+    next.focus();
+    next.click();
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const prev = tabs[(idx - 1 + tabs.length) % tabs.length];
+    prev.focus();
+    prev.click();
+  }
+});
 
 let currentSessionId = null;
 
@@ -233,9 +290,12 @@ window.SAMPLE_HTML = {
     </label>
   </div>
   <p style="font-size: 7px; color: #94a3b8; margin: 10px 0;">
-    Orders include complimentary membership trial converting into ₹199 monthly maintenance charges.
+    Orders include recurring VIP trial converting into ₹199 monthly maintenance charges automatically debited via UPI mandate.
   </p>
   <button style="background:#0f172a; color:#fff; padding:12px 24px;">Buy Now (₹1,598)</button>
+  <div style="margin-top: 10px;">
+    <a href="#" style="color:#94a3b8; font-size:0.8rem;">No thanks, I hate saving money and like overpaying</a>
+  </div>
 </div>`,
 
   clean_sample: `<!-- Clean & Fully Compliant Store Checkout (0 Dark Patterns) -->
@@ -517,8 +577,9 @@ window.analyzeHtmlWithRules = function(htmlContent, sourceLabel = 'HTML Snippet'
   });
 
   const deceptionIndex = Math.min(100, totalScore);
-  const riskLevel = deceptionIndex >= 50 ? 'CRITICAL DECEPTION RISK' :
-                   (deceptionIndex >= 20 ? 'MODERATE DECEPTION RISK' : 'LOW RISK / COMPLIANT');
+  const riskLevel = deceptionIndex > 60 ? 'CRITICAL DECEPTION RISK' :
+                   (deceptionIndex >= 30 ? 'MODERATE RISK' :
+                   (deceptionIndex >= 11 ? 'LOW RISK' : 'NO DARK PATTERNS DETECTED'));
 
   return {
     source_url: sourceLabel,
@@ -539,15 +600,15 @@ window.performHtmlScan = function() {
   const btnScanHtml = document.getElementById('btn-scan-html');
 
   // Empty or invalid input: show a clear message, NEVER a score
-  if (!htmlContent) {
+  if (!htmlContent || !htmlContent.trim() || !/<[a-z][\s\S]*>/i.test(htmlContent)) {
     if (loadingArea) loadingArea.style.display = 'none';
     if (scanResultsArea) scanResultsArea.style.display = 'block';
     if (gaugeContainer) gaugeContainer.style.display = 'none';
     if (threatCardsContainer) {
       threatCardsContainer.innerHTML = `
         <div style="background:rgba(255,183,3,0.1); border:1px solid rgba(255,183,3,0.35); border-radius:8px; padding:18px; color:#fde047; text-align:center;">
-          <h4 style="color:#fde047; font-size:1rem; margin-bottom:6px;">⚠️ Empty Input: HTML Content Required</h4>
-          <p style="font-size:0.86rem; color:#cbd5e1; margin:0;">Please paste valid HTML code into the box above or select one of the sample presets to run the scanner. No score is calculated for empty inputs.</p>
+          <h4 style="color:#fde047; font-size:1rem; margin-bottom:6px;">⚠️ Empty or Invalid Input</h4>
+          <p style="font-size:0.86rem; color:#cbd5e1; margin:0;">Please paste valid HTML code into the box above or select one of the sample presets to run the scanner. No score is calculated for empty or invalid inputs.</p>
         </div>
       `;
     }
@@ -572,6 +633,16 @@ window.performHtmlScan = function() {
 };
 
 window.performUrlScan = function() {
+  const btn = document.getElementById('btn-scan-url');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = 'Checking Link...';
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.innerText = 'Scan Website';
+    }, 450);
+  }
+
   const noteEl = document.getElementById('url-scan-server-note');
   if (noteEl) {
     noteEl.style.color = 'var(--neon-amber)';
@@ -620,24 +691,30 @@ window.renderScanResults = function(data) {
   if (gaugeVal) gaugeVal.innerText = score;
 
   if (gaugeLevel) {
-    if (score < 10) {
+    if (score <= 10) {
       gaugeLevel.innerText = 'NO DARK PATTERNS DETECTED';
       gaugeLevel.style.color = 'var(--neon-emerald)';
+    } else if (score >= 11 && score <= 29) {
+      gaugeLevel.innerText = 'LOW RISK';
+      gaugeLevel.style.color = 'var(--neon-cyan)';
+    } else if (score >= 30 && score <= 60) {
+      gaugeLevel.innerText = 'MODERATE RISK';
+      gaugeLevel.style.color = 'var(--neon-amber)';
     } else {
-      gaugeLevel.innerText = data.risk_level;
-      gaugeLevel.style.color = score >= 50 ? 'var(--neon-red)' : 'var(--neon-amber)';
+      gaugeLevel.innerText = 'CRITICAL DECEPTION RISK';
+      gaugeLevel.style.color = 'var(--neon-red)';
     }
   }
 
   if (gaugeSummary) {
-    if (score < 10) {
+    if (score <= 10) {
       gaugeSummary.innerText = '0 manipulative patterns detected. Inspected HTML complies with CCPA Guidelines.';
     } else {
       gaugeSummary.innerText = `Detected ${data.total_threats} manipulative UI traps (${score}/100 Consumer Deception Score).`;
     }
   }
 
-  if (score >= 50 && window.bgVisualizer) {
+  if (score > 60 && window.bgVisualizer) {
     window.bgVisualizer.triggerThreatShockwave();
     if (window.soundEngine) window.soundEngine.playAlert();
   } else if (window.soundEngine) {
@@ -646,7 +723,7 @@ window.renderScanResults = function(data) {
 
   if (threatCardsContainer) {
     // Clean Compliant HTML sample scoring below 10/100: show "No dark patterns detected" in green
-    if (!data.threats || data.threats.length === 0 || score < 10) {
+    if (!data.threats || data.threats.length === 0 || score <= 10) {
       threatCardsContainer.innerHTML = `
         <div class="threat-card safe" style="border: 1px solid var(--neon-emerald); background: rgba(0, 245, 160, 0.05); padding: 18px; border-radius: 8px; text-align: center;">
           <div style="font-weight: 700; color: var(--neon-emerald); font-size: 1.05rem;">✅ No dark patterns detected</div>
@@ -766,7 +843,9 @@ window.scanFinePrint = async function(text) {
   }
 
   // 5. Cancellation Obstruction & Penalty (15 points)
-  if (/(cancellation\s+(fee|penalty)|termination\s+penalty|exit\s+fee|speed-post|physical\s+registered|cannot\s+be\s+processed\s+online)/i.test(content)) {
+  const hasExitPenalty = (/(cancellation\s+(fee|penalty)|termination\s+penalty|exit\s+fee)/i.test(content) && !/(no|zero|without)\s+(cancellation|termination|exit)/i.test(content)) ||
+                         /(speed-post|physical\s+registered|cannot\s+be\s+processed\s+online)/i.test(content);
+  if (hasExitPenalty) {
     scoreSum += 15;
     findings.push({
       name: "Cancellation Friction & Penalty Fee",

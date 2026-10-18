@@ -9,7 +9,15 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f2fe' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./css/style.css?v=3.0">
+  <!-- Open Graph & Social Meta Tags -->
+  <meta property="og:title" content="DarkShield AI // Real-Time Dark Pattern &amp; Scam Defense">
+  <meta property="og:description" content="Educational client-side tool and real-time defense prototype against deceptive UI dark patterns under CCPA 2023 Guidelines.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://anything14907-byte.github.io/SupremeDevs/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DarkShield AI // Real-Time Dark Pattern &amp; Scam Defense">
+  <meta name="twitter:description" content="Educational client-side tool and real-time defense prototype against deceptive UI dark patterns under CCPA 2023 Guidelines.">
+  <link rel="stylesheet" href="./css/style.css?v=3.1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -251,7 +259,7 @@
               DarkShield AI Experimental Browser Prototype
             </h3>
             <p style="font-size:0.86rem; color:var(--text-muted); margin:0 0 6px 0; line-height:1.5;">
-              Prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.
+              Prototype Chromium extension (Manifest V3). Freezes simple countdown timers and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.
             </p>
             <div style="font-size:0.78rem; color:var(--neon-emerald); font-weight:600;">
               🔒 Runs entirely on your device. No data is collected or sent.
@@ -577,7 +585,7 @@
         <a href="#tab-testlab" onclick="switchTab('tab-testlab')">Store Protection</a> •
         <a href="#tab-scanner" onclick="switchTab('tab-scanner')">Website Checker</a> •
         <a href="#tab-agent" onclick="switchTab('tab-agent')">Auto-Canceller</a> •
-        <a href="javascript:void(0)" onclick="openExtensionModal()" style="color:var(--neon-cyan); font-weight:700;">🧩 Browser Extension</a>
+        <button type="button" class="footer-ext-btn" onclick="openExtensionModal()" aria-label="Open Browser Extension Installation Guide">🧩 Browser Extension</button>
       </div>
       <div style="font-size:0.8rem; color:var(--text-dim); margin-top:8px;">
         DarkShield AI is an educational prototype. It does not store passwords or payment details.
@@ -586,14 +594,14 @@
   </div>
 
   <!-- Browser Extension Installation Modal -->
-  <div id="extension-modal" class="modal-overlay" style="display:none;" onclick="if(event.target===this) closeExtensionModal()">
+  <div id="extension-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-ext-title" onclick="if(event.target===this) closeExtensionModal()">
     <div class="modal-card">
       <div class="modal-header">
         <div style="display:flex; align-items:center; gap:14px;">
           <div class="ext-modal-icon">🧩</div>
           <div>
-            <h3 style="margin:0; font-size:1.25rem; font-weight:800; color:var(--text-main);">DarkShield AI Browser Extension</h3>
-            <p style="margin:2px 0 0; font-size:0.82rem; color:var(--text-dim);">Prototype Chromium extension (Manifest V3). Freezes fake countdowns and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.</p>
+            <h3 id="modal-ext-title" style="margin:0; font-size:1.25rem; font-weight:800; color:var(--text-main);">DarkShield AI Browser Extension</h3>
+            <p style="margin:2px 0 0; font-size:0.82rem; color:var(--text-dim);">Prototype Chromium extension (Manifest V3). Freezes simple countdown timers and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.</p>
           </div>
         </div>
         <button class="btn-icon" onclick="closeExtensionModal()" aria-label="Close Modal" style="font-size:1.1rem;">✕</button>
@@ -609,12 +617,12 @@
           <div class="ext-feature-card">
             <div class="ext-f-icon">⏱️</div>
             <strong>Freeze Fake Urgency Timers</strong>
-            <p>Halts synthetic countdown clocks that reset on page reload across shopping &amp; food delivery apps.</p>
+            <p>Freezes simple countdown timers on pages that use these patterns (tested on the demo store).</p>
           </div>
           <div class="ext-feature-card">
             <div class="ext-f-icon">🛒</div>
             <strong>Untick Sneaked Fees</strong>
-            <p>Automatically detects and unchecks pre-ticked +₹49 packaging, surge, and insurance charges.</p>
+            <p>Flags pre-ticked +₹49 packaging, surge and insurance charges. Optional auto-untick via the popup toggle (off by default).</p>
           </div>
           <div class="ext-feature-card">
             <div class="ext-f-icon">💬</div>
@@ -624,7 +632,7 @@
           <div class="ext-feature-card">
             <div class="ext-f-icon">🛡️</div>
             <strong>In-Page Defense HUD</strong>
-            <p>Floating indicator showing threat count and 1-click remedies directly on merchant checkout pages.</p>
+            <p>Floating indicator showing threat count and 1-click remedies on pages where patterns are detected.</p>
           </div>
         </div>
 
@@ -652,7 +660,7 @@
               <div class="step-num">3</div>
               <div>
                 <strong>Click "Load unpacked" &amp; Select Extracted Folder</strong>
-                <p>Choose the unzipped folder. DarkShield AI will immediately activate and protect your everyday shopping tabs!</p>
+                <p>Choose the unzipped folder. DarkShield AI will immediately load, then test it on the demo store in the sandbox.</p>
               </div>
             </li>
           </ol>
