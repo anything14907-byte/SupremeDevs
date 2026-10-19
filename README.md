@@ -2,6 +2,8 @@
 
 > **Educational prototype and client-side defense tool designed to detect, neutralize, and explain deceptive UI dark patterns under India's Central Consumer Protection Authority (CCPA) 2023 Guidelines.**
 
+📺 **[Watch Full Video Demonstration (Google Drive)](https://drive.google.com/file/d/18q09w1QRxs_u_6uatC4jWzWGJRUQHgbP/view?usp=sharing)** • 🌐 **[Live Website](https://anything14907-byte.github.io/SupremeDevs/)**
+
 ---
 
 ## 🎯 The Problem: Deceptive Dark Patterns in India
