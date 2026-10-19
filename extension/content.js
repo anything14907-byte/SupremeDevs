@@ -68,6 +68,50 @@
           } catch (_) {}
         });
 
+        // 5. Inspect Interface Interference (Microscopic or Faint Disclaimer)
+        const allElements = document.querySelectorAll('p, span, small, div');
+        for (const el of allElements) {
+          try {
+            if (el.children && el.children.length > 2) continue;
+            const text = (el.innerText || el.textContent || '').trim();
+            if (text.length > 20 && text.length < 500) {
+              const styleAttr = (el.getAttribute('style') || '').toLowerCase();
+              const hasSmallFontAttr = /font-size:\s*([4-9]|10)px/.test(styleAttr) || /font-size:\s*0\.[0-7]rem/.test(styleAttr);
+              const hasLowOpacityAttr = /opacity:\s*0\.[1-4]/.test(styleAttr);
+              let compSmall = false;
+              let compFaint = false;
+              try {
+                const comp = window.getComputedStyle(el);
+                const fs = parseFloat(comp.fontSize);
+                const op = parseFloat(comp.opacity);
+                if (!isNaN(fs) && fs > 0 && fs <= 10.5) compSmall = true;
+                if (!isNaN(op) && op > 0 && op <= 0.4) compFaint = true;
+              } catch (_) {}
+
+              if (hasSmallFontAttr || hasLowOpacityAttr || compSmall || compFaint || el.tagName === 'SMALL') {
+                currentThreatCount++;
+                highlightElement(el, "🔎 INTERFACE INTERFERENCE: Visually obscured terms or fine print.");
+                break;
+              }
+            }
+          } catch (_) {}
+        }
+
+        // 6. Inspect Subscription Trap (Hidden AutoPay or Recurring Terms)
+        for (const el of allElements) {
+          try {
+            if (el.children && el.children.length > 3) continue;
+            const text = (el.innerText || el.textContent || '').toLowerCase().trim();
+            if (text.length > 25 && text.length < 400) {
+              if (text.includes('autopay') || text.includes('upi mandate') || text.includes('debited') || text.includes('recurring') || text.includes('every year automatically') || text.includes('every month automatically')) {
+                currentThreatCount++;
+                highlightElement(el, "💳 SUBSCRIPTION TRAP: Hidden auto-debit or recurring mandate obligations.");
+                break;
+              }
+            }
+          } catch (_) {}
+        }
+
         // Inject Floating HUD Badge only on pages where patterns are detected
         if (currentThreatCount > 0) {
           injectFloatingBadge(currentThreatCount);

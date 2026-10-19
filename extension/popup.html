@@ -38,6 +38,29 @@
       <div class="stat-label">DECEPTIVE PATTERNS FLAGGED</div>
     </div>
 
+    <!-- Live Page Scanner -->
+    <div class="scan-section">
+      <button id="btn-scan-page" class="hud-btn scan-btn" type="button">
+        <span class="scan-btn-icon">🔍</span>
+        <span id="scan-btn-text">Scan This Page</span>
+      </button>
+      <div id="scan-feedback" class="scan-feedback" style="display: none;"></div>
+    </div>
+
+    <!-- Live Scan Results Container -->
+    <div id="scan-results-container" class="scan-results-box" style="display: none;">
+      <div class="scan-results-header">
+        <div class="scan-score-wrap">
+          <span class="scan-score-label">DECEPTION SCORE</span>
+          <div class="scan-score-val">
+            <span id="scan-score-num">0</span><span class="scan-score-max">/100</span>
+          </div>
+        </div>
+        <div id="scan-risk-badge" class="scan-risk-pill">NO DARK PATTERNS</div>
+      </div>
+      <div id="scan-findings-list" class="scan-findings-list"></div>
+    </div>
+
     <!-- Manual Quick Actions -->
     <div class="actions-list">
       <button id="btn-freeze-timers" class="hud-btn" type="button">

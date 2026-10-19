@@ -165,6 +165,209 @@ input:checked + .slider:before {
   color: #8b949e;
 }
 
+.scan-section {
+  margin-bottom: 12px;
+}
+
+.hud-btn.scan-btn {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.18), rgba(59, 130, 246, 0.22));
+  border: 1px solid rgba(0, 242, 254, 0.5);
+  color: #00f2fe;
+  font-weight: 700;
+  padding: 9px 12px;
+  font-size: 0.82rem;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 242, 254, 0.15);
+}
+
+.hud-btn.scan-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.28), rgba(59, 130, 246, 0.35));
+  border-color: #00f2fe;
+  box-shadow: 0 4px 14px rgba(0, 242, 254, 0.25);
+}
+
+.hud-btn.scan-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.scan-feedback {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  line-height: 1.35;
+}
+
+.scan-results-box {
+  background: rgba(14, 18, 28, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.scan-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.scan-score-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.scan-score-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #8b949e;
+}
+
+.scan-score-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-family: monospace;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.scan-score-max {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-left: 2px;
+}
+
+.scan-risk-pill {
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.scan-risk-pill.risk-critical {
+  background: rgba(255, 51, 102, 0.18);
+  color: #ff3366;
+  border: 1px solid rgba(255, 51, 102, 0.5);
+}
+
+.scan-risk-pill.risk-moderate {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+.scan-risk-pill.risk-low {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+}
+
+.scan-risk-pill.risk-clean {
+  background: rgba(16, 185, 129, 0.18);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.scan-findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.finding-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.finding-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.finding-pattern {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.finding-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.finding-badge.badge-crit {
+  background: rgba(255, 51, 102, 0.2);
+  color: #ff4d79;
+}
+
+.finding-badge.badge-warn {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.finding-reason {
+  font-size: 0.69rem;
+  color: #94a3b8;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.finding-snippet {
+  margin: 4px 0 0 0;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 4px;
+  font-size: 0.63rem;
+  color: #cbd5e1;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 52px;
+  overflow-y: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.finding-empty {
+  text-align: center;
+  padding: 12px 6px;
+}
+
+.finding-empty-icon {
+  font-size: 1.4rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.finding-empty-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.finding-empty-desc {
+  font-size: 0.68rem;
+  color: #8b949e;
+}
+
 .actions-list {
   display: flex;
   flex-direction: column;
