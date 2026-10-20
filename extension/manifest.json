@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DarkShield AI // Experimental Browser Prototype",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Prototype Chromium extension (Manifest V3). Freezes simple countdown timers and flags pre-ticked fees on pages with these patterns. Tested on the demo store; behavior on real merchant sites may vary.",
   "permissions": [
     "activeTab",
