@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#00f5a0" />
+    </linearGradient>
+    <linearGradient id="shieldBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#090c14" />
+    </linearGradient>
+  </defs>
+
+  <!-- Dark navy rounded background -->
+  <rect width="128" height="128" rx="26" fill="#090c14" />
+  <rect x="2" y="2" width="124" height="124" rx="24" fill="none" stroke="rgba(0, 242, 254, 0.25)" stroke-width="2" />
+
+  <!-- Shield shape -->
+  <path d="M64,22 L98,35 C98,72 64,102 64,102 C64,102 30,72 30,35 Z"
+        fill="url(#shieldBg)"
+        stroke="url(#shieldGrad)"
+        stroke-width="6"
+        stroke-linejoin="round" />
+
+  <!-- Shield inner highlight -->
+  <path d="M64,30 L90,40 C90,68 64,92 64,92 C64,92 38,68 38,40 Z"
+        fill="rgba(0, 242, 254, 0.08)" />
+
+  <!-- Check mark inside shield -->
+  <path d="M48,60 L58,72 L80,48"
+        fill="none"
+        stroke="url(#shieldGrad)"
+        stroke-width="7"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+</svg>
