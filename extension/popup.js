@@ -16,6 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const scanRiskBadge = document.getElementById('scan-risk-badge');
     const scanFindingsList = document.getElementById('scan-findings-list');
 
+    const scanNavBar = document.getElementById('scan-nav-bar');
+    const btnShowAll = document.getElementById('btn-show-all');
+    const btnPrevFinding = document.getElementById('btn-prev-finding');
+    const btnNextFinding = document.getElementById('btn-next-finding');
+
+    let currentFindingIndex = 1;
+    let totalFindingsCount = 0;
+
     function updateModeUI(enabled) {
       try {
         if (modePill) {
@@ -48,12 +56,28 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     }
 
-    function showActionStatus(message, type = 'info') {
+    function showActionStatus(message, type = 'info', threats = 0) {
       try {
         if (!actionStatus) return;
-        actionStatus.innerText = message;
         actionStatus.className = 'action-status ' + type;
         actionStatus.style.display = 'block';
+
+        if (threats > 0) {
+          actionStatus.innerHTML = `
+            <div>${escapeHtml(message)}</div>
+            <button id="btn-view-flagged-action" class="btn-view-flagged" type="button">
+              View ${threats} flagged items
+            </button>
+          `;
+          const btnView = actionStatus.querySelector('#btn-view-flagged-action');
+          if (btnView) {
+            btnView.onclick = () => {
+              if (btnScan) btnScan.click();
+            };
+          }
+        } else {
+          actionStatus.innerText = message;
+        }
       } catch (_) {}
     }
 
@@ -94,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         chrome.tabs.sendMessage(tabId, message, (response) => {
           if (chrome.runtime && chrome.runtime.lastError || !response) {
-            // No receiver in tab - inject content.js and retry once
             try {
               chrome.scripting.executeScript({
                 target: { tabId: tabId },
@@ -128,6 +151,32 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         callback(err, null);
       }
+    }
+
+    function jumpToFinding(index) {
+      try {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          try {
+            const activeTab = tabs && tabs[0];
+            if (!activeTab || !activeTab.id || isRestrictedUrl(activeTab.url)) {
+              showScanFeedback("DarkShield can't run on this page. Open a shopping page or our demo store.", "restricted");
+              return;
+            }
+
+            sendMessageWithInjection(activeTab.id, { action: 'JUMP_TO_ELEMENT', index: index }, (err, response) => {
+              try {
+                if (err || !response || !response.success) {
+                  showScanFeedback("This element is no longer on the page. Re-scan.", "warning");
+                  return;
+                }
+                currentFindingIndex = response.index || index;
+                if (response.total) totalFindingsCount = response.total;
+                if (scanFeedback) scanFeedback.style.display = 'none';
+              } catch (_) {}
+            });
+          } catch (_) {}
+        });
+      } catch (_) {}
     }
 
     // 1. Load auto-fix setting (default: false / OFF)
@@ -211,6 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scanFindingsList) {
           if (!scanData.findings || scanData.findings.length === 0) {
+            totalFindingsCount = 0;
+            currentFindingIndex = 1;
+            if (scanNavBar) scanNavBar.style.display = 'none';
+
             scanFindingsList.innerHTML = `
               <div class="finding-empty">
                 <span class="finding-empty-icon">✅</span>
@@ -219,22 +272,59 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `;
           } else {
+            totalFindingsCount = scanData.findings.length;
+            currentFindingIndex = 1;
+            if (scanNavBar) scanNavBar.style.display = 'flex';
+
             scanFindingsList.innerHTML = scanData.findings.map(f => `
               <div class="finding-item">
                 <div class="finding-header">
-                  <span class="finding-pattern">${escapeHtml(f.pattern)}</span>
+                  <span class="finding-pattern">#${f.index || 1} ${escapeHtml(f.pattern)}</span>
                   <span class="finding-badge ${f.severity === 'CRITICAL' ? 'badge-crit' : 'badge-warn'}">+${f.weight} PTS</span>
                 </div>
                 <div class="finding-reason">${escapeHtml(f.reason)}</div>
                 ${f.snippet ? `<pre class="finding-snippet"><code>${escapeHtml(f.snippet)}</code></pre>` : ''}
+                <button class="btn-jump-finding" data-index="${f.index || 1}" type="button" aria-label="Show on page">
+                  <span>🎯</span> Show on page
+                </button>
               </div>
             `).join('');
+
+            scanFindingsList.querySelectorAll('.btn-jump-finding').forEach(btn => {
+              btn.onclick = () => {
+                const idx = parseInt(btn.getAttribute('data-index'), 10) || 1;
+                jumpToFinding(idx);
+              };
+            });
           }
         }
       } catch (_) {}
     }
 
-    // 5. Scan button handler
+    // 5. Jump Navigation Toolbar Handlers
+    if (btnShowAll) {
+      btnShowAll.onclick = () => {
+        jumpToFinding(1);
+      };
+    }
+    if (btnPrevFinding) {
+      btnPrevFinding.onclick = () => {
+        if (totalFindingsCount > 0) {
+          const prev = ((currentFindingIndex - 2 + totalFindingsCount) % totalFindingsCount) + 1;
+          jumpToFinding(prev);
+        }
+      };
+    }
+    if (btnNextFinding) {
+      btnNextFinding.onclick = () => {
+        if (totalFindingsCount > 0) {
+          const next = (currentFindingIndex % totalFindingsCount) + 1;
+          jumpToFinding(next);
+        }
+      };
+    }
+
+    // 6. Scan button handler
     if (btnScan) {
       btnScan.addEventListener('click', () => {
         try {
@@ -281,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 6. Manual action: Freeze Timers
+    // 7. Manual action: Freeze Timers
     if (btnFreeze) {
       btnFreeze.addEventListener('click', () => {
         try {
@@ -302,10 +392,12 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
 
                   const count = typeof response.count === 'number' ? response.count : 0;
+                  const threats = typeof response.threats === 'number' ? response.threats : 0;
+
                   if (count > 0) {
-                    showActionStatus(`Froze ${count} timer(s)`, "success");
+                    showActionStatus(`Froze ${count} timer(s)`, "success", threats);
                   } else {
-                    showActionStatus("No countdown timers found on this page.", "info");
+                    showActionStatus("No countdown timers found on this page.", "info", threats);
                   }
 
                   if (typeof response.threats === 'number' && threatCountEl) {
@@ -319,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 7. Manual action: Untick Addons
+    // 8. Manual action: Untick Addons
     if (btnUntick) {
       btnUntick.addEventListener('click', () => {
         try {
@@ -340,10 +432,12 @@ document.addEventListener('DOMContentLoaded', () => {
                   }
 
                   const count = typeof response.count === 'number' ? response.count : 0;
+                  const threats = typeof response.threats === 'number' ? response.threats : 0;
+
                   if (count > 0) {
-                    showActionStatus(`Unticked ${count} fee(s)`, "success");
+                    showActionStatus(`Unticked ${count} fee(s)`, "success", threats);
                   } else {
-                    showActionStatus("No pre-ticked fees found on this page.", "info");
+                    showActionStatus("No pre-ticked fees found on this page.", "info", threats);
                   }
 
                   if (typeof response.threats === 'number' && threatCountEl) {
@@ -357,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 8. Open Dashboard
+    // 9. Open Dashboard
     if (btnDashboard) {
       btnDashboard.addEventListener('click', () => {
         try {
